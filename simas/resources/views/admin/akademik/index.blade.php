@@ -60,23 +60,19 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Tahun Akademik</th>
+                                        <th>Nama Tahun</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($departemen as $item)
+                                  @foreach ($akademik as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$item->kode_dept}}</td>
-                                        <td>{{$item->nama_dept}}</td>
+                                        <td>{{$item->tahun}}</td>
+                                        <td>{{$item->nama}}</td>
                                         <td>
-                                            <a href="#" class="edit btn btn-primary" kode_dept="{{$item->kode_dept}}"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
-                                                <path d="M13.5 6.5l4 4"></path>
-                                                <path d="M16 18h4m-2 -2v4"></path>
-                                             </svg> </a>
-                                             <form method="POST" action="/departemen/{{$item->kode_dept}}/delete" class="mt-2">
+
+                                             <form method="POST" action="/akademik/{{$item->id}}/delete" class="mt-2">
                                                 @csrf
 
                                                 <a class="btn btn-danger deletecom" >
@@ -94,7 +90,7 @@
 
 
                                     </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                         </table>
                     </div>
@@ -133,7 +129,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/departemen/store"  method="POST" id="form_departemen">
+            <form action="/akademik-add"  method="POST" id="form_departemen">
                 @csrf
                 <div class="row">
                     <div class="col-12">
@@ -152,7 +148,7 @@
                                     <path d="M3 11h16"></path>
                                  </svg>
                             </span>
-                            <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                            <input type="text" value="" id="nama_dept" name="tahun" class="form-control"
                                 placeholder="2023/2024">
                         </div>
                     </div>
@@ -166,11 +162,11 @@
                             <div class="form-label">Semester</div>
                             <div>
                                 <label class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="semester" checked="">
+                                    <input class="form-check-input" type="radio" name="nama" value="Ganjil" checked="">
                                     <span class="form-check-label">Ganjil</span>
                                 </label>
                                 <label class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="semester">
+                                    <input class="form-check-input" type="radio" name="nama" value="Genap">
                                     <span class="form-check-label">Genap</span>
                                 </label>
 

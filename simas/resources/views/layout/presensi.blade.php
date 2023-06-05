@@ -37,8 +37,7 @@
     <!-- * App Capsule -->
 
 
-    <!-- App Bottom Menu -->
-   @include('layout.bottomNav')
+
     <!-- * App Bottom Menu -->
 
 

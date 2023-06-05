@@ -93,31 +93,27 @@
                                             <th>Nama Siswa</th>
                                             <th>NISN</th>
                                             <th>Jurusan</th>
-                                            <th>Jurusan</th>
+                                            <th>Kelas</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($departemen as $item)
+                                        @foreach ($siswa as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                        <td>{{$item->kode_dept}}</td>
-                                        <td>{{$item->nama_dept}}</td>
+                                            <td>{{$item->nama}}</td>
+                                            <td>{{$item->nisn}}</td>
+                                            <td>{{$item->jurusan}}</td>
+                                            <td>{{$item->kelas}}</td>
                                         <td>
-                                            <a href="#" class="edit btn btn-primary"
-                                                kode_dept="{{$item->kode_dept}}"><svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="icon icon-tabler icon-tabler-pencil-plus" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
-                                                    </path>
-                                                    <path d="M13.5 6.5l4 4"></path>
-                                                    <path d="M16 18h4m-2 -2v4"></path>
-                                                </svg> </a>
-                                            <form method="POST" action="/departemen/{{$item->kode_dept}}/delete"
-                                                class="mt-2">
+                                            <a href="/siswa/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
+                                                <path d="M13.5 6.5l4 4"></path>
+                                                <path d="M16 18h4m-2 -2v4"></path>
+                                             </svg> </a>
+
+                                            <form method="POST" action="/siswa/{{$item->id}}/delete" class="mt-2">
                                                 @csrf
 
                                                 <a class="btn btn-danger deletecom">
@@ -137,7 +133,7 @@
                                             </form>
                                         </td>
                                         </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                             </table>
                         </div>
@@ -176,7 +172,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/departemen/store" method="POST" id="form_departemen">
+                <form action="/siswa-add" method="POST" id="form_departemen" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-12">
@@ -192,31 +188,136 @@
                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                     </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
-                                    placeholder="Nama Ssiwa">
+                                <input type="text" value="" id="nama_dept" name="nama" class="form-control"
+                                    placeholder="Nama siswa">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="mb-3">
-                                <div class="form-label">Jenis Kelamin</div>
-                                <div>
-                                    <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin" checked="">
-                                        <span class="form-check-label">Laki-laki</span>
-                                    </label>
-                                    <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin">
-                                        <span class="form-check-label">Perempuan</span>
-                                    </label>
-
-                                </div>
+                            <div class="form-label">Tempat Lahir</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" stroke-width="0" fill="currentColor"></path>
+                                     </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="tempat_lahir" class="form-control"
+                                    placeholder="Tempat Lahir">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
+                            <div class="form-label">Tanggal Lahir</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                                        <path d="M16 3v4"></path>
+                                        <path d="M8 3v4"></path>
+                                        <path d="M4 11h16"></path>
+                                        <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                     </svg>
+                                </span>
+                                <input type="date" value="" id="nama_dept" name="tanggal_lahir" class="form-control"
+                                    placeholder="BATAM....">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">No HP Siswa</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
+                                        <path d="M15 6h6m-3 -3v6"></path>
+                                     </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="no_hp_siswa" class="form-control"
+                                    placeholder="No HP Siswa">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">Email</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M11 19h-6a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v6"></path>
+                                        <path d="M3 7l9 6l9 -6"></path>
+                                        <path d="M15 19l2 2l4 -4"></path>
+                                     </svg>
+                                </span>
+                                <input type="email" value="" id="nama_dept" name="email" class="form-control"
+                                    placeholder="Email siswa">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">Alamat</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" stroke-width="0" fill="currentColor"></path>
+                                     </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="alamat" class="form-control"
+                                    placeholder="Alamat....">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">Ibu Kandung</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                    </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="nama_ibu_kandung" class="form-control"
+                                    placeholder="Nama ibu kandung">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">No HP Ibu Kandung</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
+                                        <path d="M15 6h6m-3 -3v6"></path>
+                                     </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="no_hp_wali" class="form-control"
+                                    placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">NISN</div>
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
@@ -230,7 +331,7 @@
                                             stroke-width="0" fill="currentColor"></path>
                                     </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                                <input type="text" value="" id="nama_dept" name="nisn" class="form-control"
                                     placeholder="NISN">
                             </div>
                         </div>
@@ -238,14 +339,33 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
+                                <div class="form-label">Jenis Kelamin</div>
+                                <div>
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin" value="laki-laki" checked="">
+                                        <span class="form-check-label">Laki-laki</span>
+                                    </label>
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin" value="perempuan">
+                                        <span class="form-check-label">Perempuan</span>
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
                                 <div class="form-label">Jurusan</div>
                                 <div>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jurusan" checked="">
+                                        <input class="form-check-input" type="radio" name="jurusan" value="IPA" checked="">
                                         <span class="form-check-label">IPA</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jurusan">
+                                        <input class="form-check-input" type="radio" name="jurusan" value="IPS">
                                         <span class="form-check-label">IPS</span>
                                     </label>
 
@@ -260,15 +380,15 @@
                                 <div class="form-label">Kelas</div>
                                 <div>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kelas" checked="">
+                                        <input class="form-check-input" type="radio" name="kelas" value="10" checked="">
                                         <span class="form-check-label">10</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kelas">
+                                        <input class="form-check-input" type="radio" name="kelas" value="11">
                                         <span class="form-check-label">11</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kelas">
+                                        <input class="form-check-input" type="radio" name="kelas" value="12">
                                         <span class="form-check-label">12</span>
                                     </label>
 
@@ -278,19 +398,10 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-
-                            <div class="form-gorup">
-                                <div class="form-label">Tahun Akademik</div>
-
-                                 <select name="kode_dept" id="kode_dept" class="form-select tomselected ">
-                                    <option value="">2023/2024</option>
-                                    {{-- @foreach ($departemen as $item)
-                                    <option {{Request('kode_dept')== $item->kode_dept ? 'selected' : ''}}
-                                        value="{{$item->kode_dept}}">{{$item->nama_dept}}</option>
-                                    @endforeach --}}
-                                </select>
-                            </div>
-
+                            <div class="mb-3">
+                                <div class="form-label">Unggah Foto</div>
+                                <input type="file" class="form-control" name="profil">
+                              </div>
                         </div>
                     </div>
                     <div class="row mt-2">

@@ -21,7 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'id_user',
         'role',
+        'jurusan',
+        'kelas',
     ];
 
     /**
@@ -42,4 +45,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany(Forum::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'jurusan', 'kelas');
+    }
 }

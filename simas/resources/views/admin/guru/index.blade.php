@@ -98,19 +98,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($departemen as $item)
+                                       @foreach ($guru as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$item->kode_dept}}</td>
-                                            <td>{{$item->nama_dept}}</td>
+                                            <td>{{$item->nama}}</td>
+                                            <td>{{$item->npdn}}</td>
+                                            <td>{{$item->alamat}}</td>
+                                            <td>{{$item->no_hp}}</td>
+
                                             <td>
-                                                <a href="#" class="edit btn btn-primary" kode_dept="{{$item->kode_dept}}"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <a href="/guru/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
                                                     <path d="M13.5 6.5l4 4"></path>
                                                     <path d="M16 18h4m-2 -2v4"></path>
                                                  </svg> </a>
-                                                 <form method="POST" action="/departemen/{{$item->kode_dept}}/delete" class="mt-2">
+                                                 <form method="POST" action="/guru/{{$item->id}}/delete" class="mt-2">
                                                     @csrf
 
                                                     <a class="btn btn-danger deletecom" >
@@ -128,7 +131,7 @@
 
 
                                         </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                             </table>
                         </div>
@@ -144,20 +147,7 @@
 </div>
 </div>
 {{--modal edit --}}
-<div class="modal modal-blur fade" id="modaledit_departemen" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="loadeditform">
 
-            </div>
-
-        </div>
-    </div>
-</div>
 {{-- modal add --}}
 <div class="modal modal-blur fade" id="modal_departemen" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -167,10 +157,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/departemen/store"  method="POST" id="form_departemen">
+                <form action="/guru-add"  method="POST" id="form_departemen" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-12">
+                            <div class="form-label">Nama Lengkap Guru</div>
+
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
@@ -183,13 +175,51 @@
                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                     </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                                <input type="text" value="" id="nama_dept" name="nama" class="form-control"
                                     placeholder="Nama Guru">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
+                            <div class="form-label">Tempat Lahir</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" stroke-width="0" fill="currentColor"></path>
+                                     </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="tempat_lahir" class="form-control"
+                                    placeholder="Tempat Lahir">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">Tanggal Lahir</div>
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                                        <path d="M16 3v4"></path>
+                                        <path d="M8 3v4"></path>
+                                        <path d="M4 11h16"></path>
+                                        <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                     </svg>
+                                </span>
+                                <input type="date" value="" id="nama_dept" name="tanggal_lahir" class="form-control"
+                                    placeholder="BATAM....">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">NIPDN</div>
+
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
@@ -203,14 +233,40 @@
                                         <path d="M10 11v-2a2 2 0 1 1 4 0v2"></path>
                                      </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                                <input type="text" value="" id="nama_dept" name="npdn" class="form-control"
                                     placeholder="NPDN">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">Kode Guru</div>
+
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-masks-theater" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M13.192 9h6.616a2 2 0 0 1 1.992 2.183l-.567 6.182a4 4 0 0 1 -3.983 3.635h-1.5a4 4 0 0 1 -3.983 -3.635l-.567 -6.182a2 2 0 0 1 1.992 -2.183z"></path>
+                                        <path d="M15 13h.01"></path>
+                                        <path d="M18 13h.01"></path>
+                                        <path d="M15 16.5c1 .667 2 .667 3 0"></path>
+                                        <path d="M8.632 15.982a4.037 4.037 0 0 1 -.382 .018h-1.5a4 4 0 0 1 -3.983 -3.635l-.567 -6.182a2 2 0 0 1 1.992 -2.183h6.616a2 2 0 0 1 2 2"></path>
+                                        <path d="M6 8h.01"></path>
+                                        <path d="M9 8h.01"></path>
+                                        <path d="M6 12c.764 -.51 1.528 -.63 2.291 -.36"></path>
+                                     </svg>
+                                </span>
+                                <input type="text" value="" id="nama_dept" name="kode_guru" class="form-control"
+                                    placeholder="inisial">
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-12">
+                            <div class="form-label">Alamat</div>
+
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
@@ -222,7 +278,7 @@
                                         <path d="M20.2 20.2l1.8 1.8"></path>
                                      </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                                <input type="text" value="" id="nama_dept" name="alamat" class="form-control"
                                     placeholder="Alamat">
                             </div>
                         </div>
@@ -230,6 +286,8 @@
 
                     <div class="row">
                         <div class="col-12">
+                            <div class="form-label">No Telepon</div>
+
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
@@ -243,8 +301,29 @@
                                         <path d="M4 16h3"></path>
                                      </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                                <input type="text" value="" id="nama_dept" name="no_hp" class="form-control"
                                     placeholder="no telepon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-label">Email</div>
+
+                            <div class="input-icon mb-3">
+                                <span class="input-icon-addon">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-address-book" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 19h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v5.5"></path>
+                                            <path d="M16 19h6"></path>
+                                            <path d="M19 16v6"></path>
+                                            <path d="M3 7l9 6l9 -6"></path>
+                                         </svg>
+                                </span>
+                                <input type="email" value="" id="nama_dept" name="email" class="form-control"
+                                    placeholder="email">
                             </div>
                         </div>
                     </div>
@@ -254,16 +333,24 @@
                                 <div class="form-label">Jenis Kelamin</div>
                                 <div>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin" checked="">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin" value="Laki-laki" checked="">
                                         <span class="form-check-label">Laki-laki</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin" value="Perempuan">
                                         <span class="form-check-label">Perempuan</span>
                                     </label>
 
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <div class="form-label">Unggah Foto</div>
+                                <input type="file" class="form-control" name="profil">
+                              </div>
                         </div>
                     </div>
                     <div class="row mt-2">

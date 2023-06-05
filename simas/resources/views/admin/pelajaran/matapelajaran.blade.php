@@ -58,7 +58,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <input type="text" name="nama_departemen" class="form-control"
-                                                    placeholder="Nama guru" value="{{Request('nama_departemen')}}">
+                                                    placeholder="Mata Pelajaran" value="{{Request('nama_departemen')}}">
                                             </div>
                                         </div>
 
@@ -90,27 +90,28 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nama Guru</th>
-                                            <th>NIPDN</th>
-                                            <th>alamat</th>
-                                            <th>No Telepon</th>
-                                            <th>Aksi</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Jurusan</th>
+                                            <th>Kelas</th>
+                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($departemen as $item)
+                                         @foreach ($mapel as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$item->kode_dept}}</td>
-                                            <td>{{$item->nama_dept}}</td>
+                                            <td>{{$item->nama_pelajaran}}</td>
+                                            <td>{{$item->jurusan}}</td>
+                                            <td>{{$item->kelas}}</td>
                                             <td>
-                                                <a href="#" class="edit btn btn-primary" kode_dept="{{$item->kode_dept}}"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <a href="/pelajaran/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                     <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
                                                     <path d="M13.5 6.5l4 4"></path>
                                                     <path d="M16 18h4m-2 -2v4"></path>
                                                  </svg> </a>
-                                                 <form method="POST" action="/departemen/{{$item->kode_dept}}/delete" class="mt-2">
+
+                                                 <form method="POST" action="/pelajaran/{{$item->id}}/delete" class="mt-2">
                                                     @csrf
 
                                                     <a class="btn btn-danger deletecom" >
@@ -128,7 +129,7 @@
 
 
                                         </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                             </table>
                         </div>
@@ -167,7 +168,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/departemen/store"  method="POST" id="form_departemen">
+                <form action="/matapelajaran-add"  method="POST" id="form_departemen">
                     @csrf
                     <div class="row">
                         <div class="col-12">
@@ -175,7 +176,7 @@
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        with="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                         stroke="currentColor" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -183,7 +184,7 @@
                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                     </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_dept" class="form-control"
+                                <input type="text" value="" id="nama_dept" name="nama_pelajaran" class="form-control"
                                     placeholder="Nama Mata Pelajaran">
                             </div>
                         </div>
@@ -194,12 +195,12 @@
                             <div class="form-gorup">
                                 <div class="form-label">Tahun Akademik</div>
 
-                                 <select name="kode_dept" id="kode_dept" class="form-select tomselected ">
-                                    <option value="">2023/2024</option>
-                                    {{-- @foreach ($departemen as $item)
-                                    <option {{Request('kode_dept')== $item->kode_dept ? 'selected' : ''}}
-                                        value="{{$item->kode_dept}}">{{$item->nama_dept}}</option>
-                                    @endforeach --}}
+                                 <select name="nama" id="kode_dept" class="form-select tomselected ">
+                                    <option value="">masukkan tahun</option>
+                                     @foreach ($akademik as $item)
+                                    <option {{Request('tahun')== $item->tahun ? 'selected' : ''}}
+                                        value="{{$item->tahun}}">{{$item->tahun}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -211,15 +212,14 @@
                             <div class="form-gorup">
                                 <div class="form-label">Kode Guru</div>
 
-                                 <select name="kode_dept" id="kode_dept" class="form-select tomselected ">
-                                    <option value="">11021</option>
-                                    {{-- @foreach ($departemen as $item)
-                                    <option {{Request('kode_dept')== $item->kode_dept ? 'selected' : ''}}
-                                        value="{{$item->kode_dept}}">{{$item->nama_dept}}</option>
-                                    @endforeach --}}
+                                 <select name="kode_guru" id="kode_dept" class="form-select tomselected ">
+                                    <option value="">masukkan kode</option>
+                                   @foreach ($guru as $item)
+                                    <option {{Request('kode_guru')== $item->kode_guru ? 'selected' : ''}}
+                                        value="{{$item->kode_guru}}">{{$item->kode_guru}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-
                         </div>
                     </div>
 
@@ -229,11 +229,11 @@
                                 <div class="form-label">Jurusan</div>
                                 <div>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jurusan" checked="">
+                                        <input class="form-check-input" type="radio" name="jurusan" value="IPA" checked="">
                                         <span class="form-check-label">IPA</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jurusan">
+                                        <input class="form-check-input" type="radio" name="jurusan" value="IPS">
                                         <span class="form-check-label">IPS</span>
                                     </label>
 
@@ -248,15 +248,15 @@
                                 <div class="form-label">Kelas</div>
                                 <div>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kelas" checked="">
+                                        <input class="form-check-input" type="radio" name="kelas" value="10" checked="">
                                         <span class="form-check-label">10</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kelas">
+                                        <input class="form-check-input" type="radio" name="kelas" value="11">
                                         <span class="form-check-label">11</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kelas">
+                                        <input class="form-check-input" type="radio" name="kelas" value="12">
                                         <span class="form-check-label">12</span>
                                     </label>
 

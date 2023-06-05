@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tugas', function (Blueprint $table) {
+            $table->id('id_tugas');
+            $table->string('nama_pelajaran');
+            $table->string('judul');
+            $table->string('file');
+            $table->date('dedline');
+            $table->string('jurusan');
+            $table->string('kelas');
+            $table->string('catatan');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('tugas');
+    }
+};
