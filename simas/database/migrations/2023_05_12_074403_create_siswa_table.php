@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('jenis_kelamin');
+            $table->integer('id_guru');
             $table->string('nisn')->unique();
             $table->string('profil');
             $table->string('tempat_lahir');

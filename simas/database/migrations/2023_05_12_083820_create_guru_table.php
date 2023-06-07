@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('kode_guru');
             $table->string('alamat');
             $table->string('profil');
+            $table->string('email');
             $table->string('tempat_lahir');
             $table->string('tanggal_lahir');
             $table->string('no_hp');

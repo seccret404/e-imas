@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('hari');
             $table->string('nama_pelajaran');
-            $table->integer('id_guru');
+         
+            $table->string('ruangan');
             $table->time('jam_masuk');
             $table->time('jam_selesai');
             $table->string('kode_guru');

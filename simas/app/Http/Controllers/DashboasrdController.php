@@ -41,6 +41,7 @@ class DashboasrdController extends Controller
         $kode_guru = $request->kode_guru;
         $alamat = $request->alamat;
         $tempat = $request->tempat_lahir;
+        $email = $request->email;
         $tanggal = $request->tanggal_lahir;
         $no_hp = $request->no_hp;
         $jenis_kelamin = $request->jenis_kelamin;
@@ -70,6 +71,7 @@ class DashboasrdController extends Controller
             'npdn'=>$npdn,
             'kode_guru'=>$kode_guru,
             'alamat'=>$alamat,
+            'email'=>$email,
             'no_hp'=>$no_hp,
             'jenis_kelamin'=>$jenis_kelamin,
             'tempat_lahir'=>$tempat,
@@ -88,9 +90,12 @@ class DashboasrdController extends Controller
 
     }
     public function siswa(){
-        $siswa = DB::table('siswa')->get();
-
-        return view('admin.siswa.index',compact('siswa'));
+        $siswa = DB::table('siswa')
+        ->join('guru', 'siswa.id_guru', '=', 'guru.id')
+        ->select('siswa.*', 'guru.nama as nama_guru')
+        ->get();
+        $guru = DB::table('guru')->get();
+        return view('admin.siswa.index',compact('siswa','guru'));
 
     }
     public function addsiswa(Request $request){
@@ -99,6 +104,7 @@ class DashboasrdController extends Controller
         $jenis_kelamin = $request->jenis_kelamin;
         $jurusan = $request->jurusan;
         $kelas = $request->kelas;
+        $wali_kelas = $request->wali_kelas;
         $tempat = $request->tempat_lahir;
         $tanggal = $request->tanggal_lahir;
         $email = $request->email;
@@ -111,7 +117,6 @@ class DashboasrdController extends Controller
         $namafile = $file->getClientOriginalName();
         $tujuanFile = 'asset/profil';
         $file->move($tujuanFile,$namafile);
-
 
         $extensi = "@siswa.com";
         $buatUsername = $nisn . $extensi;
@@ -128,11 +133,10 @@ class DashboasrdController extends Controller
             'role' => $role,
         ]);
 
-
-
         $data = [
              'nama'=> $nama,
              'nisn'=> $nisn,
+             'id_guru'=>$wali_kelas,
              'jenis_kelamin'=>$jenis_kelamin,
              'jurusan'=>$jurusan,
              'kelas'=>$kelas,
@@ -223,16 +227,20 @@ class DashboasrdController extends Controller
 
     public function kelasipax(){
         $guru = DB::table('guru')->get();
-
+        $room = DB::table('ruangan')->get();
         $mapel = DB::table('matapelajran')
         ->where('kelas',10)
         ->get();
 
+
         $jadwal = DB::table('jadwal')
-        ->where('kelas', 10)
+        ->join('ruangan','jadwal.ruangan','=','ruangan.id')
+        ->join('guru','jadwal.kode_guru','=','guru.id')
+        ->select('jadwal.*','ruangan.nama_ruangan','guru.nama')
+        ->where('kelas',10)
         ->where('jurusan',"IPA")
         ->get();
-        return view('admin.pelajaran.ipa.kelas10',compact('mapel','guru','jadwal'));
+        return view('admin.pelajaran.ipa.kelas10',compact('mapel','guru','jadwal','room'));
     }
 
     public function kelasipaxi(){
@@ -241,7 +249,11 @@ class DashboasrdController extends Controller
         ->where('kelas',11)
         ->where('jurusan',"IPA")
         ->get();
-        $jadwal = DB::table('jadwal')->where('kelas', 11)->get();
+        $jadwal = DB::table('jadwal')
+        ->join('ruangan','jadwal.ruangan','=','ruangan.id')
+        ->select('jadwal.*','ruangan.nama_ruangan')
+        ->get();
+
         return view('admin.pelajaran.ipa.kelas11',compact('guru','mapel','jadwal'));
     }
 
@@ -300,6 +312,7 @@ class DashboasrdController extends Controller
         $jam_masuk = $request->jam_masuk;
         $jam_selesai = $request->jam_selesai;
         $kode_guru = $request->kode_guru;
+        $ruangan = $request->ruangan;
         $jurusan = $request->jurusan;
         $kelas = $request->kelas;
 
@@ -308,6 +321,7 @@ class DashboasrdController extends Controller
             'nama_pelajaran'=>$nama_pelajaran,
             'jam_masuk'=>$jam_masuk,
             'jam_selesai'=>$jam_selesai,
+            'ruangan'=>$ruangan,
             'kode_guru'=>$kode_guru,
             'jurusan'=>$jurusan,
             'kelas'=>$kelas
@@ -327,8 +341,8 @@ class DashboasrdController extends Controller
     }
 
     public function room(){
-        $ruangan = DB::table('ruangan')->get();
 
+        $ruangan = DB::table('ruangan')->get();
         return view('admin.ruangan.index',compact('ruangan'));
     }
     public function adroom(Request $request){

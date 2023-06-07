@@ -92,8 +92,11 @@
                                             <th>No</th>
                                             <th>Nama Siswa</th>
                                             <th>NISN</th>
+                                            <th>No Telepon</th>
+                                            <th>Email</th>
                                             <th>Jurusan</th>
                                             <th>Kelas</th>
+                                            <th>Wali Kelas</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -103,8 +106,11 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->nama}}</td>
                                             <td>{{$item->nisn}}</td>
+                                            <td>{{$item->no_hp_siswa}}</td>
+                                            <td>{{$item->email}}</td>
                                             <td>{{$item->jurusan}}</td>
                                             <td>{{$item->kelas}}</td>
+                                            <td>{{$item->nama_guru}}</td>
                                         <td>
                                             <a href="/siswa/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -395,6 +401,17 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-gorup">
+                        <div class="form-label">Wali Kelas</div>
+
+                         <select name="wali_kelas" id="kode_dept" class="form-select tomselected ">
+                            <option value="">Masukkan wali kelas</option>
+                           @foreach ($guru as $item)
+                            <option {{Request('nama')== $item->nama ? 'selected' : ''}}
+                                value="{{$item->id}}">{{$item->nama}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="row">
                         <div class="col-12">

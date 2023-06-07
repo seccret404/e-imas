@@ -92,8 +92,11 @@
                                             <th>No</th>
                                             <th>Hari</th>
                                             <th>Mata Pelajaran</th>
+                                            <th>Ruangan</th>
+                                            <th>Guru Pengajar</th>
                                             <th>Jam Masuk</th>
                                              <th>Jam Selesai</th>
+                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,6 +105,8 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->hari}}</td>
                                             <td>{{$item->nama_pelajaran}}</td>
+                                            <td>{{$item->nama_ruangan}}</td>
+                                            <td>{{$item->nama}}</td>
                                             <td>{{$item->jam_masuk}}</td>
                                             <td>{{$item->jam_selesai}}</td>
                                             <td>
@@ -198,6 +203,17 @@
 
                         </div>
                     </div>
+                    <div class="form-gorup">
+                        <div class="form-label">Ruangan</div>
+
+                         <select name="ruangan" id="kode_dept" class="form-select tomselected ">
+                            <option value="">--</option>
+                           @foreach ($room as $item)
+                            <option {{Request('nama_ruangan')== $item->nama_ruangan ? 'selected' : ''}}
+                                value="{{$item->id}}">{{$item->nama_ruangan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-12">
                             <div class="form-group">
@@ -219,6 +235,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     <div class="row mt-3">
                         <div class="col-12">
