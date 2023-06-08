@@ -18,6 +18,12 @@ class DashboasrdController extends Controller
     public function index(){
         $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get ();
         $siswa = Siswa::count();
+        $guruman = DB::table('guru')
+        ->where('jenis_kelamin',"laki-laki")
+        ->count();
+        $guruwoman = DB::table('guru')
+        ->where('jenis_kelamin',"perempuan")
+        ->count();
         $man = DB::table('siswa')
         ->where('jenis_kelamin',"laki-laki")
         ->count();
@@ -25,7 +31,16 @@ class DashboasrdController extends Controller
         ->where('jenis_kelamin',"perempuan")
         ->count();
         $guru = Guru::count();
-        return view('admin.index',compact('pengumuman','siswa','guru','man','woman'));
+        $gender = [
+            'Laki-laki' => intval($man),
+            'Perempuan' => intval($woman)
+        ];
+        $genderguru = [
+            'Laki-laki' => intval($guruman),
+            'Perempuan' => intval($guruwoman)
+        ];
+        // dd($genderguru);
+        return view('admin.index',compact('pengumuman','siswa','guru','man','woman', 'gender', 'genderguru'));
     }
 
     public function guru(){
