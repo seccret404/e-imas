@@ -308,9 +308,9 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
-                        data-bs-auto-close="false" role="button" aria-expanded="false">
+                <li class="nav-item">
+                    <a class="nav-link" href="/surat" data-bs-auto-close="false" role="button"
+                        aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -328,18 +328,6 @@
                             Surat Izin
                         </span>
                     </a>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-menu-columns">
-                            <div class="dropdown-menu-column">
-                                <a class="dropdown-item" href="/sakit">
-                                    Izin Sakit
-                                </a>
-                                <a class="dropdown-item" href="/cuti">
-                                    Cuti
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </li>
 
 
