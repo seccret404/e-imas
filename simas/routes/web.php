@@ -103,6 +103,7 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 
         //siswa
         Route::get('/dashboard/siswa', [SiswaController::class, 'index']);
+        Route::get('/sakit', [SiswaController::class, 'sakit']);
         Route::get('/tugas-siswa', [SiswaController::class, 'tugas']);
 
         Route::get('/absen', [SiswaController::class, 'absen']);
