@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SiswaBaruController;
 use App\Http\Controllers\DashboasrdController;
 
@@ -97,6 +98,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
         Route::get('/send-email-to-students', [PesanController::class, 'sendMessage']);
+
+
+        //surat masuk
+        Route::get('/guru-surat',[SuratController::class,'guru']);
+        Route::get('/siswa-surat',[SuratController::class,'siswa']);
+        Route::post('/konfirmasi-izin/{id}',[SuratController::class,'konfirmasi']);
+        Route::post('/konfirmasi-tolak/{id}',[SuratController::class,'tolak']);
+
 });
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
