@@ -19,10 +19,14 @@ class SuratController extends Controller
     public function konfirmasi($id){
         Surat::where('id', $id)
         ->update(['status' => 1]);
-
-
         return redirect()->back()->with('success', 'Status berhasil diupdate.');
 
+
+    }
+
+    public function tolak($id){
+        Surat::where('id',$id)->update(['status'=>2]);
+        return redirect()->back()->with('success', 'Status berhasil diupdate.');
 
     }
 }

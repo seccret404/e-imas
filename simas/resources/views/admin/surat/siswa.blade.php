@@ -38,41 +38,10 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-12">
-                                <form action="/departemen" method="get">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <input type="text" name="nama_departemen" class="form-control"
-                                                    placeholder="Nama Siswa" value="{{Request('nama_departemen')}}">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-2">
-                                            <div class="form-group">
-                                                <button class="btn btn-primary" type="submit">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-search" width="24"
-                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                        <path d="M21 21l-6 -6"></path>
-                                                    </svg> Cari
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
 
 
                         <div class="row mt-4">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered data-table display nowrap" id="data" height="100%">
                                 <div class="col-12">
                                     <thead>
                                         <tr>
@@ -80,9 +49,10 @@
                                             <th>Nama Siswa</th>
                                             <th>Jenis Surat</th>
                                             <th>Keterangan Surat</th>
+                                            <th>Keterangan Tambahan</th>
                                             <th>Tanggal Mulai</th>
                                             <th>Tanggal berakhir</th>
-                                                <th>Status</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -92,6 +62,7 @@
                                             <td>{{$item->nama_request}}</td>
                                             <td>{{$item->jenis_surat}}</td>
                                             <td>{{$item->keterangan_surat}}</td>
+                                            <td>{{$item->keterangan_tambahan}}</td>
                                             <td>{{$item->waktu_mulai}}</td>
                                             <td>{{$item->waktu_berakhir}}</td>
                                             <td>
@@ -100,43 +71,20 @@
                                                     @csrf
                                                     <button class="btn btn-primary w-80">Konfirmasi</button>
                                                 </form>
-                                                <form action="">
+                                                <form action="/konfirmasi-tolak/{{$item->id}}" method="POST">
+                                                    @csrf
                                                     <button class="btn btn-danger w-90">Tolak</button>
                                                 </form>
-                                                @else
-                                                <button disabled class="btn btn-success">Terkonfirmasi</button>
+                                                    @elseif($item->status == 2)
+                                                    <button class="btn btn-danger" disabled>Ditolak</button>
+                                                 @else
+                                                    <button disabled class="btn btn-success">Terkonfirmasi</button>
                                                 @endif
                                             </td>
-                                        {{-- <td>
-                                            <a href="/siswa/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
-                                                <path d="M13.5 6.5l4 4"></path>
-                                                <path d="M16 18h4m-2 -2v4"></path>
-                                             </svg> </a>
 
-                                            <form method="POST" action="/siswa/{{$item->id}}/delete" class="mt-2">
-                                                @csrf
-
-                                                <a class="btn btn-danger deletecom">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-trash" width="24"
-                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M4 7l16 0"></path>
-                                                        <path d="M10 11l0 6"></path>
-                                                        <path d="M14 11l0 6"></path>
-                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                                                    </svg>
-                                                </a>
-                                            </form>
-                                        </td> --}}
                                         </tr>
                                         @endforeach
-                                    </tbody> -
+                                    </tbody>
                             </table>
                         </div>
                     </div>
@@ -409,6 +357,11 @@
 
 @push('myscript')
 <script>
+    $(document).ready(function () {
+        $('#data').DataTable({
+            scrollX: true,
+        });
+    });
     $(function () {
         $("#tambah_departemen").click(function () {
             $("#modal_departemen").modal("show");

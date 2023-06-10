@@ -104,6 +104,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/guru-surat',[SuratController::class,'guru']);
         Route::get('/siswa-surat',[SuratController::class,'siswa']);
         Route::post('/konfirmasi-izin/{id}',[SuratController::class,'konfirmasi']);
+        Route::post('/konfirmasi-tolak/{id}',[SuratController::class,'tolak']);
 
 });
 
