@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'jurusan', 'kelas');
     }
+
+    public function surats()
+    {
+        return $this->hasMany('App\Models\Surat', 'id_user', 'id');
+    }
 }

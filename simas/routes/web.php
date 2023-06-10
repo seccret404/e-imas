@@ -112,7 +112,13 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 
         //siswa
         Route::get('/dashboard/siswa', [SiswaController::class, 'index']);
-        Route::get('/sakit', [SiswaController::class, 'sakit']);
+        //crud surat
+        Route::get('/surat', [SiswaController::class, 'surat']);
+        Route::post('/surat-add', [SiswaController::class, 'addsurat']);
+        Route::get('/surat/edit/{id}', [SiswaController::class, 'editsurat']);
+        Route::post('/surat/edit/{id}', [SiswaController::class, 'editsuratpros']);
+        Route::post('/surat/{id}/delete', [SiswaController::class, 'deletesurat']);
+
         Route::get('/tugas-siswa', [SiswaController::class, 'tugas']);
 
         Route::get('/absen', [SiswaController::class, 'absen']);
