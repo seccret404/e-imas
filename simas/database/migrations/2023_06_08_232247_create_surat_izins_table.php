@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('keterangan_tambahan');
             $table->date('waktu_mulai');
             $table->date('waktu_berakhir');
+            $table->string('role',12);
             $table->string('status');
             $table->timestamps();
         });

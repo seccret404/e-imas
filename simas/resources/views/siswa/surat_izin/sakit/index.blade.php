@@ -6,10 +6,10 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                        Guru
+                        Siswa
                     </div>
                     <h2 class="page-title">
-                        Data Guru
+                        Surat Izin
                     </h2>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M12 5l0 14"></path>
                                             <path d="M5 12l14 0"></path>
-                                        </svg>Tambah Data </a>
+                                        </svg>Tambah Surat Izin </a>
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -58,7 +58,7 @@
                                             <div class="col-3">
                                                 <div class="form-group">
                                                     <input type="text" name="nama_departemen" class="form-control"
-                                                        placeholder="Nama guru" value="{{ Request('nama_departemen') }}">
+                                                        placeholder="Surat izin" value="{{ Request('nama_departemen') }}">
                                                 </div>
                                             </div>
 
@@ -98,7 +98,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($guru as $item)
+                                            @foreach ($sakit as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->nama }}</td>
