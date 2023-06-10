@@ -47,7 +47,7 @@ class SiswaController extends Controller
 
     public function sakit()
     {
-        $sakit =  DB::table('surat')->get();
+        $sakit =  DB::table('surat_izins')->get();
         return view('siswa.surat_izin.sakit.index', compact('sakit'));
     }
 
