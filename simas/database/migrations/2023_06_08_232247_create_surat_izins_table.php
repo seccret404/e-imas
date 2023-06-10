@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('surat_izins', function (Blueprint $table) {
             $table->id();
             $table->integer('id_user');
+            $table->string('role');
+            $table->string('nama_request');
             $table->string('jenis_surat');
             $table->text('keterangan_surat');
             $table->text('keterangan_tambahan');
