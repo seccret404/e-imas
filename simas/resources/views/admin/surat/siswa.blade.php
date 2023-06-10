@@ -40,7 +40,7 @@
                         </div>
 
 
-                        <div class="row mt-4">
+                        <div class="row mt-4 w-100">
                             <table class="table table-bordered data-table display nowrap" id="data" height="100%">
                                 <div class="col-12">
                                     <thead>
