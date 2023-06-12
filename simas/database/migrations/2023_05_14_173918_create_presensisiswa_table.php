@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('gambar');
             $table->date('tgl_presensi');
             $table->time('jam masuk');
-            $table->string('location');
+            $table->time('jam keluar')->nullable();
+            $table->string('location_masuk');
+            $table->string('lokasi_keluar')->nullable();
             $table->timestamps();
         });
     }

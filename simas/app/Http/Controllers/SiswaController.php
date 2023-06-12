@@ -205,7 +205,8 @@ class SiswaController extends Controller
     {
 
         if (Auth::check()) {
-            $id_user = Auth::user()->id_user;
+            $id = Auth::user()->id;
+            $id_user = Auth::user()->nisn;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
             $latitudekantor = 2.379135;
@@ -226,11 +227,14 @@ class SiswaController extends Controller
                     return redirect('/dashboard/siswa')->with(['success' => "Telah Melakukan Absen"]);
                 } else {
                     $data = [
+                        'id_siswa'=>$id,
                         'nisn' => $id_user,
                         'tgl_presensi' => $tgl_presensi,
                         'jam masuk' => $jam,
-                        'gambar' => "idie",
-                        'location' => $lokasi
+                        'jam keluar'=>Null,
+                        'gambar' => Null,
+                        'location_masuk' => $lokasi,
+                        'lokasi_keluar'=>Null
 
 
                     ];
