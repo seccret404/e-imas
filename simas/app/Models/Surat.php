@@ -15,7 +15,7 @@ class Surat extends Model
         'id_user',
         'jenis_surat',
         'keterangan_surat',
-        'keterangan_tambahan',
+        'keteranfvvvgan_tambahan',
         'waktu_mulai',
         'waktu_berakhir',
         'status',
