@@ -93,6 +93,7 @@
                                                 <th>Nama Siswa</th>
                                                 <th>Jenis Surat</th>
                                                 <th>Keterangan Surat</th>
+                                                <th>Keterangan Tambahan</th>
                                                 <th>Tanggal Mulai</th>
                                                 <th>Tanggal Berakhir</th>
                                                 <th>Status</th>
@@ -105,31 +106,42 @@
                                                     <td>{{ $item->nama_request }}</td>
                                                     <td>{{ $item->jenis_surat }}</td>
                                                     <td>{{ $item->keterangan_surat }}</td>
+                                                    <td><a href="{{ url('asset/surat/' . $item->keterangan_tambahan) }}"
+                                                            target="_blank">
+                                                            <img
+                                                                src="{{ url('asset/surat/' . $item->keterangan_tambahan) }}"alt="{{ $item->keterangan_tambahan }}">
+                                                        </a></td>
                                                     <td>{{ $item->waktu_mulai }}</td>
                                                     <td>{{ $item->waktu_berakhir }}</td>
                                                     <td>
                                                         @if ($item->status == '0')
-                                                            <button class="btn btn-danger">Belum Dikonfirmasi</button>
-                                                        @else
+                                                            <button class="btn btn-primary">Belum Dikonfirmasi</button>
+                                                        @elseif($item->status == '1')
                                                             <button class="btn btn-success">Terkonfirmasi</button>
+                                                        @else
+                                                            <button class="btn btn-danger">Ditolak</button>
                                                         @endif
                                                     </td>
 
                                                     <td>
-                                                        <a href="/surat/edit/{{ $item->id }}"
-                                                            class=" btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                class="icon icon-tabler icon-tabler-pencil-plus"
-                                                                width="24" height="24" viewBox="0 0 24 24"
-                                                                stroke-width="2" stroke="currentColor" fill="none"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none">
-                                                                </path>
-                                                                <path
-                                                                    d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
-                                                                </path>
-                                                                <path d="M13.5 6.5l4 4"></path>
-                                                                <path d="M16 18h4m-2 -2v4"></path>
-                                                            </svg> </a>
+                                                        @if ($item->status >= '1')
+                                                        @else
+                                                            <a href="/surat/edit/{{ $item->id }}"
+                                                                class=" btn btn-primary"><svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-pencil-plus"
+                                                                    width="24" height="24" viewBox="0 0 24 24"
+                                                                    stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                    </path>
+                                                                    <path
+                                                                        d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
+                                                                    </path>
+                                                                    <path d="M13.5 6.5l4 4"></path>
+                                                                    <path d="M16 18h4m-2 -2v4"></path>
+                                                                </svg> </a>
+                                                        @endif
                                                         <form method="POST" action="/surat/{{ $item->id }}/delete"
                                                             class="mt-2">
                                                             @csrf
@@ -220,6 +232,11 @@
                                             value="Surat Cuti">
                                         <span class="form-check-label">Surat Cuti</span>
                                     </label>
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="jenis"
+                                            value="Surat Izin">
+                                        <span class="form-check-label">Surat Izin</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -245,6 +262,31 @@
                                     </span>
                                     <textarea id="nama_dept" name="keterangan" class="form-control" placeholder="Keterangan Surat"
                                         style="resize: vertical;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-label">Keterangan Tambahan</div>
+
+                                <div class="input-icon mb-3">
+                                    <span class="input-icon-addon">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-file-description" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                            <path
+                                                d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z">
+                                            </path>
+                                            <path d="M9 17h6"></path>
+                                            <path d="M9 13h6"></path>
+                                        </svg>
+                                    </span>
+                                    <input type="file" id="nama_dept" name="tambahan" class="form-control"
+                                        placeholder="Keterangan Tambahan"></input>
                                 </div>
                             </div>
                         </div>

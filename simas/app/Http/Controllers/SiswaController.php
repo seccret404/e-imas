@@ -63,11 +63,21 @@ class SiswaController extends Controller
         $mulai = $request->mulai;
         $selesai = $request->selesai;
 
+        if ($request->hasFile('tambahan')) {
+            $file = $request->file('tambahan');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/surat';
+            $file->move($tujuanFile, $namafile);
+        } else {
+            $namafile = null;
+        }
+
         $data = [
             'id_user' => $id_user,
             'nama_request' => $nama_request,
             'jenis_surat' => $jenis,
             'keterangan_surat' => $keterangan,
+            'keterangan_tambahan' => $namafile,
             'waktu_mulai' => $mulai,
             'waktu_berakhir' => $selesai,
             'role' => "siswa",
@@ -103,12 +113,24 @@ class SiswaController extends Controller
         // Ambil data surat berdasarkan ID
         $surat = Surat::find($id);
 
+        // Simpan gambar lama
+        $namafile = $surat->keterangan_tambahan;
+
         // Update data surat dengan nilai inputan
         $surat->nama_request = $request->nama;
         $surat->jenis_surat = $request->jenis;
         $surat->keterangan_surat = $request->keterangan;
         $surat->waktu_mulai = $request->mulai;
         $surat->waktu_berakhir = $request->selesai;
+        if ($request->hasFile('tambahan')) {
+            $file = $request->file('tambahan');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/surat';
+            $file->move($tujuanFile, $namafile);
+        }
+
+        $surat->keterangan_tambahan = $namafile;
+
 
         // Simpan perubahan
         $surat->save();

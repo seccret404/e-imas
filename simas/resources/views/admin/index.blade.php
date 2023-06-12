@@ -173,6 +173,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Grafik Surat Izin Guru</h3>
+                            <div id="chart-suratguru" class="chart-lg"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Grafik Surat Izin Siswa</h3>
+                            <div id="chart-suratsiswa" class="chart-lg"></div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -536,6 +552,162 @@
                 },
                 labels: [
                     "Laki-laki", "Perempuan",
+                ],
+                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
+                    "green", 0.8)],
+                legend: {
+                    show: false,
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        var suratizinguru = <?php echo json_encode(array_values($suratizinguru)); ?>;
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('chart-suratguru'), {
+                chart: {
+                    type: "bar",
+                    fontFamily: 'inherit',
+                    height: 240,
+                    parentHeightOffset: 0,
+                    toolbar: {
+                        show: false,
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                    stacked: true,
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '50%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{
+                    name: "Jumlah",
+                    data: suratizinguru
+                }],
+                tooltip: {
+                    theme: 'dark'
+                },
+                grid: {
+                    padding: {
+                        top: -20,
+                        right: 0,
+                        left: -4,
+                        bottom: -4
+                    },
+                    strokeDashArray: 4,
+                    xaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                },
+                xaxis: {
+                    labels: {
+                        padding: 0,
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                },
+                yaxis: {
+                    labels: {
+                        padding: 4
+                    },
+                },
+                labels: [
+                    "Menunggu", "Disetujui", "Ditolak"
+                ],
+                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
+                    "green", 0.8)],
+                legend: {
+                    show: false,
+                },
+            })).render();
+        });
+        // @formatter:on
+    </script>
+    <script>
+        // @formatter:off
+        var suratizinsiswa = <?php echo json_encode(array_values($suratizinsiswa)); ?>;
+        document.addEventListener("DOMContentLoaded", function() {
+            window.ApexCharts && (new ApexCharts(document.getElementById('chart-suratsiswa'), {
+                chart: {
+                    type: "bar",
+                    fontFamily: 'inherit',
+                    height: 240,
+                    parentHeightOffset: 0,
+                    toolbar: {
+                        show: false,
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                    stacked: true,
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '50%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{
+                    name: "Jumlah",
+                    data: suratizinsiswa
+                }],
+                tooltip: {
+                    theme: 'dark'
+                },
+                grid: {
+                    padding: {
+                        top: -20,
+                        right: 0,
+                        left: -4,
+                        bottom: -4
+                    },
+                    strokeDashArray: 4,
+                    xaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                },
+                xaxis: {
+                    labels: {
+                        padding: 0,
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                },
+                yaxis: {
+                    labels: {
+                        padding: 4
+                    },
+                },
+                labels: [
+                    "Menunggu", "Disetujui", "Ditolak"
                 ],
                 colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
                     "green", 0.8)],
