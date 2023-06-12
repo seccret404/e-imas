@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Guru;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\SiswaController;
@@ -149,6 +151,10 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 
         //profil
         Route::get('/profil/{id}', [SiswaController::class, 'profil']);
+});
+
+Route::middleware(['auth', 'role:guru'])->group(function () {
+        Route::get('/dashboard/guru', [GuruController::class, 'index']);
 });
 
 //siswa baru
