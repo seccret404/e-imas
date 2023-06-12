@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama_request');
             $table->string('jenis_surat');
             $table->text('keterangan_surat');
+            $table->text('keterangan_tambahan')->nullable();
             $table->date('waktu_mulai');
             $table->date('waktu_berakhir');
             $table->string('role',12);
