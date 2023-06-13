@@ -13,13 +13,14 @@
 <style>
     .webcam, .webcam video{
         display: inline-block;
-        width: 100% !important;
+        width: 70% !important;
 
         border-radius: 15px;
+        margin-top:-40px;
 
 
     }
-    #map { height: 500px; }
+    #map { height: 300px;width: 600px }
 
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -44,10 +45,17 @@ crossorigin=""/>
             @csrf
             <input type="text" hidden  name="lokasiin"  id="lokasiin">
             <input type="text"hidden name="lokasion" id="lokasion">
-
-            <div class="webcam">
+            <div class="row">
+            <div class="col-6">
+                 <div class="webcam" >
 
             </div>
+        </div>
+            <div class="col-6">
+                <div id="map">
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -60,13 +68,13 @@ crossorigin=""/>
             </button>
     </div>
     </div>
-    <div class="row mt-2 justify-content-center">
+    {{-- <div class="row mt-2 justify-content-center">
         <div class="col-6 mb-5">
             <div id="map">
             </div>
         </div>
 
-    </div>
+    </div> --}}
 </form>
 
     <audio id="notifikasi_in">
