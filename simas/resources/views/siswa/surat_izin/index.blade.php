@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="row mt-4">
-                                <table class="table table-bordered data-table display nowrap" id="data" >
+                                <table class="table table-bordered data-table display nowrap" id="data" width="100%">
                                     <div class="col-12">
                                         <thead>
                                             <tr>

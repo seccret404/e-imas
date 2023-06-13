@@ -185,7 +185,9 @@ class SiswaController extends Controller
 
     public function absen()
     {
-        return view('siswa.absen');
+        $status = DB::table('presensisiswa')->first();
+
+        return view('siswa.absen',compact('status'));
     }
     function distance($lat1, $lon1, $lat2, $lon2)
     {
@@ -206,7 +208,7 @@ class SiswaController extends Controller
 
         if (Auth::check()) {
             $id = Auth::user()->id;
-            $id_user = Auth::user()->nisn;
+            $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
             $latitudekantor = 2.379135;
@@ -218,8 +220,6 @@ class SiswaController extends Controller
             $radius = round($jarak["meters"]);
 
             $cek = DB::table('presensisiswa')->where('tgl_presensi', $tgl_presensi)->where('nisn', $id_user)->count();
-
-
             if ($radius > 1000) {
                 return Redirect::back()->with(['warning' => "Anda Berada Diluar Radius Sekolah"]);
             } else {
@@ -230,9 +230,9 @@ class SiswaController extends Controller
                         'id_siswa'=>$id,
                         'nisn' => $id_user,
                         'tgl_presensi' => $tgl_presensi,
-                        'jam masuk' => $jam,
-                        'jam keluar'=>Null,
-                        'gambar' => Null,
+                        'jam_masuk' => $jam,
+                        'jam_keluar'=>Null,
+                        'gambar' => "nul",
                         'location_masuk' => $lokasi,
                         'lokasi_keluar'=>Null
 
@@ -241,14 +241,21 @@ class SiswaController extends Controller
 
                     $simpan = DB::table('presensisiswa')->insert($data);
                     if ($simpan) {
-                        return redirect('/dashboard/siswa')->with(['success' => "Absen Selesai Selamat Belajar"]);
+                        return redirect('/detail-absen')->with(['success' => "Absen Selesai Selamat Belajar"]);
                     } else {
-                        return redirect('/dashboard/siswa')->with(['error' => "Absen Gagal"]);
+                        return redirect('/detail-absen')->with(['error' => "Absen Gagal"]);
                     }
                 }
             }
         }
     }
+
+
+
+
+
+
+
     public function prestasi()
     {
         $id_user = Auth::user()->id;

@@ -8,6 +8,7 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SuratController;
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\SiswaBaruController;
 use App\Http\Controllers\DashboasrdController;
 
@@ -151,6 +152,11 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 
         //profil
         Route::get('/profil/{id}', [SiswaController::class, 'profil']);
+
+
+        //absen
+        Route::get('/detail-absen',[AbsensiController::class,'absens_siswa']);
+        Route::post('/update-absen/{id}',[AbsensiController::class,'update']);
 });
 
 Route::middleware(['auth', 'role:guru'])->group(function () {

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('presensisiswa', function (Blueprint $table) {
             $table->id();
             $table->string('nisn');
+            $table->string('id_siswa');
             $table->string('gambar');
             $table->date('tgl_presensi');
             $table->time('jam masuk');
