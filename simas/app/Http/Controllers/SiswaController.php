@@ -80,7 +80,7 @@ class SiswaController extends Controller
             'keterangan_tambahan' => $namafile,
             'waktu_mulai' => $mulai,
             'waktu_berakhir' => $selesai,
-            'role' => "siswa",
+            'role' => Auth::user()->role,
             'status' => 0,
         ];
 
