@@ -8,36 +8,39 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(){
+    public function login()
+    {
         return view('auth.login');
     }
 
-    public function proseslogin(Request $request){
+    public function proseslogin(Request $request)
+    {
         $request->validate([
-            'email'=>'required',
-            'password'=>'required'
+            'email' => 'required',
+            'password' => 'required'
         ]);
 
         $input = $request->all();
 
-        if(auth()->attempt(array('email' => $input['email'],'password'=>$input['password']))){
-            if(auth()->User()->role == "admin"){
+        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            if (auth()->User()->role == "admin") {
                 return redirect('/dashboard');
-            }else if(auth()->User()->role == "guru"){
+            } else if (auth()->User()->role == "guru") {
                 return redirect('/dashboard/guru');
-            }else if(auth()->User()->role == "siswa"){
+            } else if (auth()->User()->role == "siswa") {
                 return redirect('/dashboard/siswa');
             }
-            return back()->with('warning', 'Login Faild!!')->onlyInput('email');
         }
+        return back()->with('warning', 'Login Faild!!')->onlyInput('email');
     }
-    public function logout(Request $request){
-    Auth::logout();
+    public function logout(Request $request)
+    {
+        Auth::logout();
 
-    $request->session()->invalidate();
+        $request->session()->invalidate();
 
-    $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
-    return redirect('/');
+        return redirect('/');
     }
 }
