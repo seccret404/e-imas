@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
+use App\Models\Guru;
 use App\Models\Siswa;
-use App\Mail\PesanSiswa;
 use Illuminate\Http\Request;
+use App\Mail\Siswa as Emails ;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+
 
 class PesanController extends Controller
 {
@@ -16,12 +18,84 @@ class PesanController extends Controller
 
 
     public function sendMessage(Request $request){
+        $pesan = $request->pesan;
+        $tujuan = $request->tujuan;
+        $judul = $request->judul;
+        $body = $request->body;
 
-        $emailList = Siswa::getEmailList();
-        $pesan = "Pesan dari admin";
+        if($tujuan = $request->tujuan == "siswa"){
+            $siswaEmails = Siswa::pluck('email')->toArray();
+        }elseif($tujuan = $request->tujuan == "guru"){
+            $siswaEmails = Guru::pluck('email')->toArray();
 
-        Mail::bcc($emailList)->send(new PesanSiswa($pesan));
+        }elseif($tujuan = $request->tujuan == "wali"){
+            $siswaEmails = DB::table('siswa')->join('guru','siswa.id_guru','=','guru.id')->select('guru.email')->pluck('email')->toArray();
 
-    return redirect()->back()->with('success', 'Pesan berhasil dikirim ke semua siswa.');
-}
+        }
+
+        $mailData = [
+            'title'=>$judul,
+            'body'=>$body,
+            'pesan'=>$pesan
+
+        ];
+
+        Mail::to( $siswaEmails)->send(new Emails ($mailData));
+
+        return redirect('/email-all')->with(['success'=>"Email Berhasil Dikirim!"]);
+
+    }
+
+    public function siswa(){
+        $siswa = DB::table('siswa')->orderBy('nama', 'asc')->get();
+        return view('admin.layanan.siswa',compact('siswa'));
+    }
+
+    public function sendsiswa(Request $request){
+        $judul = $request->judul;
+        $body = $request->body;
+        $email = $request->email;
+        $pesan = $request->pesan;
+
+        $mailData = [
+            'title'=>$judul,
+            'body'=>$body,
+            'pesan'=>$pesan
+        ];
+        Mail::to($email)->send(new Emails($mailData));
+        return redirect('/siswa-email')->with(['success'=>"Email Berhasil Dikirim!"]);
+
+
+
+    }
+
+    public function guru(){
+        $guru = DB::table('guru')->orderBy('nama','asc')->get();
+        return view('admin.layanan.guru',compact('guru'));
+    }
+    public function sendguru(Request $request){
+        $judul = $request->judul;
+        $body = $request->body;
+        $email = $request->email;
+        $pesan = $request->pesan;
+
+        $mailData = [
+            'title'=>$judul,
+            'body'=>$body,
+            'pesan'=>$pesan
+        ];
+        Mail::to($email)->send(new Emails($mailData));
+        return redirect('/guru-email')->with(['success'=>"Email Berhasil Dikirim!"]);
+
+    }
+
+    public function wali(){
+        $guru  = DB::table('guru')
+                ->join('siswa','guru.id','=','siswa.id_guru')
+                ->select('siswa.jurusan','siswa.kelas','guru.email','guru.nama')
+                ->orderBy('nama','asc')
+                ->distinct()
+                ->get();
+        return view('admin.layanan.wali',compact('guru'));
+    }
 }

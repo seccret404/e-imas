@@ -22,8 +22,8 @@ class AbsensiController extends Controller
 
 
     public function update($id){
+        
         $jam = date("H:i:s");
-
         AbsenSiswa::where('id', $id)
         ->update([
             'jam_keluar' => $jam,
@@ -31,7 +31,5 @@ class AbsensiController extends Controller
         ]);
 
         return redirect('/detail-absen')->with(['success' => "Telah Melakukan Absen"]);
-
-
     }
 }

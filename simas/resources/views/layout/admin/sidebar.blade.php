@@ -325,9 +325,15 @@
             <div class="dropdown-menu">
               <div class="dropdown-menu-columns">
                 <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="/email">
-                   Kirim Pesan
+                    <a class="dropdown-item" href="/guru-email">
+                        Kirim Pesan Ke Guru
+                       </a>
+                  <a class="dropdown-item" href="/siswa-email">
+                   Kirim Pesan Ke Siswa
                   </a>
+                  <a class="dropdown-item" href="/wali-email">
+                    Kirim Pesan Ke Wali
+                   </a>
                   <a class="dropdown-item" href="/email-all">
                    Kirim Kesemua
                   </a>

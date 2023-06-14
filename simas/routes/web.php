@@ -102,11 +102,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //pesam
                 Route::get('/email-all', [PesanController::class, 'pesan']);
                 Route::post('/admin/kirim-pesan', [PesanController::class, 'sendMessage']);
-
-
-
-                Route::get('/send-email-to-students', [PesanController::class, 'sendMessage']);
-
+                Route::get('/siswa-email',[PesanController::class,'siswa']);
+                Route::post('/admin/kirim-siswa',[PesanController::class,'sendsiswa']);
+                Route::get('/guru-email',[PesanController::class,'guru']);
+                Route::post('/admin/kirim-guru',[PesanController::class,'sendguru']);
+                Route::get('/wali-email',[PesanController::class,'wali']);
 
                 //surat masuk
                 Route::get('/guru-surat', [SuratController::class, 'guru']);

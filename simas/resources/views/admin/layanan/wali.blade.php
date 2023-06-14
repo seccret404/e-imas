@@ -6,10 +6,10 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-                    Email
+
                 </div>
                 <h2 class="page-title">
-                    Email Kesemua siswa
+                    Email ke Wali
                 </h2>
             </div>
         </div>
@@ -41,7 +41,7 @@
 
 
                         <div class="col-12">
-                            <form class="card" action="/admin/kirim-pesan" method="POST">
+                            <form class="card" action="/admin/kirim-guru" method="POST">
                                 @csrf
                               <div class="card-header">
                                 <h3 class="card-title">Layanan Pesan</h3>
@@ -63,14 +63,22 @@
                                 <label class="form-label">Body</label>
                                 <input class="form-control" type="text" name="body">
                                 <div class="mb-3">
-                                    <label class="form-label">Kirim Pesan Untuk:</label>
-                                    <div class="btn-group w-50" role="group">
-                                      <input type="radio" class="btn-check" name="tujuan" value="guru" id="btn-radio-dropdown-1" autocomplete="off" checked="">
-                                      <label for="btn-radio-dropdown-1" type="button" class="btn">Guru</label>
-                                      <input type="radio" class="btn-check" name="tujuan" value="siswa" id="btn-radio-dropdown-2" autocomplete="off">
-                                      <label for="btn-radio-dropdown-2" type="button" class="btn">Siswa</label>
-                                      <input type="radio" class="btn-check" name="tujuan" value="wali" id="btn-radio-dropdown-3" autocomplete="off">
-                                      <label for="btn-radio-dropdown-3" type="button" class="btn">Wali</label>
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <div class="form-gorup">
+                                                <div class="form-label">Nama Wali</div>
+
+                                                 <select name="email" id="kode_dept" class="form-select tomselected ">
+                                                    <option value="">Pilih Email</option>
+                                                     @foreach ($guru as $item)
+                                                    <option {{Request('nama')== $item->nama ? 'selected' : ''}}
+                                                        value="{{$item->email}}">{{$item->nama}}/{{$item->jurusan}}/{{$item->kelas}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                        </div>
                                     </div>
                                   </div>
                                 <div class="mb-3">
