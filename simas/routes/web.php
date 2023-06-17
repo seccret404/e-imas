@@ -9,6 +9,7 @@ use App\Http\Controllers\PesanController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\SiswaBaruController;
 use App\Http\Controllers\DashboasrdController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -113,6 +114,10 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/siswa-surat', [SuratController::class, 'siswa']);
                 Route::post('/konfirmasi-izin/{id}', [SuratController::class, 'konfirmasi']);
                 Route::post('/konfirmasi-tolak/{id}', [SuratController::class, 'tolak']);
+
+
+                //prestasi
+                Route::get('/prestasi-admin',[PrestasiController::class,'index']);
         });
 
         Route::middleware(['auth', 'role:siswa'])->group(function () {
