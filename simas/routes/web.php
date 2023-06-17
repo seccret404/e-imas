@@ -149,20 +149,26 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/upload/{id}', [SiswaController::class, 'addtugas']);
                 Route::post('/upload-tugas', [SiswaController::class, 'unggah']);
 
-                Route::get('/hasil-tugas/view/{id_user}/{id_tugas}', [SiswaController::class, 'hasil'])->name('hasil-tugas.view');
+                Route::get('/hasil-tugas/view/{id_tugas}', [SiswaController::class, 'hasil'])->name('hasil-tugas.view');
+                //ujian
+                Route::get('/ujian-siswa', [SiswaController::class, 'ujian']);
+                Route::get('/uploadujian/{id}', [SiswaController::class, 'addujian']);
+                Route::post('/upload-ujian', [SiswaController::class, 'unggahujian']);
+
+                Route::get('/hasil-ujian/view/{id}', [SiswaController::class, 'hasilujian'])->name('hasil-ujian.view');
 
                 //pengumuman
                 Route::get('/pengumuman/{id_pengumuman}', [SiswaController::class, 'detail']);
 
 
-        //profil
-        Route::get('/profil/{id}', [SiswaController::class, 'profil']);
+                //profil
+                Route::get('/profil/{id}', [SiswaController::class, 'profil']);
 
 
-        //absen
-        Route::get('/detail-absen',[AbsensiController::class,'absens_siswa']);
-        Route::post('/update-absen/{id}',[AbsensiController::class,'update']);
-});
+                //absen
+                Route::get('/detail-absen', [AbsensiController::class, 'absens_siswa']);
+                Route::post('/update-absen/{id}', [AbsensiController::class, 'update']);
+        });
 
         Route::middleware(['auth', 'role:guru'])->group(function () {
                 Route::get('/dashboard/guru', [GuruController::class, 'index']);
@@ -177,6 +183,22 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/tugasguru', [GuruController::class, 'indext']);
                 Route::post('/tugasguru-add', [GuruController::class, 'addtugas']);
                 Route::post('/tugasguru/{id}/delete', [GuruController::class, 'deletet']);
+                //tugas submitted
+                Route::get('/tugasgurusubmitted', [GuruController::class, 'tugassubmitted']);
+                Route::get('/tugasguruall/{id}', [GuruController::class, 'tugasguruall'])->name('tugasguruall');
+                Route::get('/tugasgurunilai/edit/{id}', [GuruController::class, 'tugasgurunilaishow']);
+                Route::post('/tugasgurunilai/edit/{id}', [GuruController::class, 'tugasgurunilai']);
+                //ujian
+                Route::get('/ujianguru', [GuruController::class, 'ujian']);
+                Route::post('/ujianguru-add', [GuruController::class, 'addujian']);
+                Route::get('/ujianguru/edit/{id}', [GuruController::class, 'editujian']);
+                Route::post('/ujianguru/edit/{id}', [GuruController::class, 'editujianpros']);
+                Route::post('/ujianguru/{id}/delete', [GuruController::class, 'deleteujian']);
+                //ujian submitted
+                Route::get('/ujiangurusubmitted', [GuruController::class, 'ujiansubmitted']);
+                Route::get('/ujianguruall/{id}', [GuruController::class, 'ujianguruall'])->name('ujianguruall');
+                Route::get('/ujiangurunilai/edit/{id}', [GuruController::class, 'ujiangurunilaishow']);
+                Route::post('/ujiangurunilai/edit/{id}', [GuruController::class, 'ujiangurunilai']);
         });
 
         //siswa baru

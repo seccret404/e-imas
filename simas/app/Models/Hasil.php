@@ -15,14 +15,15 @@ class Hasil extends Model
         'file_hasil',
         'dedline',
         'creted_at',
-        'id_user'
+        'id_user',
+        'uploaded',
     ];
 
     protected $primaryKey = 'id_hasil';
 
     public function tugas()
     {
-        return $this->belongsTo(Tugas::class, 'id_tugas');
+        return $this->belongsTo(Tugas::class);
     }
 
     public function user()

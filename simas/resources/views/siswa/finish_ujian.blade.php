@@ -6,7 +6,7 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                        <a href="/tugas-siswa"><strong>Tugas</strong></a>/submision
+                        <a href="/ujian-siswa"><strong>Ujian</strong></a>/submision
                     </div>
                     <h2 class="page-title">
 
@@ -74,8 +74,8 @@
                                     <h3>File Tugas</h3>
                                 </div>
                                 <div class="col-8">
-                                    @if ($item->file_hasil_tugas)
-                                        <img src="{{ url('asset/hasil/' . $item->file_hasil_tugas) }}">
+                                    @if ($item->file_hasil_ujian)
+                                        <img src="{{ url('asset/hasil/' . $item->file_hasil_ujian) }}">
                                     @endif
                                 </div>
                             </div>
