@@ -52,7 +52,7 @@
                 <div class="col-3">
                     <div class="card" style="background-color: #1A5F7A">
                         <div class="card-body">
-                            <p class="text-center text-white "><strong>Daftar Tugas</strong></p>
+                            <p class="text-center text-white "><strong>Daftar Ujian</strong></p>
                         </div>
                     </div>
                 </div>
@@ -63,17 +63,17 @@
                         <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                             <div class="divide-y">
                                 <div>
-                                    @foreach ($tugas as $item)
+                                    @foreach ($ujian as $item)
                                         <div class="row mt-1">
                                             <div class="col-auto">
                                                 <span class="avatar">JL</span>
                                             </div>
                                             <div class="col">
                                                 <div class="">
-                                                    <strong>{{ $item->nama_pelajaran }}</strong> <i>info</i> <strong
-                                                        class="text-primary"> {{ $item->judul }} </strong>
-                                                    Catatan:{{ $item->catatan }}
-                                                    <a href="{{ url('asset/tugas/' . $item->file) }}"
+                                                    <strong>{{ $item->jenis_ujian }}</strong> <i>info</i> <strong
+                                                        class="text-primary"> {{ $item->judul }} </strong> Catatan :
+                                                    {{ $item->catatan }}
+                                                    <a href="{{ url('asset/ujian/' . $item->file) }}"
                                                         alt="{{ $item->file }}"><svg xmlns="http://www.w3.org/2000/svg"
                                                             class="icon icon-tabler icon-tabler-eye" width="24"
                                                             height="24" viewBox="0 0 24 24" stroke-width="2"
@@ -94,6 +94,10 @@
                                                 <div class="text-muted ">
                                                     <p class="{{ $class }}">Dedline : {{ $item->dedline }}</p>
                                                 </div>
+                                                <div class="text-muted ">
+                                                    <p style="color: black">Tahun Akademik : {{ $item->tahun_akademik }}
+                                                    </p>
+                                                </div>
                                                 @if ($item->nilai > 0)
                                                     <p><strong>Nilai : {{ $item->nilai }}</strong></p>
                                                 @else
@@ -102,7 +106,7 @@
                                                                     style="cursor: default;">Submitted for
                                                                     grading</span></strong></p>
                                                     @else
-                                                        <a href="/upload/{{ $item->id_tugas }}" class="btn btn-primary"
+                                                        <a href="/uploadujian/{{ $item->id }}" class="btn btn-primary"
                                                             id="tambah_departemen"><svg xmlns="http://www.w3.org/2000/svg"
                                                                 class="icon icon-tabler icon-tabler-plus" width="24"
                                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
@@ -115,7 +119,7 @@
                                                             </svg>Kirim Tugas</a>
                                                     @endif
                                                 @endif
-                                                <a href="{{ route('hasil-tugas.view', ['id_tugas' => $item->id_tugas]) }}"
+                                                <a href="{{ route('hasil-ujian.view', ['id' => $item->id]) }}"
                                                     class="btn btn-primary">View</a>
                                             </div>
                                             <div class="col-auto align-self-center">

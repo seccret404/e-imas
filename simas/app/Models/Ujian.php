@@ -5,24 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tugas extends Model
+class Ujian extends Model
 {
     use HasFactory;
-    protected $table = 'tugas';
+    protected $table = 'ujian';
+
     protected $fillable = [
-        'id_tugas',
-        'nama_pelajaran',
+        'jenis_ujian',
         'judul',
+        'dedline',
         'jurusan',
         'kelas',
         'catatan',
         'file',
+        'tahun_akademik',
+        'uploaded',
     ];
-
-    protected $primaryKey = 'id_tugas';
-
-    public function hasiltugas()
-    {
-        return $this->hasMany(Hasil::class);
-    }
 }

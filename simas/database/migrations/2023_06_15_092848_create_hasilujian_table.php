@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hasiltugas', function (Blueprint $table) {
-            $table->id('id_hasil');
-            $table->Integer('id_tugas');
+        Schema::create('hasilujian', function (Blueprint $table) {
+            $table->id();
+            $table->Integer('id_ujian');
+            $table->Integer('id_siswa');
             $table->string('nama_pengumpul');
-            $table->Integer('id_user');
-            $table->string('mata_pelajaran');
-            $table->string('file_hasil_tugas');
+            $table->string('jenis_ujian');
+            $table->string('file_hasil_ujian');
             $table->date('dedline');
             $table->string('uploaded')->default('0');
             $table->integer('nilai')->default('0');
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hasiltugas');
+        Schema::dropIfExists('hasilujian');
     }
 };
