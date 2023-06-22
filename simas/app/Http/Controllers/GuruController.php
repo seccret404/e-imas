@@ -381,4 +381,72 @@ class GuruController extends Controller
             return redirect()->route('ujianguruall', ['id' => $id_ujian])->with(['error' => 'Data gagal tambah']);
         }
     }
+
+    public function absen()
+    {
+        $status = DB::table('presensiguru')->first();
+
+        return view('guru.guruabsen', compact('status'));
+    }
+
+    function distance($lat1, $lon1, $lat2, $lon2)
+    {
+        $theta = $lon1 - $lon2;
+        $miles = (sin(deg2rad($lat1)) * sin(deg2rad($lat2))) + (cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta)));
+        $miles = acos($miles);
+        $miles = rad2deg($miles);
+        $miles = $miles * 60 * 1.1515;
+        $feet = $miles * 5280;
+        $yards = $feet / 3;
+        $kilometers = $miles * 1.609344;
+        $meters = $kilometers * 1000;
+        return compact('meters');
+    }
+
+    public function store(Request $request)
+    {
+
+        if (Auth::check()) {
+            $id = Auth::user()->id;
+            $id_user = Auth::user()->id_user;
+            $tgl_presensi = date("Y-m-d");
+            $jam = date("H:i:s");
+            $latitudekantor = 2.379135;
+            $longitudekantor = 99.151415;
+            $latitudeuser = $request->input('lokasiin');
+            $longitudeuser = $request->input('lokasion');
+            $lokasi = $latitudeuser . ',' . $longitudeuser;
+            $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
+            $radius = round($jarak["meters"]);
+
+            $cek = DB::table('presensiguru')->where('tgl_presensi', $tgl_presensi)->where('npdn', $id_user)->count();
+            if ($radius > 1000) {
+                return Redirect::back()->with(['warning' => "Anda Berada Diluar Radius Sekolah"]);
+            } else {
+                if ($cek > 0) {
+                    return redirect('/dashboard/guru')->with(['success' => "Telah Melakukan Absen"]);
+                } else {
+                    $data = [
+                        'id_guru' => $id,
+                        'npdn' => $id_user,
+                        'tgl_presensi' => $tgl_presensi,
+                        'jam_masuk' => $jam,
+                        'jam_keluar' => Null,
+                        'gambar' => "nul",
+                        'location_masuk' => $lokasi,
+                        'lokasi_keluar' => Null
+
+
+                    ];
+
+                    $simpan = DB::table('presensiguru')->insert($data);
+                    if ($simpan) {
+                        return redirect('/detail-absen-guru')->with(['success' => "Absen Selesai Selamat Mengajar"]);
+                    } else {
+                        return redirect('/detail-absen-guru')->with(['error' => "Absen Gagal"]);
+                    }
+                }
+            }
+        }
+    }
 }
