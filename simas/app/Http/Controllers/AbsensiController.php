@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbsenGuru;
 use App\Models\AbsenSiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,5 +32,29 @@ class AbsensiController extends Controller
         ]);
 
         return redirect('/detail-absen')->with(['success' => "Telah Melakukan Absen"]);
+    }
+
+    public function absens_guru(){
+        $npdn = Auth::user()->id_user;
+        $absen = DB::table('presensiguru')
+        ->join('users','presensiguru.id_guru','=','users.id')
+        ->select('presensiguru.*','users.name')
+        ->where('npdn',$npdn)
+        ->get();
+
+        return view('guru.absenguru',compact('absen'));
+    }
+
+
+    public function update_absensi_guru($id){
+        
+        $jam = date("H:i:s");
+        AbsenGuru::where('id', $id)
+        ->update([
+            'jam_keluar' => $jam,
+
+        ]);
+
+        return redirect('/detail-absen-guru')->with(['success' => "Telah Melakukan Absen"]);
     }
 }

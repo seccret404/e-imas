@@ -204,6 +204,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/ujianguruall/{id}', [GuruController::class, 'ujianguruall'])->name('ujianguruall');
                 Route::get('/ujiangurunilai/edit/{id}', [GuruController::class, 'ujiangurunilaishow']);
                 Route::post('/ujiangurunilai/edit/{id}', [GuruController::class, 'ujiangurunilai']);
+
+                //absen
+                Route::get('/detail-absen-guru', [AbsensiController::class, 'absens_guru']);
+                Route::post('/update-absen-guru/{id}', [AbsensiController::class, 'update_absensi_guru']);
+                Route::get('/absenguru', [GuruController::class, 'absen']);
+                Route::post('/presensi/store/guru', [GuruController::class, 'store']);
         });
 
         //siswa baru
