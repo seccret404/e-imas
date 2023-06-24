@@ -6,7 +6,7 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                        Tugas
+                      
                     </div>
                     <h2 class="page-title">
                         {{ $hari }},{{ $tgl }}

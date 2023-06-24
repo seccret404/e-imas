@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\DB;
 class SuratController extends Controller
 {
     public function guru(){
-        return view('admin.surat.guru');
+        $sguru = DB::table('surat_izins')->where('role',"guru")->get();
+
+        return view('admin.surat.guru',compact('sguru'));
     }
     public function siswa(){
-        $ssiswa = DB::table('surat_izins')->get();
+        $ssiswa = DB::table('surat_izins')->where('role',"siswa")->get();
         return view('admin.surat.siswa',compact('ssiswa'));
     }
+
 
     public function konfirmasi($id){
         Surat::where('id', $id)

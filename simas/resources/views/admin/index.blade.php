@@ -11,9 +11,30 @@
                     <h2 class="page-title">
                         Data sekolah </h2>
                 </div>
-                <div class="col-4">
+                <div class="col-5">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">Pengumuman</h3>
+                            </div>
+                            <div class="col-6">
+                                <span>
+                                    <a href="#" class="btn btn-primary" id="tambah_departemen">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-plus" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 5l0 14"></path>
+                                            <path d="M5 12l14 0"></path>
+                                        </svg> Buat Pengumuman
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                        {{-- <div class="card-header">
                             <h4 class="card-title">Kunjungan Website E-Simas</h4>
                         </div>
                         <table class="table card-table table-vcenter">
@@ -27,7 +48,7 @@
                                 </tr>
 
                             </tbody>
-                        </table>
+                        </table> --}}
                     </div>
                 </div>
             </div>
@@ -212,25 +233,7 @@
                     @endif
                     <div class="card">
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h3 class="card-title">Pengumuman</h3>
-                                </div>
-                                <div class="col">
-                                    <span>
-                                        <a href="#" class="btn btn-primary" id="tambah_departemen">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-plus" width="24" height="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M12 5l0 14"></path>
-                                                <path d="M5 12l14 0"></path>
-                                            </svg> Buat Pengumuman
-                                        </a>
-                                    </span>
-                                </div>
-                            </div>
+
 
 
 

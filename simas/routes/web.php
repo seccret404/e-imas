@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\HasilController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SuratController;
@@ -173,6 +174,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //absen
                 Route::get('/detail-absen', [AbsensiController::class, 'absens_siswa']);
                 Route::post('/update-absen/{id}', [AbsensiController::class, 'update']);
+
+                //hasil ujian
+                Route::get('/hasil-ujian',[HasilController::class,'index']);
         });
 
         Route::middleware(['auth', 'role:guru'])->group(function () {
