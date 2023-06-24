@@ -360,18 +360,23 @@
               <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
               </span>
+              @php
+                  $surat = \DB::select("SELECT * from surat_izins where status = 0 ");
+                  $guru = \DB::select("SELECT * from surat_izins where role='guru' AND  status = 0 ");
+                  $siswa = \DB::select("SELECT * from surat_izins where role='siswa' AND  status = 0 ");
+              @endphp
               <span class="nav-link-title">
-                Layanan Surat Masuk
+                Layanan Surat <span class="badge bg-red">{{ count($surat) }}</span>
               </span>
             </a>
             <div class="dropdown-menu">
               <div class="dropdown-menu-columns">
                 <div class="dropdown-menu-column">
                   <a class="dropdown-item" href="/guru-surat">
-                   Surat Guru
+                   Surat Guru &nbsp;<span class="badge bg-red">{{ count($guru) }}</span>
                   </a>
                   <a class="dropdown-item" href="/siswa-surat">
-                   Surat Siswa
+                   Surat Siswa &nbsp;<span class="badge bg-red">{{ count($siswa) }}</span>
                   </a>
                 </div>
               </div>
