@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('id_siswa');
             $table->string('gambar');
             $table->date('tgl_presensi');
-            $table->time('jam masuk');
-            $table->time('jam keluar')->nullable();
+            $table->time('jam_masuk');
+            $table->time('jam_keluar')->nullable();
             $table->string('location_masuk');
             $table->string('lokasi_keluar')->nullable();
             $table->timestamps();
