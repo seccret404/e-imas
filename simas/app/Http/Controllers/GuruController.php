@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hasil;
 use App\Models\Surat;
+use App\Models\Tugas;
+use App\Models\Ujian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -161,6 +164,7 @@ class GuruController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal di proses']);
         }
     }
+
     public function deletet($id)
     {
         $delete = DB::table('tugas')->where('id_tugas', $id)->delete();
@@ -169,6 +173,212 @@ class GuruController extends Controller
             return Redirect::back()->with(['success' => 'Data berhasil di hapus ']);
         } else {
             return Redirect::back()->with(['error' => 'Data gagal dihapus']);
+        }
+    }
+
+    public function tugassubmitted()
+    {
+        $tugas = DB::table('tugas')
+            ->orderBy('dedline', 'asc')
+            ->get();
+
+        return view('guru.tugas.tugasSubmitted', compact('tugas'));
+    }
+
+    public function tugasguruall($id_tugas)
+    {
+        $tugasall = DB::table('hasiltugas')->where('id_tugas', $id_tugas)->get();
+        $tugas = DB::table('hasiltugas')->where('id_tugas', $id_tugas)->first();
+
+        return view('guru.tugas.tugas_sub_all', compact('tugasall', 'tugas'));
+    }
+
+    public function tugasgurunilaishow($id)
+    {
+        $nilai = Hasil::find($id);
+
+        return view('guru.tugas.submit_nilai', compact('nilai'));
+    }
+
+    public function tugasgurunilai(Request $request, $id)
+    {
+        $nilai = $request->nilai;
+        $tugas_id = $request->id_tugas;
+
+        $nilai = max(0, min(100, $nilai));
+
+        $data = [
+            'nilai' => $nilai,
+        ];
+
+        $id_tugas = DB::table('hasiltugas')->where('id_tugas', $tugas_id)->value('id_tugas');
+
+        $simpan = DB::table('hasiltugas')
+            ->where('id_hasil', $id)
+            ->update($data);
+
+        if ($simpan) {
+            return redirect()->route('tugasguruall', ['id' => $id_tugas])->with(['success' => 'Data berhasil tambah']);
+        } else {
+            return redirect()->route('tugasguruall', ['id' => $id_tugas])->with(['error' => 'Data gagal tambah']);
+        }
+    }
+
+    public function ujian()
+    {
+        $ujian = DB::table('ujian')->where('id_guru', Auth::user()->id)->get();
+        $nama = Auth::user()->name;
+        $tahun = DB::table('akademik')->get();
+        // dd($nama);
+        return view('guru.ujian.index', compact('ujian', 'nama', 'tahun'));
+    }
+
+    public function addujian(Request $request)
+    {
+        $id_guru = Auth::user()->id;
+        $jenis = $request->jenis;
+        $judul = $request->judul;
+        $dedline = $request->dedline;
+        $jurusan = $request->jurusan;
+        $kelas = $request->kelas;
+        $catatan = $request->catatan;
+        $tahun = $request->tahun_akademik;
+
+        $file = $request->file('file');
+        $namafile = $file->getClientOriginalName();
+        $tujuanFile = 'asset/ujian';
+        $file->move($tujuanFile, $namafile);
+
+        $data = [
+            'id_guru' => $id_guru,
+            'jenis_ujian' => $jenis,
+            'judul' => $judul,
+            'dedline' => $dedline,
+            'jurusan' => $jurusan,
+            'kelas' => $kelas,
+            'catatan' => $catatan,
+            'file' => $namafile,
+            'tahun_akademik' => $tahun,
+        ];
+
+        $simpan = DB::table('ujian')->insert($data);
+
+        if ($simpan) {
+            return Redirect::back()->with(['success' => 'Data berhasil Tambah']);
+        } else {
+            return Redirect::back()->with(['error' => 'Data gagal di proses']);
+        }
+    }
+
+    public function editujian($id)
+    {
+        $ujian = Ujian::find($id);
+        $tahun = DB::table('akademik')->get();
+
+        return view('guru.ujian.edit', compact('ujian', 'tahun'));
+    }
+
+    public function editujianpros(Request $request, $id)
+    {
+        // Validasi inputan jika diperlukan
+        $request->validate([
+            'judul' => 'required',
+            'jenis' => 'required',
+            'dedline' => 'required',
+            'jurusan' => 'required',
+            'kelas' => 'required',
+            'tahun_akademik' => 'required',
+        ]);
+
+        // Ambil data surat berdasarkan ID
+        $ujian = Ujian::find($id);
+
+        // Simpan gambar lama
+        $namafile = $ujian->file;
+
+        // Update data surat dengan nilai inputan
+        $ujian->judul = $request->judul;
+        $ujian->jenis_ujian = $request->jenis;
+        $ujian->dedline = $request->dedline;
+        $ujian->jurusan = $request->jurusan;
+        $ujian->kelas = $request->kelas;
+        $ujian->tahun_akademik = $request->tahun_akademik;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/ujian';
+            $file->move($tujuanFile, $namafile);
+        }
+
+        $ujian->file = $namafile;
+
+
+        // Simpan perubahan
+        $ujian->save();
+
+        if ($ujian) {
+            return redirect('/ujianguru')->with(['success' => "Data Siswa Berhasil Di Update!"]);
+        } else {
+            return redirect('/ujianguru')->with(['error' => "Data Gagal Di Hapus"]);
+        }
+    }
+
+    public function deleteujian($id)
+    {
+        $delete = DB::table('ujian')->where('id', $id)->delete();
+
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data berhasil di hapus ']);
+        } else {
+            return Redirect::back()->with(['error' => 'Data gagal dihapus']);
+        }
+    }
+
+    public function ujiansubmitted()
+    {
+        $ujian = DB::table('ujian')
+            ->orderBy('dedline', 'asc')
+            ->get();
+
+        return view('guru.ujian.ujian_submitted', compact('ujian'));
+    }
+
+    public function ujianguruall($id_ujian)
+    {
+        $ujianall = DB::table('hasilujian')->where('id_ujian', $id_ujian)->get();
+        $ujian = DB::table('hasilujian')->where('id_ujian', $id_ujian)->first();
+
+        return view('guru.ujian.ujian_sub_all', compact('ujianall', 'ujian'));
+    }
+
+    public function ujiangurunilaishow($id)
+    {
+        $nilai = DB::table('hasilujian')->find($id);
+
+        return view('guru.ujian.submit_nilai', compact('nilai'));
+    }
+
+    public function ujiangurunilai(Request $request, $id)
+    {
+        $nilai = $request->nilai;
+        $ujian_id = $request->id_ujian;
+
+        $nilai = max(0, min(100, $nilai));
+
+        $data = [
+            'nilai' => $nilai,
+        ];
+
+        $id_ujian = DB::table('hasilujian')->where('id_ujian', $ujian_id)->value('id_ujian');
+
+        $simpan = DB::table('hasilujian')
+            ->where('id', $id)
+            ->update($data);
+
+        if ($simpan) {
+            return redirect()->route('ujianguruall', ['id' => $id_ujian])->with(['success' => 'Data berhasil tambah']);
+        } else {
+            return redirect()->route('ujianguruall', ['id' => $id_ujian])->with(['error' => 'Data gagal tambah']);
         }
     }
 }

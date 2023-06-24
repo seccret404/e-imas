@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Surat;
+use App\Models\Ujian;
 
 class SiswaController extends Controller
 {
@@ -166,8 +167,17 @@ class SiswaController extends Controller
         //dd($hariSe$karang);
         $tgl_presensi = date("Y-m-d");
 
-        $tugas = DB::table('tugas')->where('jurusan', $jurusan)->where('kelas', $kelas)->where('dedline', '>=', $hariSekarang)
-            ->orderBy('dedline', 'asc')
+        $tugas = DB::table('tugas')
+            ->leftJoin('hasiltugas', function ($join) use ($id_user) {
+                $join->on('tugas.id_tugas', '=', 'hasiltugas.id_tugas')
+                    ->where('hasiltugas.id_user', $id_user)
+                    ->orWhereNull('hasiltugas.id_user');
+            })
+            ->where('tugas.jurusan', $jurusan)
+            ->where('tugas.kelas', $kelas)
+            ->where('tugas.dedline', '>=', $hariSekarang)
+            ->orderBy('tugas.dedline', 'asc')
+            ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
             ->get();
 
         $warna = DB::table('tugas')->get();
@@ -187,7 +197,7 @@ class SiswaController extends Controller
     {
         $status = DB::table('presensisiswa')->first();
 
-        return view('siswa.absen',compact('status'));
+        return view('siswa.absen', compact('status'));
     }
     function distance($lat1, $lon1, $lat2, $lon2)
     {
@@ -227,14 +237,14 @@ class SiswaController extends Controller
                     return redirect('/dashboard/siswa')->with(['success' => "Telah Melakukan Absen"]);
                 } else {
                     $data = [
-                        'id_siswa'=>$id,
+                        'id_siswa' => $id,
                         'nisn' => $id_user,
                         'tgl_presensi' => $tgl_presensi,
                         'jam_masuk' => $jam,
-                        'jam_keluar'=>Null,
+                        'jam_keluar' => Null,
                         'gambar' => "nul",
                         'location_masuk' => $lokasi,
-                        'lokasi_keluar'=>Null
+                        'lokasi_keluar' => Null
 
 
                     ];
@@ -326,13 +336,15 @@ class SiswaController extends Controller
             'mata_pelajaran' => $mapel,
             'file_hasil_tugas' => $namafile,
             'dedline' => $dedline,
+            'uploaded' => 1,
+            'created_at' => Carbon::now(),
         ];
 
         $simpan = DB::table('hasiltugas')->insert($data);
         if ($simpan) {
-            return Redirect::back()->with(['success' => 'Data berhasil Tambah']);
+            return redirect('/tugas-siswa')->with(['success' => 'Data berhasil Tambah']);
         } else {
-            return Redirect::back()->with(['error' => 'Data gagal di proses']);
+            return redirect('/tugas-siswa')->with(['error' => 'Data gagal di proses']);
         }
     }
 
@@ -341,10 +353,11 @@ class SiswaController extends Controller
 
         $id_user = Auth::user()->id;
 
-        $item = Hasil::where('id_user', $id_user)
-
-            ->where('id_tugas', $id_tugas)
-            ->get();
+        $item = DB::table('hasiltugas')
+            ->join('tugas', 'tugas.id_tugas', '=', 'hasiltugas.id_tugas')
+            ->where('hasiltugas.id_user', $id_user)
+            ->select('tugas.dedline', 'hasiltugas.file_hasil_tugas', 'hasiltugas.created_at')
+            ->first();
 
         return view('siswa.finish', compact('item'));
     }
@@ -362,5 +375,94 @@ class SiswaController extends Controller
         $siswa = DB::table('siswa')
             ->where('nisn', $id_user)->get();
         return view('siswa.profil', compact('siswa'));
+    }
+
+    public function ujian()
+    {
+        $hariIni = Carbon::now();
+        $id_user = Auth::user()->id;
+        $tgl = $hariIni->format('d-m-Y');
+        $jurusan = Auth::user()->jurusan;
+        $kelas = Auth::user()->kelas;
+        $hari = $hariIni->formatLocalized('%A');
+        setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
+        $hariSekarang = strftime('%A');
+        //dd($hariSe$karang);
+        $tgl_presensi = date("Y-m-d");
+
+        $ujian = DB::table('ujian')
+            ->leftJoin('hasilujian', function ($join) use ($id_user) {
+                $join->on('ujian.id', '=', 'hasilujian.id_ujian')
+                    ->where('hasilujian.id_siswa', $id_user)
+                    ->orWhereNull('hasilujian.id_siswa');
+            })
+            ->where('ujian.jurusan', $jurusan)
+            ->where('ujian.kelas', $kelas)
+            ->where('ujian.dedline', '>=', $hariSekarang)
+            ->orderBy('ujian.dedline', 'asc')
+            ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
+            ->get();
+
+        $warna = DB::table('ujian')->get();
+        if ($warna > $hariSekarang) {
+            $bg = "text-primary";
+        } else if ($warna = $hariSekarang) {
+            $bg = "text-warning";
+        }
+
+        return view('siswa.ujian', compact('ujian', 'hari', 'tgl', 'bg'));
+    }
+
+    public function addujian($id)
+    {
+        $ujian = Ujian::find($id);
+        return view('siswa.upload_ujian', compact('ujian'));
+    }
+
+    public function unggahujian(Request $request)
+    {
+        //d($request->all());
+        $id_siswa = Auth::user()->id;
+        $nama = Auth::user()->name;
+        $id_ujian = $request->id_ujian;
+        $jenis = $request->jenis;
+        $dedline = $request->dedline;
+
+        $file = $request->file('file');
+        $namafile = $file->getClientOriginalName();
+        $tujuanFile = 'asset/hasil';
+        $file->move($tujuanFile, $namafile);
+
+        $data = [
+            'id_ujian' => $id_ujian,
+            'id_siswa' => $id_siswa,
+            'nama_pengumpul' => $nama,
+            'jenis_ujian' => $jenis,
+            'file_hasil_ujian' => $namafile,
+            'dedline' => $dedline,
+            'uploaded' => 1,
+            'created_at' => Carbon::now(),
+        ];
+
+        $simpan = DB::table('hasilujian')->insert($data);
+        if ($simpan) {
+            return redirect('/ujian-siswa')->with(['success' => 'Data berhasil Tambah']);
+        } else {
+            return redirect('/ujian-siswa')->with(['error' => 'Data gagal di proses']);
+        }
+    }
+
+    public function hasilujian($id)
+    {
+
+        $id_user = Auth::user()->id;
+
+        $item = DB::table('hasilujian')
+            ->join('ujian', 'ujian.id', '=', 'hasilujian.id_ujian')
+            ->where('hasilujian.id_siswa', $id_user)
+            ->select('ujian.dedline', 'hasilujian.file_hasil_ujian', 'hasilujian.created_at')
+            ->first();
+
+        return view('siswa.finish_ujian', compact('item'));
     }
 }
