@@ -229,13 +229,15 @@ class GuruController extends Controller
         $ujian = DB::table('ujian')->where('id_guru', Auth::user()->id)->get();
         $nama = Auth::user()->name;
         $tahun = DB::table('akademik')->get();
+        $mapel = DB::table('matapelajran')->get();
         // dd($nama);
-        return view('guru.ujian.index', compact('ujian', 'nama', 'tahun'));
+        return view('guru.ujian.index', compact('ujian', 'nama', 'tahun','mapel'));
     }
 
     public function addujian(Request $request)
     {
         $id_guru = Auth::user()->id;
+        $email = Auth::user()->email;
         $jenis = $request->jenis;
         $judul = $request->judul;
         $dedline = $request->dedline;
@@ -243,6 +245,7 @@ class GuruController extends Controller
         $kelas = $request->kelas;
         $catatan = $request->catatan;
         $tahun = $request->tahun_akademik;
+        $mapel = $request->mapel;
 
         $file = $request->file('file');
         $namafile = $file->getClientOriginalName();
@@ -259,6 +262,7 @@ class GuruController extends Controller
             'catatan' => $catatan,
             'file' => $namafile,
             'tahun_akademik' => $tahun,
+            'mapel'=>$mapel
         ];
 
         $simpan = DB::table('ujian')->insert($data);

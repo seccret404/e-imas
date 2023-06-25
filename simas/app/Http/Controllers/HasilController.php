@@ -21,7 +21,12 @@ class HasilController extends Controller
     $kelas = Auth::user()->kelas;
     $hari = $hariIni->formatLocalized('%A');
 
-    $hasil = DB::table('hasilujian')->where('id_siswa',$id_user)->get();
+    $hasil = DB::table('hasilujian')
+    ->join('ujian','hasilujian.id_ujian','=','ujian.id')
+    ->select('hasilujian.*','ujian.mapel as mata_pelajaran')
+    ->where('id_siswa',$id)
+    ->get();
+
         return view('siswa.ujian.hasilujian',compact('hari','tgl','hasil'));
     }
 }

@@ -54,21 +54,27 @@
                                   <th><button class="table-sort" data-sort="sort-name">Mata Pelajaran</button></th>
                                   <th><button class="table-sort" data-sort="sort-city">Nilai</button></th>
                                   <th><button class="table-sort" data-sort="sort-type">Grade</button></th>
-                                  <th><button class="table-sort" data-sort="sort-score">Score</button></th>
 
                                 </tr>
                               </thead>
                               <tbody class="table-tbody">
                                 @foreach ($hasil as $item)
-
-
                                 <tr>
-                                  <td class="sort-name"></td>
+                                  <td class="sort-name">{{$item->mata_pelajaran}}</td>
                                   <td class="sort-city">{{$item->nilai}}</td>
-                                  <td class="sort-type"></td>
-                                  <td class="sort-score"></td>
-
-                                </tr> @endforeach
+                                  <td class="sort-type">
+                                    @if ($item->nilai >= 80 )
+                                        A
+                                    @elseif($item->nilai <= 79 && $item->nilai >= 70)
+                                        B
+                                    @elseif($item->nilai <= 69 && $item->nilai >= 60)
+                                        C
+                                    @else
+                                        D
+                                    @endif
+                                  </td>
+                                </tr>
+                                 @endforeach
                             </tbody>
                             </table>
                           </div>

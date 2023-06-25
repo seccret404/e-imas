@@ -59,6 +59,7 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
+                                                <th>Mata Pelajaran</th>
                                                 <th>Jenis Ujian</th>
                                                 <th>Judul Ujian</th>
                                                 <th>Dedline</th>
@@ -74,6 +75,7 @@
                                             @foreach ($ujian as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->mapel }}</td>
                                                     <td>{{ $item->jenis_ujian }}</td>
                                                     <td>{{ $item->judul }}</td>
                                                     <td>{{ $item->dedline }}</td>
@@ -154,6 +156,22 @@
                 <div class="modal-body">
                     <form action="/ujianguru-add" enctype="multipart/form-data" method="POST" id="form_departemen">
                         @csrf
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="form-gorup">
+                                    <div class="form-label">Mata Pelajaran</div>
+
+                                    <select name="mapel" id="kode_dept" class="form-select tomselected ">
+                                        <option class="text-muted" value="">mata pelajaran ...</option>
+                                        @foreach ($mapel as $item)
+                                            <option {{ Request('nama_pelajaran') == $item->nama_pelajaran ? 'selected' : '' }}
+                                                value="{{ $item->nama_pelajaran }}">{{ $item->nama_pelajaran }}/{{ $item->jurusan }}/{{ $item->kelas }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-12">
                                 <div class="form-gorup">
