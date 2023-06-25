@@ -39,25 +39,25 @@ class SiswaController extends Controller
 
         // $jadwal = Jadwal::where('hari', $hariSekarang)->get();
         $jadwal = DB::table('jadwal')
-        ->join('guru','jadwal.kode_guru','=','guru.id')
-        ->where('jurusan', $jurusan)
-        ->where('kelas', $kelas)
-        ->where('hari', $hariSekarang)
-        ->select('jadwal.*','guru.nama as nama_guru')
-        ->get();
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->where('jurusan', $jurusan)
+            ->where('kelas', $kelas)
+            ->where('hari', $hariSekarang)
+            ->select('jadwal.*', 'guru.nama as nama_guru')
+            ->get();
 
 
         $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
         $prestasi = DB::table('prestasi')->where('id_user', $id)->count();
 
         $mapel = DB::table('jadwal')
-        ->where('jurusan', $jurusan)->where('kelas', $kelas)->distinct('jadwal.nama_pelajaran')->count();
+            ->where('jurusan', $jurusan)->where('kelas', $kelas)->distinct('jadwal.nama_pelajaran')->count();
 
-        $jmlhsiswa = DB::table('siswa')->where('jurusan',$jurusan)->where('kelas',$kelas)->count();
+        $jmlhsiswa = DB::table('siswa')->where('jurusan', $jurusan)->where('kelas', $kelas)->count();
 
-        $namaWali = DB::table('siswa')->join('guru','siswa.id_guru','=','guru.id')->select('guru.nama as nama_guru')->get();
+        $namaWali = DB::table('siswa')->join('guru', 'siswa.id_guru', '=', 'guru.id')->select('guru.nama as nama_guru')->get();
 
-        return view('siswa.index', compact('jadwal', 'hari', 'tgl', 'status', 'pengumuman', 'prestasi', 'mapel','jmlhsiswa','namaWali'));
+        return view('siswa.index', compact('jadwal', 'hari', 'tgl', 'status', 'pengumuman', 'prestasi', 'mapel', 'jmlhsiswa', 'namaWali'));
     }
 
     public function surat()
@@ -470,9 +470,12 @@ class SiswaController extends Controller
 
         $id_user = Auth::user()->id;
 
-        $item = DB::table('hasilujian')
-            ->join('ujian', 'ujian.id', '=', 'hasilujian.id_ujian')
-            ->where('hasilujian.id_siswa', $id_user)
+        $item = DB::table('ujian')
+            ->leftJoin('hasilujian', function ($join) use ($id_user) {
+                $join->on('ujian.id', '=', 'hasilujian.id_ujian')
+                    ->where('hasilujian.id_siswa', $id_user);
+            })
+            ->where('ujian.id', $id)
             ->select('ujian.dedline', 'hasilujian.file_hasil_ujian', 'hasilujian.created_at')
             ->first();
 
