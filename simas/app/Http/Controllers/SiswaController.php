@@ -38,13 +38,26 @@ class SiswaController extends Controller
         }
 
         // $jadwal = Jadwal::where('hari', $hariSekarang)->get();
-        $jadwal = DB::table('jadwal')->where('jurusan', $jurusan)->where('kelas', $kelas)->where('hari', $hariSekarang)->get();
+        $jadwal = DB::table('jadwal')
+        ->join('guru','jadwal.kode_guru','=','guru.id')
+        ->where('jurusan', $jurusan)
+        ->where('kelas', $kelas)
+        ->where('hari', $hariSekarang)
+        ->select('jadwal.*','guru.nama as nama_guru')
+        ->get();
+
 
         $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
         $prestasi = DB::table('prestasi')->where('id_user', $id)->count();
-        $mapel = DB::table('jadwal')->where('jurusan', $jurusan)->where('kelas', $kelas)->distinct('jadwal.nama_pelajaran')->count();
 
-        return view('siswa.index', compact('jadwal', 'hari', 'tgl', 'status', 'pengumuman', 'prestasi', 'mapel'));
+        $mapel = DB::table('jadwal')
+        ->where('jurusan', $jurusan)->where('kelas', $kelas)->distinct('jadwal.nama_pelajaran')->count();
+
+        $jmlhsiswa = DB::table('siswa')->where('jurusan',$jurusan)->where('kelas',$kelas)->count();
+
+        $namaWali = DB::table('siswa')->join('guru','siswa.id_guru','=','guru.id')->select('guru.nama as nama_guru')->get();
+
+        return view('siswa.index', compact('jadwal', 'hari', 'tgl', 'status', 'pengumuman', 'prestasi', 'mapel','jmlhsiswa','namaWali'));
     }
 
     public function surat()
