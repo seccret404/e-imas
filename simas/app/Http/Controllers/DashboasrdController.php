@@ -55,6 +55,18 @@ class DashboasrdController extends Controller
             ->where('role', "siswa")
             ->where('status', "2")
             ->count();
+        $absenguruterlambat = DB::table('presensiguru')
+            ->where('jam_masuk', '>', '08:00:00')
+            ->count();
+        $absengurutepat = DB::table('presensiguru')
+            ->where('jam_masuk', '<=', '08:00:00')
+            ->count();
+        $absensiswaterlambat = DB::table('presensisiswa')
+            ->where('jam_masuk', '>', '08:00:00')
+            ->count();
+        $absensiswatepat = DB::table('presensisiswa')
+            ->where('jam_masuk', '<=', '08:00:00')
+            ->count();
         $guru = Guru::count();
         $gender = [
             'Laki-laki' => intval($man),
@@ -74,7 +86,15 @@ class DashboasrdController extends Controller
             'approve' => intval($suratsiswaapprove),
             'tolak' => intval($suratsiswatolak)
         ];
-        return view('admin.index', compact('pengumuman', 'siswa', 'guru', 'man', 'woman', 'gender', 'genderguru', 'suratizinguru', 'suratizinsiswa'));
+        $absenguru = [
+            'terlambat' => intval($absenguruterlambat),
+            'tepat' => intval($absengurutepat)
+        ];
+        $absensiswa = [
+            'terlambat' => intval($absenguruterlambat),
+            'tepat' => intval($absengurutepat)
+        ];
+        return view('admin.index', compact('pengumuman', 'siswa', 'guru', 'man', 'woman', 'gender', 'genderguru', 'suratizinguru', 'suratizinsiswa', 'absenguru', 'absensiswa'));
     }
 
     public function guru()
