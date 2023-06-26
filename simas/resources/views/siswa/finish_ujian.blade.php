@@ -34,59 +34,57 @@
                 @endif
             </div>
             <div class="col-12">
-                <form class="card" action="/upload-tugas" method="POST">
+                {{-- <form class="card" action="/upload-tugas" method="POST">
                     @csrf
 
 
+ --}}
 
-
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label">Judul</label>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <h3>Tanggal Terkirim</h3>
-                                            </div>
-                                            <div class="col-8">
-                                                <h3>{{ $item->created_at ?? 'Tugas belum di submit' }}</h3>
-                                            </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label">Judul</label>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h3>Tanggal Terkirim</h3>
+                                        </div>
+                                        <div class="col-8">
+                                            <h3>{{ $item->created_at ?? 'Tugas belum di submit' }}</h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col-4">
-                                    <h3>Dedline Tugas</h3>
-                                </div>
-                                <div class="col-8">
-                                    <h3>{{ $item->dedline }}</h3>
-                                </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <h3>Dedline Tugas</h3>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="row">
-                                <div class="col-4">
-                                    <h3>File Tugas</h3>
-                                </div>
-                                <div class="col-8">
-                                    @if ($item->file_hasil_ujian)
-                                        <img src="{{ url('asset/hasil/' . $item->file_hasil_ujian) }}">
-                                    @endif
-                                </div>
+                            <div class="col-8">
+                                <h3>{{ $item->dedline }}</h3>
                             </div>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <h3>File Tugas</h3>
+                            </div>
+                            <div class="col-8">
+                                @if ($item->file_hasil_ujian)
+                                    <img src="{{ url('asset/hasil/' . $item->file_hasil_ujian) }}">
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="card-footer text-center ">
-                        <button class="btn btn-primary" type="submit">Kirim Tugas</button>
-                        </a>
-                    </div>
-                </form>
+                <div class="card-footer text-center ">
+                    <button class="btn btn-primary" style="color: white;"><a href="{{ url('/ujian-siswa') }}" style="color: white; text-decoration: none;">Kembali</a></button>
+                </div>
             </div>
 
         </div>

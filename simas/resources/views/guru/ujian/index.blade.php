@@ -179,20 +179,20 @@
                                     <div class="input-icon mb-3">
                                         <label class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="jenis"
-                                                value="Ujian" checked>
-                                            <span class="form-check-label">Ujian</span>
+                                                value="Ulangan" checked>
+                                            <span class="form-check-label">Ulangan</span>
                                         </label>
                                         <label class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="jenis"
-                                                value="Ulangan">
-                                            <span class="form-check-label">Ulangan</span>
+                                                value="UTS">
+                                            <span class="form-check-label">UTS</span>
+                                        </label>
+                                        <label class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="jenis"
+                                                value="UAS">
+                                            <span class="form-check-label">UAS</span>
                                         </label>
                                     </div>
-                                    {{-- <select name="jenis" id="kode_dept" class="form-select tomselected ">
-                                        <option class="text-muted" value="">Jenis Ujian</option>
-                                        <option class="text-muted" value="Ujian">Ujian</option>
-                                        <option class="text-muted" value="Ulangan">Ulangan</option>
-                                    </select> --}}
                                 </div>
 
                             </div>
