@@ -45,6 +45,7 @@ class SiswaController extends Controller
             ->where('kelas', $kelas)
             ->where('hari', $hariSekarang)
             ->select('jadwal.*', 'guru.nama as nama_guru','ruangan.nama_ruangan')
+            ->orderBy('jadwal.jam_masuk', 'asc')
             ->get();
 
 
