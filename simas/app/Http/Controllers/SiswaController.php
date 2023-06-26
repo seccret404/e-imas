@@ -40,10 +40,11 @@ class SiswaController extends Controller
         // $jadwal = Jadwal::where('hari', $hariSekarang)->get();
         $jadwal = DB::table('jadwal')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->join('ruangan','jadwal.ruangan','=','ruangan.id')
             ->where('jurusan', $jurusan)
             ->where('kelas', $kelas)
             ->where('hari', $hariSekarang)
-            ->select('jadwal.*', 'guru.nama as nama_guru')
+            ->select('jadwal.*', 'guru.nama as nama_guru','ruangan.nama_ruangan')
             ->get();
 
 
@@ -55,7 +56,10 @@ class SiswaController extends Controller
 
         $jmlhsiswa = DB::table('siswa')->where('jurusan', $jurusan)->where('kelas', $kelas)->count();
 
-        $namaWali = DB::table('siswa')->join('guru', 'siswa.id_guru', '=', 'guru.id')->select('guru.nama as nama_guru')->get();
+        $nisn = Auth::user()->id_user;
+        $namaWali = DB::table('siswa')->join('guru', 'siswa.id_guru', '=', 'guru.id')->select('guru.nama as nama_guru')
+        ->where('nisn',$nisn)
+        ->get();
 
         return view('siswa.index', compact('jadwal', 'hari', 'tgl', 'status', 'pengumuman', 'prestasi', 'mapel', 'jmlhsiswa', 'namaWali'));
     }

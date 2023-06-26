@@ -59,13 +59,6 @@
                                         </svg>Absens</a>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-12">
-
-                                </div>
-                            </div>
-
-
                             <div class="row mt-4">
                                 <table class="table table-bordered">
                                     <div class="col-12">
@@ -128,7 +121,7 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-                                            @endforeach -
+                                            @endforeach 
                                         </tbody>
                                 </table>
                             </div>

@@ -151,6 +151,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/prestasi', [SiswaController::class, 'prestasi']);
                 Route::post('/prestasi-add', [SiswaController::class, 'addpres']);
                 Route::post('/prestasi/{id}/delete', [SiswaController::class, 'deletepres']);
+                Route::get('/prestasi/{userId}', [PrestasiController::class,'getPrestasi']);
+
                 //tugas
                 Route::get('/upload/{id}', [SiswaController::class, 'addtugas']);
                 Route::post('/upload-tugas', [SiswaController::class, 'unggah']);

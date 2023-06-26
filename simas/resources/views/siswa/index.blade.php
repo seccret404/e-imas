@@ -133,13 +133,14 @@
             </div>
         </div>
         <div class="row mt-4">
-                <div class="col-8 ">
-                    <table class="table table-bordered">
+                <div class="col-9 ">
+                    <table class="table table-bordered data-table display nowrap" id="data" >
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Mata Pelajaran</th>
                             <th>Guru Pengajar</th>
+                            <th>Ruangan</th>
                             <th>Jam Masuk</th>
                             <th>Jam Keluar</th>
                             <th>Status Absen</th>
@@ -152,6 +153,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$item->nama_pelajaran}}</td>
                             <td>{{$item->nama_guru}}</td>
+                            <td>{{$item->nama_ruangan}}</td>
                             <td>{{$item->jam_masuk}}</td>
                             <td>{{$item->jam_selesai}}</td>
                             <td>{{$status}}</td>
@@ -160,7 +162,7 @@
                     </tbody>
                 </table>
                 </div>
-           <div class="col-4 border " style="border:45px;border-color:black" >
+           <div class="col-3 border " style="border:45px;border-color:black" >
             <div class="card-body">
                 <h3 class="card-title">Pengumuman</h3>
                 <hr>
@@ -187,6 +189,10 @@
 
 @push('myscript')
 <script>
-
+$(document).ready(function () {
+        $('#data').DataTable({
+            scrollX: true,
+        });
+    });
 </script>
 @endpush

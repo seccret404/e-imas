@@ -55,8 +55,21 @@
                                         @foreach ($prestasi as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{($item->name)}}</td>
-                                            <td>{{$jmlh->getCountBySameId();}}</td>
+                                            <td>{{($item->nama_siswa)}}</td>
+                                            <td>{{$item->jumlah_prestasi}}</td>
+                                            <td>
+                                                @php
+                                                    $listPrestasi = DB::table('prestasi')
+                                                    ->where('id_user', $item->id)
+                                                    ->get();
+                                                @endphp
+                                                <ul>
+                                                    @foreach ($listPrestasi as $prestasi)
+                                                    <li> <a href="{{  url('asset/prestasi/'.$prestasi->file) }}">{{$prestasi->nama_prestasi}}</a>  </li>
+                                                    @endforeach
+
+                                                </ul>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -73,21 +86,7 @@
     </div>
 </div>
 </div>
-{{--modal edit --}}
-<div class="modal modal-blur fade" id="modaledit_departemen" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="loadeditform">
 
-            </div>
-
-        </div>
-    </div>
-</div>
 {{-- modal add --}}
 <div class="modal modal-blur fade" id="modal_departemen" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -177,7 +176,10 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 @endsection
+
 
 @push('myscript')
 <script>

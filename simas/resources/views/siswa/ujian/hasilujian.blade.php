@@ -52,7 +52,9 @@
                               <thead>
                                 <tr>
                                   <th><button class="table-sort" data-sort="sort-name">Mata Pelajaran</button></th>
-                                  <th><button class="table-sort" data-sort="sort-city">Nilai</button></th>
+                                  <th><button class="table-sort" data-sort="sort-city">Nilai UTS</button></th>
+                                  <th><button class="table-sort" data-sort="sort-city">Nilai UAS</button></th>
+                                  <th><button class="table-sort" data-sort="sort-type">Hasil Akhir</button></th>
                                   <th><button class="table-sort" data-sort="sort-type">Grade</button></th>
 
                                 </tr>
@@ -61,13 +63,24 @@
                                 @foreach ($hasil as $item)
                                 <tr>
                                   <td class="sort-name">{{$item->mata_pelajaran}}</td>
-                                  <td class="sort-city">{{$item->nilai}}</td>
+                                  <td class="sort-city">
+                                    {{$item->nilai_uts}}
+                                 </td>
+                                 <td class="sort-city">{{$item->nilai_uas}}</td>
                                   <td class="sort-type">
-                                    @if ($item->nilai >= 80 )
+                                    @php
+                                        $hasilAkhir = ($item->nilai_uts + $item->nilai_uas)/2;
+
+                                    @endphp
+                                    {{$hasilAkhir}}
+
+                                  </td>
+                                  <td class="sort-city">
+                                    @if ($hasilAkhir >= 80 )
                                         A
-                                    @elseif($item->nilai <= 79 && $item->nilai >= 70)
+                                    @elseif($hasilAkhir <= 79 && $hasilAkhir >= 70)
                                         B
-                                    @elseif($item->nilai <= 69 && $item->nilai >= 60)
+                                    @elseif($hasilAkhir <= 69 && $hasilAkhir >= 60)
                                         C
                                     @else
                                         D
