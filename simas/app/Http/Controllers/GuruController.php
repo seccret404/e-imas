@@ -30,9 +30,10 @@ class GuruController extends Controller
             ->orderBy('jadwal.hari', 'asc')
             ->orderBy('jadwal.jam_masuk', 'asc')
             ->get();
+            $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
 
         // dd($jadwal);
-        return view('guru.index', compact('jadwal'));
+        return view('guru.index', compact('jadwal','pengumuman'));
     }
 
     public function surat()

@@ -133,8 +133,8 @@
             </div>
         </div>
         <div class="row mt-4">
-                <div class="col-9 ">
-                    <table class="table table-bordered data-table display nowrap" id="data" >
+                <div class="col ">
+                    <table class="table table-bordered data-table display nowrap w-100" id="data" >
                     <thead>
                         <tr>
                             <th>No</th>
@@ -162,23 +162,26 @@
                     </tbody>
                 </table>
                 </div>
-           <div class="col-3 border " style="border:45px;border-color:black" >
-            <div class="card-body">
-                <h3 class="card-title">Pengumuman</h3>
-                <hr>
-                <ul class="steps steps-vertical" style="padding:5px">
-                    @foreach ($pengumuman as $item)
-                     <li class="step-item">
-                        <div class="h4 m-0">{{$item->judul}}</div>
-                        <div class="text-muted">{{Str::words($item->info,4,'....')}}</div>
-                        <div class="div"><a href="/pengumuman/{{$item->id_pengumuman}}">Lihat</a></div>
-                    </li>
-                    @endforeach
+
+        </div>
+        <div class="row mt-5">
+            <div class="col border " style="border:45px;border-color:black" >
+                <div class="card-body">
+                    <h3 class="card-title">Pengumuman</h3>
+                    <hr>
+                    <ul class="steps steps-vertical" style="padding:5px">
+                        @foreach ($pengumuman as $item)
+                         <li class="step-item">
+                            <div class="h4 m-0">{{$item->judul}}</div>
+                            <div class="text-muted">{{Str::words($item->info,4,'....')}}</div>
+                            <div class="div"><a href="/pengumuman/{{$item->id_pengumuman}}">Lihat</a></div>
+                        </li>
+                        @endforeach
 
 
-                </ul>
-              </div>
-           </div>
+                    </ul>
+                  </div>
+               </div>
         </div>
     </div>
 </div>

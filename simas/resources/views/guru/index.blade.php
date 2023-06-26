@@ -66,6 +66,8 @@
                                                 <th>No</th>
                                                 <th>Hari</th>
                                                 <th>Nama Pelajaran</th>
+                                                <th>Kelas</th>
+                                                <th>Jurusan</th>
                                                 <th>Ruangan</th>
                                                 <th>Jam Masuk</th>
                                                 <th>Jam Selesai</th>
@@ -75,8 +77,10 @@
                                             @foreach ($jadwal as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $item->hari }}</td>
+                                                    <td>{{ $item->hari   }}</td>
                                                     <td>{{ $item->nama_pelajaran }}</td>
+                                                    <td>{{ $item->kelas }}</td>
+                                                    <td>{{ $item->jurusan }}</td>
                                                     <td>
                                                         {{ $item->nama_ruangan }}</td>
                                                         {{-- @if ($item->jam_masuk > '08:00:00')
@@ -97,6 +101,25 @@
                                             @endforeach
                                         </tbody>
                                 </table>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col border " style="border:45px;border-color:black" >
+                                    <div class="card-body">
+                                        <h3 class="card-title">Pengumuman</h3>
+                                        <hr>
+                                        <ul class="steps steps-vertical" style="padding:5px">
+                                            @foreach ($pengumuman as $item)
+                                             <li class="step-item">
+                                                <div class="h4 m-0">{{$item->judul}}</div>
+                                                <div class="text-muted">{{Str::words($item->info,4,'....')}}</div>
+                                                <div class="div"><a href="/pengumuman/{{$item->id_pengumuman}}">Lihat</a></div>
+                                            </li>
+                                            @endforeach
+
+
+                                        </ul>
+                                      </div>
+                                   </div>
                             </div>
                         </div>
 
