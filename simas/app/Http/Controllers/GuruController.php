@@ -15,7 +15,24 @@ class GuruController extends Controller
 {
     public function index()
     {
-        return view('guru.index');
+        $idUser = Auth::user()->id;
+
+        $idGuru = DB::table('users')
+            ->join('guru', 'users.id_user', '=', 'guru.npdn')
+            ->where('users.id', $idUser)
+            ->select('guru.id')
+            ->first();
+
+        $jadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->where('jadwal.kode_guru', $idGuru->id)
+            ->orderBy('jadwal.hari', 'asc')
+            ->orderBy('jadwal.jam_masuk', 'asc')
+            ->get();
+
+        // dd($jadwal);
+        return view('guru.index', compact('jadwal'));
     }
 
     public function surat()
@@ -231,7 +248,7 @@ class GuruController extends Controller
         $tahun = DB::table('akademik')->get();
         $mapel = DB::table('matapelajran')->get();
         // dd($nama);
-        return view('guru.ujian.index', compact('ujian', 'nama', 'tahun','mapel'));
+        return view('guru.ujian.index', compact('ujian', 'nama', 'tahun', 'mapel'));
     }
 
     public function addujian(Request $request)
@@ -262,7 +279,7 @@ class GuruController extends Controller
             'catatan' => $catatan,
             'file' => $namafile,
             'tahun_akademik' => $tahun,
-            'mapel'=>$mapel
+            'mapel' => $mapel
         ];
 
         $simpan = DB::table('ujian')->insert($data);
