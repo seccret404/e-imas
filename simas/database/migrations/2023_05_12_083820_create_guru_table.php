@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('tanggal_lahir');
             $table->string('no_hp');
             $table->string('jenis_kelamin');
+            $table->string('status')->default('aktif');
             $table->timestamps();
         });
     }
