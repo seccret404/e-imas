@@ -14,26 +14,26 @@
                 <div class="col-5">
                     <div class="card">
                         <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h3 class="card-title">Pengumuman</h3>
-                            </div>
-                            <div class="col-6">
-                                <span>
-                                    <a href="#" class="btn btn-primary" id="tambah_departemen">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-plus" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 5l0 14"></path>
-                                            <path d="M5 12l14 0"></path>
-                                        </svg> Buat Pengumuman
-                                    </a>
-                                </span>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3 class="card-title">Pengumuman</h3>
+                                </div>
+                                <div class="col-6">
+                                    <span>
+                                        <a href="#" class="btn btn-primary" id="tambah_departemen">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-plus" width="24" height="24"
+                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M12 5l0 14"></path>
+                                                <path d="M5 12l14 0"></path>
+                                            </svg> Buat Pengumuman
+                                        </a>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                         {{-- <div class="card-header">
                             <h4 class="card-title">Kunjungan Website E-Simas</h4>
                         </div>
@@ -431,7 +431,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             window.ApexCharts && (new ApexCharts(document.getElementById('chart-siswa'), {
                 chart: {
-                    type: "bar",
+                    type: "pie", // Ubah tipe grafik menjadi pie
                     fontFamily: 'inherit',
                     height: 240,
                     parentHeightOffset: 0,
@@ -440,76 +440,38 @@
                     },
                     animations: {
                         enabled: false
-                    },
-                    stacked: true,
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '50%',
                     }
                 },
+                labels: [
+                    "Laki-laki", "Perempuan"
+                ],
+                series: gender,
+                legend: {
+                    show: true, // Ubah show menjadi true agar legend ditampilkan
+                },
+                colors: [tabler.getColor("blue", 0.8), tabler.getColor("red", 0.8), tabler.getColor(
+                    "yellow", 0.8)],
                 dataLabels: {
-                    enabled: false,
+                    enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                    }
                 },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: "Jumlah",
-                    data: gender
-                }],
                 tooltip: {
                     theme: 'dark'
-                },
-                grid: {
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        left: -4,
-                        bottom: -4
-                    },
-                    strokeDashArray: 4,
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
-                    },
-                },
-                labels: [
-                    "Laki-laki", "Perempuan",
-                ],
-                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
-                    "green", 0.8)],
-                legend: {
-                    show: false,
                 },
             })).render();
         });
         // @formatter:on
     </script>
+
     <script>
         // @formatter:off
         var genderguru = <?php echo json_encode(array_values($genderguru)); ?>;
         document.addEventListener("DOMContentLoaded", function() {
             window.ApexCharts && (new ApexCharts(document.getElementById('chart-guru'), {
                 chart: {
-                    type: "bar",
+                    type: "pie", // Ubah tipe grafik menjadi pie
                     fontFamily: 'inherit',
                     height: 240,
                     parentHeightOffset: 0,
@@ -518,76 +480,38 @@
                     },
                     animations: {
                         enabled: false
-                    },
-                    stacked: true,
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '50%',
                     }
                 },
+                labels: [
+                    "Laki-laki", "Perempuan"
+                ],
+                series: genderguru,
+                legend: {
+                    show: true, // Ubah show menjadi true agar legend ditampilkan
+                },
+                colors: [tabler.getColor("blue", 0.8), tabler.getColor("red", 0.8), tabler.getColor(
+                    "yellow", 0.8)],
                 dataLabels: {
-                    enabled: false,
+                    enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                    }
                 },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: "Jumlah",
-                    data: genderguru
-                }],
                 tooltip: {
                     theme: 'dark'
-                },
-                grid: {
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        left: -4,
-                        bottom: -4
-                    },
-                    strokeDashArray: 4,
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
-                    },
-                },
-                labels: [
-                    "Laki-laki", "Perempuan",
-                ],
-                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
-                    "green", 0.8)],
-                legend: {
-                    show: false,
                 },
             })).render();
         });
         // @formatter:on
     </script>
+
     <script>
         // @formatter:off
         var suratizinguru = <?php echo json_encode(array_values($suratizinguru)); ?>;
         document.addEventListener("DOMContentLoaded", function() {
             window.ApexCharts && (new ApexCharts(document.getElementById('chart-suratguru'), {
                 chart: {
-                    type: "bar",
+                    type: "pie", // Ubah tipe grafik menjadi pie
                     fontFamily: 'inherit',
                     height: 240,
                     parentHeightOffset: 0,
@@ -596,76 +520,38 @@
                     },
                     animations: {
                         enabled: false
-                    },
-                    stacked: true,
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '50%',
                     }
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: "Jumlah",
-                    data: suratizinguru
-                }],
-                tooltip: {
-                    theme: 'dark'
-                },
-                grid: {
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        left: -4,
-                        bottom: -4
-                    },
-                    strokeDashArray: 4,
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
-                    },
                 },
                 labels: [
                     "Menunggu", "Disetujui", "Ditolak"
                 ],
-                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
-                    "green", 0.8)],
+                series: suratizinguru,
                 legend: {
-                    show: false,
+                    show: true, // Ubah show menjadi true agar legend ditampilkan
+                },
+                colors: [tabler.getColor("blue", 0.8), tabler.getColor("red", 0.8), tabler.getColor(
+                    "yellow", 0.8)],
+                dataLabels: {
+                    enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                    }
+                },
+                tooltip: {
+                    theme: 'dark'
                 },
             })).render();
         });
         // @formatter:on
     </script>
+
     <script>
         // @formatter:off
         var suratizinsiswa = <?php echo json_encode(array_values($suratizinsiswa)); ?>;
         document.addEventListener("DOMContentLoaded", function() {
             window.ApexCharts && (new ApexCharts(document.getElementById('chart-suratsiswa'), {
                 chart: {
-                    type: "bar",
+                    type: "pie", // Ubah tipe grafik menjadi pie
                     fontFamily: 'inherit',
                     height: 240,
                     parentHeightOffset: 0,
@@ -674,76 +560,38 @@
                     },
                     animations: {
                         enabled: false
-                    },
-                    stacked: true,
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '50%',
                     }
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: "Jumlah",
-                    data: suratizinsiswa
-                }],
-                tooltip: {
-                    theme: 'dark'
-                },
-                grid: {
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        left: -4,
-                        bottom: -4
-                    },
-                    strokeDashArray: 4,
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
-                    },
                 },
                 labels: [
                     "Menunggu", "Disetujui", "Ditolak"
                 ],
-                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
-                    "green", 0.8)],
+                series: suratizinsiswa,
                 legend: {
-                    show: false,
+                    show: true, // Ubah show menjadi true agar legend ditampilkan
+                },
+                colors: [tabler.getColor("blue", 0.8), tabler.getColor("red", 0.8), tabler.getColor(
+                    "yellow", 0.8)],
+                dataLabels: {
+                    enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                    }
+                },
+                tooltip: {
+                    theme: 'dark'
                 },
             })).render();
         });
         // @formatter:on
     </script>
+
     <script>
         // @formatter:off
         var absenguru = <?php echo json_encode(array_values($absenguru)); ?>;
         document.addEventListener("DOMContentLoaded", function() {
             window.ApexCharts && (new ApexCharts(document.getElementById('chart-absenguru'), {
                 chart: {
-                    type: "bar",
+                    type: "pie", // Ubah tipe grafik menjadi pie
                     fontFamily: 'inherit',
                     height: 240,
                     parentHeightOffset: 0,
@@ -752,76 +600,38 @@
                     },
                     animations: {
                         enabled: false
-                    },
-                    stacked: true,
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '50%',
                     }
                 },
+                labels: [
+                    "Terlambat", "Sudah Absen", "Belum Absen"
+                ],
+                series: absenguru,
+                legend: {
+                    show: true, // Ubah show menjadi true agar legend ditampilkan
+                },
+                colors: [tabler.getColor("blue", 0.8), tabler.getColor("red", 0.8), tabler.getColor(
+                    "yellow", 0.8)],
                 dataLabels: {
-                    enabled: false,
+                    enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                    }
                 },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: "Jumlah",
-                    data: absenguru
-                }],
                 tooltip: {
                     theme: 'dark'
-                },
-                grid: {
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        left: -4,
-                        bottom: -4
-                    },
-                    strokeDashArray: 4,
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
-                    },
-                },
-                labels: [
-                    "Terlambat", "Tidak Terlambat"
-                ],
-                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
-                    "green", 0.8)],
-                legend: {
-                    show: false,
                 },
             })).render();
         });
         // @formatter:on
     </script>
+
     <script>
         // @formatter:off
         var absensiswa = <?php echo json_encode(array_values($absensiswa)); ?>;
         document.addEventListener("DOMContentLoaded", function() {
             window.ApexCharts && (new ApexCharts(document.getElementById('chart-absensiswa'), {
                 chart: {
-                    type: "bar",
+                    type: "pie", // Ubah tipe grafik menjadi pie
                     fontFamily: 'inherit',
                     height: 240,
                     parentHeightOffset: 0,
@@ -830,64 +640,25 @@
                     },
                     animations: {
                         enabled: false
-                    },
-                    stacked: true,
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '50%',
                     }
                 },
+                labels: [
+                    "Terlambat", "Sudah Absen", "Belum Absen"
+                ],
+                series: absensiswa,
+                legend: {
+                    show: true, // Ubah show menjadi true agar legend ditampilkan
+                },
+                colors: [tabler.getColor("blue", 0.8), tabler.getColor("red", 0.8), tabler.getColor(
+                    "yellow", 0.8)],
                 dataLabels: {
-                    enabled: false,
+                    enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                    }
                 },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
-                    name: "Jumlah",
-                    data: absensiswa
-                }],
                 tooltip: {
                     theme: 'dark'
-                },
-                grid: {
-                    padding: {
-                        top: -20,
-                        right: 0,
-                        left: -4,
-                        bottom: -4
-                    },
-                    strokeDashArray: 4,
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
-                    },
-                },
-                labels: [
-                    "Terlambat", "Tidak Terlambat"
-                ],
-                colors: [tabler.getColor("primary"), tabler.getColor("primary", 0.8), tabler.getColor(
-                    "green", 0.8)],
-                legend: {
-                    show: false,
                 },
             })).render();
         });

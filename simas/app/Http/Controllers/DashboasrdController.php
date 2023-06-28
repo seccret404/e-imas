@@ -55,17 +55,36 @@ class DashboasrdController extends Controller
             ->where('role', "siswa")
             ->where('status', "2")
             ->count();
+
+        // $currentDate = date('Y-m-d');
+
+        // DB::table('presensiguru')
+        //     ->whereDate('created_at', '<', $currentDate)
+        //     ->delete();
+
+        // DB::table('presensisiswa')
+        //     ->whereDate('created_at', '<', $currentDate)
+        //     ->delete();
+
         $absenguruterlambat = DB::table('presensiguru')
             ->where('jam_masuk', '>', '08:00:00')
             ->count();
         $absengurutepat = DB::table('presensiguru')
             ->where('jam_masuk', '<=', '08:00:00')
             ->count();
+        $absengurubelum = DB::table('guru')
+            ->leftJoin('presensiguru', 'guru.id', '=', 'presensiguru.id_guru')
+            ->whereNull('presensiguru.id_guru')
+            ->count();
         $absensiswaterlambat = DB::table('presensisiswa')
             ->where('jam_masuk', '>', '08:00:00')
             ->count();
         $absensiswatepat = DB::table('presensisiswa')
             ->where('jam_masuk', '<=', '08:00:00')
+            ->count();
+        $absensiswabelum = DB::table('siswa')
+            ->leftJoin('presensisiswa', 'siswa.id', '=', 'presensisiswa.id_siswa')
+            ->whereNull('presensisiswa.id_siswa')
             ->count();
         $guru = Guru::count();
         $gender = [
@@ -88,11 +107,13 @@ class DashboasrdController extends Controller
         ];
         $absenguru = [
             'terlambat' => intval($absenguruterlambat),
-            'tepat' => intval($absengurutepat)
+            'tepat' => intval($absengurutepat),
+            'belum' => intval($absengurubelum)
         ];
         $absensiswa = [
             'terlambat' => intval($absenguruterlambat),
-            'tepat' => intval($absengurutepat)
+            'tepat' => intval($absengurutepat),
+            'belum' => intval($absensiswabelum)
         ];
         return view('admin.index', compact('pengumuman', 'siswa', 'guru', 'man', 'woman', 'gender', 'genderguru', 'suratizinguru', 'suratizinsiswa', 'absenguru', 'absensiswa'));
     }

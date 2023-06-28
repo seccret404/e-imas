@@ -216,6 +216,14 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::post('/update-absen-guru/{id}', [AbsensiController::class, 'update_absensi_guru']);
                 Route::get('/absenguru', [GuruController::class, 'absen']);
                 Route::post('/presensi/store/guru', [GuruController::class, 'store']);
+
+                //keahlian guru
+                Route::get('/keahlian', [GuruController::class, 'keahlian']);
+                Route::post('/keahlian-add', [GuruController::class, 'addkeahlian']);
+                Route::post('/keahlian/{id}/delete', [GuruController::class, 'deletekeahlian']);
+                Route::get('/keahlian/edit/{id}', [GuruController::class, 'editkeahlian']);
+                Route::post('/keahlian/edit/{id}', [GuruController::class, 'editkeahlianpros']);
+                // Route::get('/keahlian/{userId}', [PrestasiController::class,'getkeahlian']);
         });
 
         //siswa baru

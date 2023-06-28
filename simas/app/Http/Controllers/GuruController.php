@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hasil;
+use App\Models\KeahlianGuru;
 use App\Models\Surat;
 use App\Models\Tugas;
 use App\Models\Ujian;
@@ -27,7 +28,16 @@ class GuruController extends Controller
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
             ->where('jadwal.kode_guru', $idGuru->id)
-            ->orderBy('jadwal.hari', 'asc')
+            ->orderByRaw("CASE 
+                                WHEN jadwal.hari = 'Monday' THEN 1
+                                WHEN jadwal.hari = 'Tuesday' THEN 2
+                                WHEN jadwal.hari = 'Wednesday' THEN 3
+                                WHEN jadwal.hari = 'Thursday' THEN 4
+                                WHEN jadwal.hari = 'Friday' THEN 5
+                                WHEN jadwal.hari = 'Saturday' THEN 6
+                                WHEN jadwal.hari = 'Sunday' THEN 7
+                                ELSE 8
+                          END")
             ->orderBy('jadwal.jam_masuk', 'asc')
             ->get();
             $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
@@ -469,6 +479,94 @@ class GuruController extends Controller
                     }
                 }
             }
+        }
+    }
+
+    public function keahlian()
+    {
+        $keahlian = DB::table('keahlianguru')->get();
+        return view('guru.keahlian.index', compact('keahlian'));
+    }
+
+    public function addkeahlian(Request $request)
+    {
+        $id_user = Auth::user()->id;
+        $nama_keahlian = $request->nama_keahlian;
+        $catatan = $request->catatan;
+        $file = $request->file('file');
+        $namafile = $file->getClientOriginalName();
+        $tujuanFile = 'asset/keahlian';
+        $file->move($tujuanFile, $namafile);
+
+        $data = [
+            'nama_keahlian' => $nama_keahlian,
+            'id_user' => $id_user,
+            'file' => $namafile,
+            'catatan' => $catatan,
+            'created_at' => now()
+        ];
+
+        $simpan = DB::table('keahlianguru')->insert($data);
+
+        if ($simpan) {
+            return Redirect::back()->with(['success' => 'Data berhasil Tambah']);
+        } else {
+            return Redirect::back()->with(['error' => 'Data gagal di proses']);
+        }
+    }
+
+    public function deletekeahlian($id)
+    {
+
+        $delete = DB::table('keahlianguru')->where('id', $id)->delete();
+        if ($delete) {
+            return redirect('/keahlian')->with(['success' => "Keahlian Berhasil Di Hapus!"]);
+        } else {
+            return redirect('/keahlian')->with(['error' => "Gagal Di Hapus!"]);
+        }
+    }
+
+    public function editkeahlian($id)
+    {
+        $keahlian = KeahlianGuru::find($id);
+
+        return view('guru.keahlian.edit', compact('keahlian'));
+    }
+
+    public function editkeahlianpros(Request $request, $id)
+    {
+        // Validasi inputan jika diperlukan
+        $request->validate([
+            'nama_keahlian' => 'required',
+            'catatan' => 'required',
+        ]);
+
+        // Ambil data surat berdasarkan ID
+        $keahlian = KeahlianGuru::find($id);
+
+        // Simpan gambar lama
+        $namafile = $keahlian->file;
+
+        // Update data surat dengan nilai inputan
+        $keahlian->nama_keahlian = $request->nama_keahlian;
+        $keahlian->catatan = $request->catatan;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/keahlian';
+            $file->move($tujuanFile, $namafile);
+        }
+
+        $keahlian->file = $namafile;
+
+
+        // Simpan perubahan
+        $keahlian->save();
+
+        if ($keahlian) {
+            return redirect('/keahlian')->with(['success' => "Keahlian Berhasil Di Update!"]);
+        } else {
+            return redirect('/keahlian')->with(['error' => "Data Gagal Di Update"]);
         }
     }
 }
