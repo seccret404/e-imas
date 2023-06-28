@@ -132,7 +132,7 @@ class DashboasrdController extends Controller
             'jurusan' => $j,
             'kelas' => $k,
             'id_user' => $npdn,
-            'email' => $buatUsername,
+            'email' => $email,
             'password' => Hash::make($request->input('no_hp')),
             'role' => $role
         ]);
@@ -197,7 +197,7 @@ class DashboasrdController extends Controller
             'id_user' => $nisn,
             'jurusan' => $jurusan,
             'kelas' => $kelas,
-            'email' => $buatUsername,
+            'email' => $email,
             'password' => Hash::make($request->input('nisn')),
             'role' => $role,
         ]);
