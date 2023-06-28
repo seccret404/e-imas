@@ -22,11 +22,14 @@ return new class extends Migration
             $table->string('jurusan');
             $table->string('kelas');
             $table->string('password');
-            $table->string('role',12);
+            $table->string('role', 12);
+            $table->string('reset_password_token')->nullable();
+            $table->timestamp('reset_password_token_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
