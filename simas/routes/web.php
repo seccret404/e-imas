@@ -14,6 +14,7 @@ use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\SiswaBaruController;
 use App\Http\Controllers\DashboasrdController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,13 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         });
         Route::post('/login', [AuthController::class, 'proseslogin']);
         Route::post('/logout', [AuthController::class, 'logout']);
+
+        //fungsi forgot password
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+        Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
+        Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+        Route::view('/reset-password-success', 'auth.reset_password_success')->name('password.success');
 
         Route::middleware(['auth', 'role:admin'])->group(function () {
                 Route::get('/dashboard', [DashboasrdController::class, 'index']);
@@ -104,11 +112,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //pesam
                 Route::get('/email-all', [PesanController::class, 'pesan']);
                 Route::post('/admin/kirim-pesan', [PesanController::class, 'sendMessage']);
-                Route::get('/siswa-email',[PesanController::class,'siswa']);
-                Route::post('/admin/kirim-siswa',[PesanController::class,'sendsiswa']);
-                Route::get('/guru-email',[PesanController::class,'guru']);
-                Route::post('/admin/kirim-guru',[PesanController::class,'sendguru']);
-                Route::get('/wali-email',[PesanController::class,'wali']);
+                Route::get('/siswa-email', [PesanController::class, 'siswa']);
+                Route::post('/admin/kirim-siswa', [PesanController::class, 'sendsiswa']);
+                Route::get('/guru-email', [PesanController::class, 'guru']);
+                Route::post('/admin/kirim-guru', [PesanController::class, 'sendguru']);
+                Route::get('/wali-email', [PesanController::class, 'wali']);
 
                 //surat masuk
                 Route::get('/guru-surat', [SuratController::class, 'guru']);
@@ -118,7 +126,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
 
                 //prestasi
-                Route::get('/prestasi-admin',[PrestasiController::class,'index']);
+                Route::get('/prestasi-admin', [PrestasiController::class, 'index']);
         });
 
         Route::middleware(['auth', 'role:siswa'])->group(function () {
@@ -151,7 +159,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/prestasi', [SiswaController::class, 'prestasi']);
                 Route::post('/prestasi-add', [SiswaController::class, 'addpres']);
                 Route::post('/prestasi/{id}/delete', [SiswaController::class, 'deletepres']);
-                Route::get('/prestasi/{userId}', [PrestasiController::class,'getPrestasi']);
+                Route::get('/prestasi/{userId}', [PrestasiController::class, 'getPrestasi']);
 
                 //tugas
                 Route::get('/upload/{id}', [SiswaController::class, 'addtugas']);
@@ -178,7 +186,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::post('/update-absen/{id}', [AbsensiController::class, 'update']);
 
                 //hasil ujian
-                Route::get('/hasil-ujian',[HasilController::class,'index']);
+                Route::get('/hasil-ujian', [HasilController::class, 'index']);
         });
 
         Route::middleware(['auth', 'role:guru'])->group(function () {
