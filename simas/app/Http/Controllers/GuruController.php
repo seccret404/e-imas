@@ -40,10 +40,10 @@ class GuruController extends Controller
                           END")
             ->orderBy('jadwal.jam_masuk', 'asc')
             ->get();
-            $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
+        $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
 
         // dd($jadwal);
-        return view('guru.index', compact('jadwal','pengumuman'));
+        return view('guru.index', compact('jadwal', 'pengumuman'));
     }
 
     public function surat()
@@ -155,13 +155,20 @@ class GuruController extends Controller
 
     public function indext()
     {
-        $mapel = DB::table('matapelajran')->get();
-        $tugas = DB::table('tugas')->get();
+        $id_guru = Auth::user()->id;
+        $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->join('users', 'users.id_user', '=', 'guru.npdn')
+            ->where('users.id', $id_guru)
+            ->select('matapelajran.nama_pelajaran')
+            ->get();
+        $tugas = DB::table('tugas')->where('id_guru', $id_guru)->get();
+        // dd($mapel);
         return view('guru.tugas.index', compact('mapel', 'tugas'));
     }
     public function addtugas(Request $request)
     {
-
+        $id_guru = Auth::user()->id;
         $mapel = $request->nama_pelajaran;
         $judul = $request->judul;
         $dedline = $request->dedline;
@@ -175,6 +182,7 @@ class GuruController extends Controller
         $file->move($tujuanFile, $namafile);
 
         $data = [
+            'id_guru' => $id_guru,
             'nama_pelajaran' => $mapel,
             'judul' => $judul,
             'dedline' => $dedline,

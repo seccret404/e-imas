@@ -204,7 +204,7 @@
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard/guru">
+                    <a class="nav-link {{ \Request::is('dashboard/guru') ? 'active' : '' }}" href="/dashboard/guru">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -222,7 +222,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/detail-absen-guru">
+                    <a class="nav-link {{ \Request::is('detail-absen-guru') ? 'active' : '' }}" href="/detail-absen-guru">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +247,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/suratguru" data-bs-auto-close="false" role="button"
+                    <a class="nav-link {{ \Request::is('suratguru') ? 'active' : '' }}" href="/suratguru" data-bs-auto-close="false" role="button"
                         aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -268,7 +268,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tugasguru">
+                    <a class="nav-link {{ \Request::is('tugasguru') ? 'active' : '' }}" href="/tugasguru">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -291,7 +291,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tugasgurusubmitted">
+                    <a class="nav-link {{ \Request::is('tugasgurusubmitted') ? 'active' : '' }}" href="/tugasgurusubmitted">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -314,7 +314,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ujianguru">
+                    <a class="nav-link {{ \Request::is('ujianguru') ? 'active' : '' }}" href="/ujianguru">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -337,7 +337,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ujiangurusubmitted">
+                    <a class="nav-link {{ \Request::is('ujiangurusubmitted') ? 'active' : '' }}" href="/ujiangurusubmitted">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -360,7 +360,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/keahlian">
+                    <a class="nav-link {{ \Request::is('keahlian') ? 'active' : '' }}" href="/keahlian">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brain"
                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
