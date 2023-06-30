@@ -47,52 +47,52 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                          <div id="table-default" class="table-responsive">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th><button class="table-sort" data-sort="sort-name">Mata Pelajaran</button></th>
-                                  <th><button class="table-sort" data-sort="sort-city">Nilai UTS</button></th>
-                                  <th><button class="table-sort" data-sort="sort-city">Nilai UAS</button></th>
-                                  <th><button class="table-sort" data-sort="sort-type">Hasil Akhir</button></th>
-                                  <th><button class="table-sort" data-sort="sort-type">Grade</button></th>
+                            <div id="table-default" class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><button class="table-sort" data-sort="sort-name">Mata Pelajaran</button>
+                                            </th>
+                                            <th><button class="table-sort" data-sort="sort-city">Nilai Tugas</button></th>
+                                            <th><button class="table-sort" data-sort="sort-city">Nilai UTS</button></th>
+                                            <th><button class="table-sort" data-sort="sort-city">Nilai UAS</button></th>
+                                            <th><button class="table-sort" data-sort="sort-type">Hasil Akhir</button></th>
+                                            <th><button class="table-sort" data-sort="sort-type">Grade</button></th>
 
-                                </tr>
-                              </thead>
-                              <tbody class="table-tbody">
-                                @foreach ($hasil as $item)
-                                <tr>
-                                  <td class="sort-name">{{$item->mata_pelajaran}}</td>
-                                  <td class="sort-city">
-                                    {{$item->nilai_uts}}
-                                 </td>
-                                 <td class="sort-city">{{$item->nilai_uas}}</td>
-                                  <td class="sort-type">
-                                    @php
-                                        $hasilAkhir = ($item->nilai_uts + $item->nilai_uas)/2;
-
-                                    @endphp
-                                    {{$hasilAkhir}}
-
-                                  </td>
-                                  <td class="sort-city">
-                                    @if ($hasilAkhir >= 80 )
-                                        A
-                                    @elseif($hasilAkhir <= 79 && $hasilAkhir >= 70)
-                                        B
-                                    @elseif($hasilAkhir <= 69 && $hasilAkhir >= 60)
-                                        C
-                                    @else
-                                        D
-                                    @endif
-                                  </td>
-                                </tr>
-                                 @endforeach
-                            </tbody>
-                            </table>
-                          </div>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-tbody">
+                                        @foreach ($hasil as $item)
+                                            <tr>
+                                                <td class="sort-name">{{ $item->mata_pelajaran }}</td>
+                                                <td class="sort-city">{{ $item->nilai_tugas ?? '-' }}</td>
+                                                <td class="sort-city">{{ $item->nilai_uts ?? '-' }}</td>
+                                                <td class="sort-city">{{ $item->nilai_uas ?? '-' }}</td>
+                                                <td class="sort-type">
+                                                    @php
+                                                        $hasilAkhir = (($item->nilai_tugas ?? 0) + ($item->nilai_uts ?? 0) + ($item->nilai_uas ?? 0)) / 3;
+                                                        $hasilAkhirFormatted = number_format($hasilAkhir, 2);
+                                                    @endphp
+                                                    {{ $hasilAkhirFormatted }}
+                                                </td>
+                                                <td class="sort-city">
+                                                    @if ($hasilAkhir >= 80)
+                                                        A
+                                                    @elseif ($hasilAkhir <= 79 && $hasilAkhir >= 70)
+                                                        B
+                                                    @elseif ($hasilAkhir <= 69 && $hasilAkhir >= 60)
+                                                        C
+                                                    @else
+                                                        D
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
         </div>
