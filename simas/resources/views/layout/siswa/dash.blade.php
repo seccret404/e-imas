@@ -35,6 +35,7 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
+            background-color: #1A5F7A;
         }
 
     </style>

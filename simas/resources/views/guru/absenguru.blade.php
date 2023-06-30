@@ -8,7 +8,7 @@
                     <div class="page-pretitle">
 
                     </div>
-                    <h2 class="page-title">
+                    <h2 class="page-title text-white">
                         Data Absensi
                     </h2>
                 </div>
@@ -121,7 +121,7 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-                                            @endforeach 
+                                            @endforeach
                                         </tbody>
                                 </table>
                             </div>

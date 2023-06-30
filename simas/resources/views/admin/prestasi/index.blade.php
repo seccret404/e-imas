@@ -6,10 +6,10 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-                    Ruangan
+
                 </div>
-                <h2 class="page-title">
-                    Data Ruangan
+                <h2 class="page-title text-white">
+                    Data Prestasi Siswa
                 </h2>
             </div>
         </div>
@@ -41,7 +41,7 @@
 
 
                         <div class="row mt-4">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered data-table display nowrap w-100" id="data">
                                 <div class="col-12">
                                     <thead>
                                         <tr>
@@ -183,6 +183,11 @@
 
 @push('myscript')
 <script>
+        $(document).ready(function () {
+        $('#data').DataTable({
+            scrollX: true,
+        });
+    });
     $(function () {
         $("#tambah_departemen").click(function () {
             $("#modal_departemen").modal("show");

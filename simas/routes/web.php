@@ -50,8 +50,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/guru/edit/{id}', [DashboasrdController::class, 'editg']);
                 Route::post('/guru/edit/{id}', [DashboasrdController::class, 'editprosg']);
                 Route::post('/guru/{id}/delete', [DashboasrdController::class, 'deleteg']);
-                Route::get('/keahlian', [DashboasrdController::class, 'ahli']);
+                Route::get('/keahlian-admin', [DashboasrdController::class, 'ahli']);
                 Route::get('/keahlian/guru/{id}', [DashboasrdController::class, 'detailahli']);
+                Route::post('/update-guru/{id}',[DashboasrdController::class,'updateStatus']);
 
 
 

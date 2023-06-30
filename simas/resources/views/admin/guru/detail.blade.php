@@ -6,9 +6,8 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-                    Guru
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Data Guru
                 </h2>
             </div>
@@ -24,18 +23,18 @@
                         <div class="r0w">
                             <div class="col-12">
                                 @if (Session::get('success'))
-                                    <div class="alert alert-success">
+                                <div class="alert alert-success">
 
-                                            {{Session::get('success')}}
-                                    </div>
+                                    {{Session::get('success')}}
+                                </div>
                                 @endif
                                 @if (Session::get('error'))
                                 <div class="alert alert-danger">
 
-                                       {{ Session::get('error')}}
+                                    {{ Session::get('error')}}
 
                                 </div>
-                            @endif
+                                @endif
                             </div>
                         </div>
 
@@ -44,20 +43,59 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="guru">NIPDN:</label>
-                                    <input type="text" name="nama_departemen" class="form-control"
-                                        placeholder="" value="{{$guru->npdn}}">
+                                    <input type="text" disabled name="nama_departemen" class="form-control" placeholder=""
+                                        value="{{$guru->id_user}}">
                                 </div>
                             </div>
-                            <div class="col-4"><div class="form-group">
-                                <label for="guru">Nama Lengkap:</label>
-                                <input type="text" name="nama_departemen" class="form-control"
-                                    placeholder="" value="{{$guru->nama}}">
-                            </div></div>
-                            <div class="col-4"><div class="form-group">
-                          <label for="guru">Jumlah Kehalian:</label>
-                                <input type="text" name="nama_departemen" id="guru" class="form-control"
-                                    placeholder="" value="oks">
-                            </div></div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="guru">Nama Lengkap:</label>
+                                    <input type="text" disabled name="nama_departemen" class="form-control" placeholder=""
+                                        value="{{$guru->name}}">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group mt-3">
+
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        Lihat Keahlian
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Keahlian {{$guru->nama}}</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <ul class="list-group">
+                                                        @php
+                                                        $listPrestasi = DB::table('keahlianguru')
+                                                        ->where('id_user', $guru->id)
+                                                        ->get();
+                                                        @endphp
+                                                        @foreach ($listPrestasi as $item)
+                                                                    <li class="list-group-item"><a href="{{  url('asset/keahlian/'.$item->file) }}">{{$item->nama_keahlian}}</a></li>
+                                                        @endforeach
+
+                                                      </ul>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -69,18 +107,18 @@
                                             <th>No</th>
                                             <th>Nama Matapelajaran</th>
                                             <th>Jumlah Jam</th>
-                                            <th>Jurusan</th>
-                                            <th>Kelas</th>
+                                            {{-- <th>Jurusan</th>
+                                            <th>Kelas</th> --}}
                                         </tr>
                                     </thead>
-                                   <tbody>
-                                       @foreach ($pj as $item)
+                                    <tbody>
+                                        @foreach ($pj as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->nama_pelajaran}}</td>
                                             <td>{{$item->jumlah_jam_masuk}}</td>
 
-                                           {{-- <td>{{$item->jurusan}}</td>
+                                            {{-- <td>{{$item->jurusan}}</td>
                                             <td>{{$item->kelas}}</td> --}}
 
                                         </tr>
@@ -112,45 +150,45 @@
 
 
         });
-        $(".deletecom").click(function(e){
+        $(".deletecom").click(function (e) {
             var form = $(this).closest('form');
             e.preventDefault();
             Swal.fire({
-                     title: 'Apakah anda yakin?',
-                     text: "Ingin menghapus data ini!",
-                     icon: 'warning',
-                     showCancelButton: true,
-                     confirmButtonColor: '#3085d6',
-                     cancelButtonColor: '#d33',
-                     confirmButtonText: 'Ya'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                      Swal.fire(
+                title: 'Apakah anda yakin?',
+                text: "Ingin menghapus data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                    Swal.fire(
 
-                       'Deleted!',
-                       'Your file has been deleted.',
+                        'Deleted!',
+                        'Your file has been deleted.',
                         'success'
-                     )
-                     }
-                    })
+                    )
+                }
+            })
         });
         $(".edit").click(function () {
             var kode_dept = $(this).attr('kode_dept')
             $.ajax({
-                type:'POST'
-                , url:'/departemen/edit'
-                ,cache:false
-                ,data:{
-                    _token: "{{ csrf_token() }}"
-                    ,kode_dept:kode_dept
+                type: 'POST',
+                url: '/departemen/edit',
+                cache: false,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    kode_dept: kode_dept
                 },
-                success:function(respond){
+                success: function (respond) {
                     $("#loadeditform").html(respond);
                 }
 
             })
-           $("#modaledit_departemen").modal("show");
+            $("#modaledit_departemen").modal("show");
 
 
         });

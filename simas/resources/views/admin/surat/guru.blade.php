@@ -8,7 +8,7 @@
                 <div class="page-pretitle">
 
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Surat Masuk Guru
                 </h2>
             </div>
@@ -38,41 +38,11 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-12">
-                                <form action="/departemen" method="get">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <input type="text" name="nama_departemen" class="form-control"
-                                                    placeholder="Nama Siswa" value="{{Request('nama_departemen')}}">
-                                            </div>
-                                        </div>
 
-                                        <div class="col-2">
-                                            <div class="form-group">
-                                                <button class="btn btn-primary" type="submit">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-search" width="24"
-                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                        <path d="M21 21l-6 -6"></path>
-                                                    </svg> Cari
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
 
 
                         <div class="row mt-4">
-                            <table class="table table-bordered >
+                            <table class="table table-bordered data-table display nowrap w-100" id="data">
                                 <div class="col-12">
                                     <thead>
                                         <th>No</th>
@@ -385,6 +355,11 @@
 
 @push('myscript')
 <script>
+         $(document).ready(function () {
+        $('#data').DataTable({
+            scrollX: true,
+        });
+    });
     $(function () {
         $("#tambah_departemen").click(function () {
             $("#modal_departemen").modal("show");

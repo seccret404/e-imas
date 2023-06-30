@@ -8,7 +8,7 @@
                 <div class="page-pretitle">
 
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                    Surat Masuk Siswa
                 </h2>
             </div>

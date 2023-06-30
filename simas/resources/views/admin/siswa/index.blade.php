@@ -7,7 +7,7 @@
             <div class="col">
                 <div class="page-pretitle">
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Data Siswa
                 </h2>
             </div>
@@ -54,7 +54,7 @@
 
 
                         <div class="row mt-4">
-                            <table class=" text-white table table-bordered data-table border-2 display nowrap w-100" id="data" style="background-color: #001C30">
+                            <table class=" text-black table table-bordered data-table border-2 display nowrap w-100" id="data" >
                                 <div class="col-12">
                                     <thead>
                                         <tr>
@@ -66,6 +66,7 @@
                                             <th>Email</th>
                                             <th>Jurusan</th>
                                             <th>Kelas</th>
+                                            <th>Status</th>
                                             <th>Wali Kelas</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -81,6 +82,17 @@
                                             <td>{{$item->email}}</td>
                                             <td>{{$item->jurusan}}</td>
                                             <td>{{$item->kelas}}</td>
+                                            <td>
+                                                @if ($item->status == "aktif")
+                                                <div class="btn btn-success" disable>
+                                                    {{$item->status}}
+                                                </div>
+                                                @else
+                                                <div class="btn btn-danger" disable>
+                                                    {{$item->status}}
+                                                </div>
+                                                @endif
+                                            </td>
                                             <td>{{$item->nama_guru}}</td>
                                         <td>
                                             <a href="/siswa/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

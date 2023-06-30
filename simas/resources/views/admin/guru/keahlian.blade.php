@@ -79,8 +79,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Guru</th>
-                                            <th>NIPDN</th>
-                                            <th>Keahlian</th>
+                                            <th>Jumlah Keahlian</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -88,9 +87,10 @@
                                        @foreach ($guru as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$item->nama}}</td>
-                                            <td>{{$item->npdn}}</td>
-                                            <td>oks</td>
+                                            <td>{{$item->nama_guru}}</td>
+                                            <td>
+                                                {{$item->jumlah_keahlian}}
+                                            </td>
 
 
                                             <td>

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Siswa;
 use App\Models\Ruangan;
 use App\Models\Pelajaran;
+use App\Models\KeahlianGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -121,11 +122,18 @@ class DashboasrdController extends Controller
     public function guru()
     {
 
-        $guru =  DB::table('guru')->get();
+        $guru =  DB::table('guru')->where('status',"aktif")->get();
 
         return view('admin.guru.index', compact('guru'));
     }
-
+    public function updateStatus($id){
+            Guru::where('id',$id)->update(['status'=>"non-aktif"]);
+            return redirect('/guru')->with(['success',"Guru Berhasil Di Nonaktifka!!"]);
+    }
+    public function finish($id_pesanan) {
+        Pemesanan::where('id_pesanan', $id_pesanan)->update(['status' => 4]);
+        return redirect()->route('pemesanan');
+    }
     public function addguru(Request $request)
     {
         $nama = $request->nama;
@@ -630,21 +638,36 @@ class DashboasrdController extends Controller
 
     public function ahli()
     {
-        $guru = DB::table('guru')->get();
+        $guru = DB::table('users')
+        ->join('keahlianguru', 'users.id', '=', 'keahlianguru.id_user')
+        ->select('users.name as nama_guru','users.id as id', DB::raw('COUNT(keahlianguru.id) as jumlah_keahlian' ))
+        ->groupBy('users.id','users.name')
+        ->get();
 
         return view('admin.guru.keahlian', compact('guru'));
     }
 
     public function detailahli($id)
     {
-        $guru = Guru::find($id);
+        $guru = User::find($id);
 
-        $pj = DB::table('jadwal')
-            ->select('nama_pelajaran', DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(jam_selesai, jam_masuk)) / 3600) AS jumlah_jam_masuk'))
-            ->where('kode_guru', $id)
-            ->groupBy('nama_pelajaran')
-            ->get();
-        return view('admin.guru.detail', compact('guru', 'pj'));
+        $kode = DB::table('guru')
+            ->join('users', 'guru.npdn', '=', 'users.id_user')
+            ->select('guru.id')
+            ->where('users.id', '=', $id)
+            ->first();
+
+        if ($kode) {
+            $pj = DB::table('jadwal')
+                ->select('nama_pelajaran', DB::raw('SUM(TIME_TO_SEC(TIMEDIFF(jam_selesai, jam_masuk)) / 3600) AS jumlah_jam_masuk'))
+                ->where('kode_guru', $kode->id)
+                ->groupBy('nama_pelajaran')
+                ->get();
+
+            return view('admin.guru.detail', compact('guru', 'pj'));
+        }else{
+            "oke";
+        }
     }
 
 

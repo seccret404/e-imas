@@ -16,7 +16,7 @@
             <div class="col">
                 <div class="page-pretitle">
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Data Guru
                 </h2>
             </div>
@@ -27,7 +27,7 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-12">
-                <div class="card card-sm" style="background-color: #596B85">
+                <div class="card card-sm">
                     <div class="card-body">
                         <div class="r0w">
                             <div class="col-12">
@@ -73,12 +73,13 @@
                                             <th>NIPDN</th>
                                             <th>alamat</th>
                                             <th>No Telepon</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($guru as $item)
-                                        <tr class="text-center text-white">
+                                        <tr class="text-center text-black">
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->nama}}</td>
                                             <td class="text-center"><a
@@ -88,6 +89,17 @@
                                             <td>{{$item->npdn}}</td>
                                             <td>{{$item->alamat}}</td>
                                             <td>{{$item->no_hp}}</td>
+                                            <td>
+                                                @if ($item->status == "aktif")
+                                                <div class="btn btn-success" disable>
+                                                    {{$item->status}}
+                                                </div>
+                                                @else
+                                                <div class="btn btn-danger" disable>
+                                                    {{$item->status}}
+                                                </div>
+                                                @endif
+                                            </td>
 
                                             <td class="text-center">
                                                 <div class="row text-center">
@@ -108,6 +120,12 @@
                                                                 <path d="M16 18h4m-2 -2v4"></path>
                                                             </svg>
                                                         </a>
+                                                    </div>
+                                                    <div class="col">
+                                                        <form action="/update-guru/{{$item->id}}" method="POST">
+                                                            @csrf
+                                                            <button class="btn btn-warning" type="submit">Nonaktifkan</button>
+                                                        </form>
                                                     </div>
                                                     <div class="col">
                                                         <form method="POST" action="/guru/{{$item->id}}/delete"

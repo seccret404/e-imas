@@ -8,9 +8,9 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                        Guru
+
                     </div>
-                    <h2 class="page-title">
+                    <h2 class="page-title text-white">
                         Surat Izin
                     </h2>
                 </div>

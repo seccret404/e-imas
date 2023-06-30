@@ -182,7 +182,7 @@
                   <a class="dropdown-item" href="/guru">
                     Data Guru
                   </a>
-                  <a class="dropdown-item" href="/keahlian">
+                  <a class="dropdown-item" href="/keahlian-admin">
                     Keahlian Guru
                   </a>
                   <a class="dropdown-item" href="/siswa">
