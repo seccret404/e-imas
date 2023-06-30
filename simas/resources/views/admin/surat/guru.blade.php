@@ -72,7 +72,7 @@
 
 
                         <div class="row mt-4">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered >
                                 <div class="col-12">
                                     <thead>
                                         <th>No</th>

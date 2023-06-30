@@ -1,12 +1,20 @@
 @extends('layout.admin.dash')
 
 @section('content')
+<style>
+    input[type="search"] {
+      width: 200px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    </style>
+
 <div class="page-header d-print-none">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-                    Guru
                 </div>
                 <h2 class="page-title">
                     Data Guru
@@ -19,23 +27,23 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-12">
-                <div class="card card-sm">
+                <div class="card card-sm" style="background-color: #596B85">
                     <div class="card-body">
                         <div class="r0w">
                             <div class="col-12">
                                 @if (Session::get('success'))
-                                    <div class="alert alert-success">
+                                <div class="alert alert-success">
 
-                                            {{Session::get('success')}}
-                                    </div>
+                                    {{Session::get('success')}}
+                                </div>
                                 @endif
                                 @if (Session::get('error'))
                                 <div class="alert alert-danger">
 
-                                       {{ Session::get('error')}}
+                                    {{ Session::get('error')}}
 
                                 </div>
-                            @endif
+                                @endif
                             </div>
                         </div>
                         <div class="row">
@@ -51,46 +59,17 @@
                                     </svg>Tambah Data </a>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-12">
-                                <form action="/departemen" method="get">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <input type="text" name="nama_departemen" class="form-control"
-                                                    placeholder="Nama guru" value="{{Request('nama_departemen')}}">
-                                            </div>
-                                        </div>
 
-                                        <div class="col-2">
-                                            <div class="form-group">
-                                                <button class="btn btn-primary" type="submit">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-search" width="24"
-                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                        <path d="M21 21l-6 -6"></path>
-                                                    </svg> Cari
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
 
 
                         <div class="row mt-4">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered data-table display nowrap w-100" id="data">
                                 <div class="col-12">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Guru</th>
+                                            <th>Gambar</th>
                                             <th>NIPDN</th>
                                             <th>alamat</th>
                                             <th>No Telepon</th>
@@ -98,35 +77,66 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       @foreach ($guru as $item)
-                                        <tr>
+                                        @foreach ($guru as $item)
+                                        <tr class="text-center text-white">
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$item->nama}}</td>
+                                            <td class="text-center"><a
+                                                    href="{{ url('/asset/guru/'.$item->profil) }}"><img
+                                                        src="{{ url('/asset/guru/'.$item->profil) }}" width="100px"
+                                                        alt=""></a></td>
                                             <td>{{$item->npdn}}</td>
                                             <td>{{$item->alamat}}</td>
                                             <td>{{$item->no_hp}}</td>
 
-                                            <td>
-                                                <a href="/guru/edit/{{$item->id}}" class=" btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                    <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
-                                                    <path d="M13.5 6.5l4 4"></path>
-                                                    <path d="M16 18h4m-2 -2v4"></path>
-                                                 </svg> </a>
-                                                 <form method="POST" action="/guru/{{$item->id}}/delete" class="mt-2">
-                                                    @csrf
-
-                                                    <a class="btn btn-danger deletecom" >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M4 7l16 0"></path>
-                                                            <path d="M10 11l0 6"></path>
-                                                            <path d="M14 11l0 6"></path>
-                                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                                                         </svg>
+                                            <td class="text-center">
+                                                <div class="row text-center">
+                                                    <div class="col text-center">
+                                                        <a href="/guru/edit/{{$item->id}}"
+                                                            class=" btn btn-primary">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="icon icon-tabler icon-tabler-pencil-plus"
+                                                                width="24" height="24" viewBox="0 0 24 24"
+                                                                stroke-width="2" stroke="currentColor" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                </path>
+                                                                <path
+                                                                    d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
+                                                                </path>
+                                                                <path d="M13.5 6.5l4 4"></path>
+                                                                <path d="M16 18h4m-2 -2v4"></path>
+                                                            </svg>
                                                         </a>
-                                                </form>
+                                                    </div>
+                                                    <div class="col">
+                                                        <form method="POST" action="/guru/{{$item->id}}/delete"
+                                                            class="">
+                                                            @csrf
+
+                                                            <a class="btn btn-danger deletecom">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-trash"
+                                                                    width="24" height="24" viewBox="0 0 24 24"
+                                                                    stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                    </path>
+                                                                    <path d="M4 7l16 0"></path>
+                                                                    <path d="M10 11l0 6"></path>
+                                                                    <path d="M14 11l0 6"></path>
+                                                                    <path
+                                                                        d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                    </path>
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
+                                                                    </path>
+                                                                </svg>
+                                                            </a>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+
                                             </td>
 
 
@@ -157,7 +167,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/guru-add"  method="POST" id="form_departemen" enctype="multipart/form-data">
+                <form action="/guru-add" method="POST" id="form_departemen" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-12">
@@ -186,10 +196,15 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-map-pin-filled" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" stroke-width="0" fill="currentColor"></path>
-                                     </svg>
+                                        <path
+                                            d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z"
+                                            stroke-width="0" fill="currentColor"></path>
+                                    </svg>
                                 </span>
                                 <input type="text" value="" id="nama_dept" name="tempat_lahir" class="form-control"
                                     placeholder="Tempat Lahir">
@@ -202,14 +217,19 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-calendar-due" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                                        <path
+                                            d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                                        </path>
                                         <path d="M16 3v4"></path>
                                         <path d="M8 3v4"></path>
                                         <path d="M4 11h16"></path>
                                         <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                     </svg>
+                                    </svg>
                                 </span>
                                 <input type="date" value="" id="nama_dept" name="tanggal_lahir" class="form-control"
                                     placeholder="BATAM....">
@@ -223,15 +243,20 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock-access" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-lock-access" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M4 8v-2a2 2 0 0 1 2 -2h2"></path>
                                         <path d="M4 16v2a2 2 0 0 0 2 2h2"></path>
                                         <path d="M16 4h2a2 2 0 0 1 2 2v2"></path>
                                         <path d="M16 20h2a2 2 0 0 0 2 -2v-2"></path>
-                                        <path d="M8 11m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z"></path>
+                                        <path
+                                            d="M8 11m0 1a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1z">
+                                        </path>
                                         <path d="M10 11v-2a2 2 0 1 1 4 0v2"></path>
-                                     </svg>
+                                    </svg>
                                 </span>
                                 <input type="text" value="" id="nama_dept" name="npdn" class="form-control"
                                     placeholder="NPDN">
@@ -245,17 +270,24 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-masks-theater" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-masks-theater" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M13.192 9h6.616a2 2 0 0 1 1.992 2.183l-.567 6.182a4 4 0 0 1 -3.983 3.635h-1.5a4 4 0 0 1 -3.983 -3.635l-.567 -6.182a2 2 0 0 1 1.992 -2.183z"></path>
+                                        <path
+                                            d="M13.192 9h6.616a2 2 0 0 1 1.992 2.183l-.567 6.182a4 4 0 0 1 -3.983 3.635h-1.5a4 4 0 0 1 -3.983 -3.635l-.567 -6.182a2 2 0 0 1 1.992 -2.183z">
+                                        </path>
                                         <path d="M15 13h.01"></path>
                                         <path d="M18 13h.01"></path>
                                         <path d="M15 16.5c1 .667 2 .667 3 0"></path>
-                                        <path d="M8.632 15.982a4.037 4.037 0 0 1 -.382 .018h-1.5a4 4 0 0 1 -3.983 -3.635l-.567 -6.182a2 2 0 0 1 1.992 -2.183h6.616a2 2 0 0 1 2 2"></path>
+                                        <path
+                                            d="M8.632 15.982a4.037 4.037 0 0 1 -.382 .018h-1.5a4 4 0 0 1 -3.983 -3.635l-.567 -6.182a2 2 0 0 1 1.992 -2.183h6.616a2 2 0 0 1 2 2">
+                                        </path>
                                         <path d="M6 8h.01"></path>
                                         <path d="M9 8h.01"></path>
                                         <path d="M6 12c.764 -.51 1.528 -.63 2.291 -.36"></path>
-                                     </svg>
+                                    </svg>
                                 </span>
                                 <input type="text" value="" id="nama_dept" name="kode_guru" class="form-control"
                                     placeholder="inisial">
@@ -270,13 +302,16 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-home-search" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M21 12l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h4.7"></path>
                                         <path d="M9 21v-6a2 2 0 0 1 2 -2h2"></path>
                                         <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                                         <path d="M20.2 20.2l1.8 1.8"></path>
-                                     </svg>
+                                    </svg>
                                 </span>
                                 <input type="text" value="" id="nama_dept" name="alamat" class="form-control"
                                     placeholder="Alamat">
@@ -291,15 +326,20 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-address-book" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-address-book" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z"></path>
+                                        <path
+                                            d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z">
+                                        </path>
                                         <path d="M10 16h6"></path>
                                         <path d="M13 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
                                         <path d="M4 8h3"></path>
                                         <path d="M4 12h3"></path>
                                         <path d="M4 16h3"></path>
-                                     </svg>
+                                    </svg>
                                 </span>
                                 <input type="text" value="" id="nama_dept" name="no_hp" class="form-control"
                                     placeholder="no telepon">
@@ -313,14 +353,21 @@
                             <div class="input-icon mb-3">
                                 <span class="input-icon-addon">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-address-book" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-address-book" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-mail-plus" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 19h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v5.5"></path>
+                                            <path d="M12 19h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v5.5">
+                                            </path>
                                             <path d="M16 19h6"></path>
                                             <path d="M19 16v6"></path>
                                             <path d="M3 7l9 6l9 -6"></path>
-                                         </svg>
+                                        </svg>
                                 </span>
                                 <input type="email" value="" id="nama_dept" name="email" class="form-control"
                                     placeholder="email">
@@ -333,11 +380,13 @@
                                 <div class="form-label">Jenis Kelamin</div>
                                 <div>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin" value="Laki-laki" checked="">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin"
+                                            value="Laki-laki" checked="">
                                         <span class="form-check-label">Laki-laki</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jenis_kelamin" value="Perempuan">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin"
+                                            value="Perempuan">
                                         <span class="form-check-label">Perempuan</span>
                                     </label>
 
@@ -350,7 +399,7 @@
                             <div class="mb-3">
                                 <div class="form-label">Unggah Foto</div>
                                 <input type="file" class="form-control" name="profil">
-                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -370,51 +419,57 @@
 
 @push('myscript')
 <script>
+    $(document).ready(function () {
+        $('#data').DataTable({
+            scrollX: true,
+        });
+    });
+
     $(function () {
         $("#tambah_departemen").click(function () {
             $("#modal_departemen").modal("show");
 
 
         });
-        $(".deletecom").click(function(e){
+        $(".deletecom").click(function (e) {
             var form = $(this).closest('form');
             e.preventDefault();
             Swal.fire({
-                     title: 'Apakah anda yakin?',
-                     text: "Ingin menghapus data ini!",
-                     icon: 'warning',
-                     showCancelButton: true,
-                     confirmButtonColor: '#3085d6',
-                     cancelButtonColor: '#d33',
-                     confirmButtonText: 'Ya'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                      Swal.fire(
+                title: 'Apakah anda yakin?',
+                text: "Ingin menghapus data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                    Swal.fire(
 
-                       'Deleted!',
-                       'Your file has been deleted.',
+                        'Deleted!',
+                        'Your file has been deleted.',
                         'success'
-                     )
-                     }
-                    })
+                    )
+                }
+            })
         });
         $(".edit").click(function () {
             var kode_dept = $(this).attr('kode_dept')
             $.ajax({
-                type:'POST'
-                , url:'/departemen/edit'
-                ,cache:false
-                ,data:{
-                    _token: "{{ csrf_token() }}"
-                    ,kode_dept:kode_dept
+                type: 'POST',
+                url: '/departemen/edit',
+                cache: false,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    kode_dept: kode_dept
                 },
-                success:function(respond){
+                success: function (respond) {
                     $("#loadeditform").html(respond);
                 }
 
             })
-           $("#modaledit_departemen").modal("show");
+            $("#modaledit_departemen").modal("show");
 
 
         });
