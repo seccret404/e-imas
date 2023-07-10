@@ -258,7 +258,7 @@
                             <table class="table card-table table-vcenter">
                                 @foreach ($pengumuman as $item)
                                     <tbody>
-                                        <tr>
+                                        <tr >
 
                                             <td class="w-50">
                                                 <p>{{ $item->judul }}</p>

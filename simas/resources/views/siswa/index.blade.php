@@ -169,12 +169,12 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Pengumuman</h3>
                     <hr>
-                    <ul class="steps steps-vertical" style="padding:5px">
+                    <ul class="steps steps-vertical text-white" style="padding:5px">
                         @foreach ($pengumuman as $item)
-                         <li class="step-item">
-                            <div class="h4 m-0">{{$item->judul}}</div>
-                            <div class="text-muted">{{Str::words($item->info,4,'....')}}</div>
-                            <div class="div"><a href="/pengumuman/{{$item->id_pengumuman}}">Lihat</a></div>
+                         <li class="step-item text-white">
+                            <div class="h4 m-0 text-white">{{$item->judul}}</div>
+                            <div class="text-black">{{Str::words($item->info,4,'....')}}</div>
+                            <div class="div btn btn-white"><a href="/pengumuman/{{$item->id_pengumuman}}">Lihat</a></div>
                         </li>
                         @endforeach
 
