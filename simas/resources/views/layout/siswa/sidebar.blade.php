@@ -204,7 +204,7 @@
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard/siswa">
+                    <a class="nav-link {{ \Request::is('dashboard/siswa') ? 'active' : '' }}" href="/dashboard/siswa">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -222,7 +222,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/detail-absen">
+                    <a class="nav-link {{ \Request::is('detail-absen') ? 'active' : '' }}" href="/detail-absen">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +247,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/forum">
+                    <a class="nav-link {{ \Request::is('forum') ? 'active' : '' }}" href="/forum">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2"
@@ -267,7 +267,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tugas-siswa">
+                    <a class="nav-link {{ \Request::is('tugas-siswa') ? 'active' : '' }}" href="/tugas-siswa">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus"
@@ -285,7 +285,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ujian-siswa" data-bs-auto-close="false" role="button"
+                    <a class="nav-link {{ \Request::is('ujian-siswa') ? 'active' : '' }}" href="/ujian-siswa" data-bs-auto-close="false" role="button"
                         aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -306,7 +306,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/hasil-ujian" data-bs-auto-close="false" role="button"
+                    <a class="nav-link {{ \Request::is('hasil-ujian') ? 'active' : '' }}" href="/hasil-ujian" data-bs-auto-close="false" role="button"
                         aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -327,7 +327,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/prestasi">
+                    <a class="nav-link {{ \Request::is('prestasi') ? 'active' : '' }}" href="/prestasi">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award-filled"
@@ -351,7 +351,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/surat" data-bs-auto-close="false" role="button"
+                    <a class="nav-link {{ \Request::is('surat') ? 'active' : '' }}" href="/surat" data-bs-auto-close="false" role="button"
                         aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/package -->

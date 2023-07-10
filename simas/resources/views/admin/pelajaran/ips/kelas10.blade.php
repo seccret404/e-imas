@@ -5,10 +5,10 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
-                <div class="page-pretitle">
+                <div class="page-pretitle text-white">
                     IPS
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Kelas 10
                 </h2>
             </div>

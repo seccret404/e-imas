@@ -149,7 +149,7 @@
                     </thead>
                     <tbody>
                         @foreach ($jadwal as $item)
-                        <tr>
+                        <tr class="text-white">
                             <td>{{$loop->iteration}}</td>
                             <td>{{$item->nama_pelajaran}}</td>
                             <td>{{$item->nama_guru}}</td>
@@ -167,7 +167,7 @@
         <div class="row mt-5">
             <div class="col border " style="border:45px;border-color:black" >
                 <div class="card-body">
-                    <h3 class="card-title">Pengumuman</h3>
+                    <h3 class="card-title text-white">Pengumuman</h3>
                     <hr>
                     <ul class="steps steps-vertical" style="padding:5px">
                         @foreach ($pengumuman as $item)

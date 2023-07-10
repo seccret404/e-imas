@@ -6,9 +6,9 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-                    Email
+                    
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Email Kesemua siswa
                 </h2>
             </div>

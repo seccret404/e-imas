@@ -8,7 +8,7 @@
                     <div class="page-pretitle">
 
                     </div>
-                    <h2 class="page-title">
+                    <h2 class="page-title text-white">
                         Data sekolah </h2>
                 </div>
                 <div class="col-5">

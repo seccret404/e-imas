@@ -6,9 +6,9 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-                    Pelajaran
+
                 </div>
-                <h2 class="page-title">
+                <h2 class="page-title text-white">
                     Mata Pelajaran
                 </h2>
             </div>

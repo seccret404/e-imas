@@ -264,6 +264,10 @@ class DashboasrdController extends Controller
 
     public function addakademik(Request $request)
     {
+        $request->validate([
+           
+            'nama'=>'required|unique:akademik'
+        ]);
         $tahun = $request->tahun;
         $nama = $request->nama;
 
