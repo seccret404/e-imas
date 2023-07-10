@@ -285,6 +285,42 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ \Request::is('tugas-siswa-terkirim') ? 'active' : '' }}" href="/tugas-siswa-terkirim">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus"
+                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
+                                <path d="M13.5 6.5l4 4"></path>
+                                <path d="M16 18h4m-2 -2v4"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Tugas Terkirim
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ \Request::is('tugas-siswa-terlambat') ? 'active' : '' }}" href="/tugas-siswa-terlambat">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus"
+                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z"></path>
+                                <path d="M13.5 6.5l4 4"></path>
+                                <path d="M16 18h4m-2 -2v4"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Tugas Terlambat
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ \Request::is('ujian-siswa') ? 'active' : '' }}" href="/ujian-siswa" data-bs-auto-close="false" role="button"
                         aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -302,6 +338,48 @@
                         </span>
                         <span class="nav-link-title">
                             Ujian
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ \Request::is('ujian-siswa-terkirim') ? 'active' : '' }}" href="/ujian-siswa-terkirim" data-bs-auto-close="false" role="button"
+                        aria-expanded="false">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" />
+                                <path d="M12 12l8 -4.5" />
+                                <path d="M12 12l0 9" />
+                                <path d="M12 12l-8 -4.5" />
+                                <path d="M16 5.25l-8 4.5" />
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Ujian Terkirim
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ \Request::is('ujian-siswa-terlambat') ? 'active' : '' }}" href="/ujian-siswa-terlambat" data-bs-auto-close="false" role="button"
+                        aria-expanded="false">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" />
+                                <path d="M12 12l8 -4.5" />
+                                <path d="M12 12l0 9" />
+                                <path d="M12 12l-8 -4.5" />
+                                <path d="M16 5.25l-8 4.5" />
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Ujian Terlambat
                         </span>
                     </a>
                 </li>
