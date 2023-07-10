@@ -143,21 +143,7 @@
     </div>
 </div>
 </div>
-{{--modal edit --}}
-<div class="modal modal-blur fade" id="modaledit_departemen" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="loadeditform">
 
-            </div>
-
-        </div>
-    </div>
-</div>
 {{-- modal add --}}
 <div class="modal modal-blur fade" id="modal_departemen" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -187,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-12">
 
                             <div class="form-gorup">
@@ -219,7 +205,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row mt-3">
                         <div class="col-12">

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('matapelajran', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pelajaran');
-            $table->string('kode_guru');
-            $table->string('nama');
+            // $table->string('kode_guru');
+            // $table->string('nama');
             $table->string('jurusan');
             $table->string('kelas');
             $table->timestamps();

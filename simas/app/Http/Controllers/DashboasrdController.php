@@ -265,7 +265,7 @@ class DashboasrdController extends Controller
     public function addakademik(Request $request)
     {
         $request->validate([
-           
+
             'nama'=>'required|unique:akademik'
         ]);
         $tahun = $request->tahun;
@@ -301,15 +301,11 @@ class DashboasrdController extends Controller
 
 
         $nama_pelajaran = $request->nama_pelajaran;
-        $nama = $request->nama;
-        $kode_guru = $request->kode_guru;
         $jurusan = $request->jurusan;
         $kelas = $request->kelas;
 
         $data = [
             'nama_pelajaran' => $nama_pelajaran,
-            'nama' => $nama,
-            'kode_guru' => $kode_guru,
             'jurusan' => $jurusan,
             'kelas' => $kelas
         ];
