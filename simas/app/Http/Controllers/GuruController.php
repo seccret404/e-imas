@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Hasil;
-use App\Models\KeahlianGuru;
 use App\Models\Surat;
 use App\Models\Tugas;
 use App\Models\Ujian;
+use App\Models\KeahlianGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,9 @@ class GuruController extends Controller
     public function index()
     {
         $idUser = Auth::user()->id;
+        $hariIni = Carbon::now();
+        $tgl = $hariIni->format('d-m-Y');
+        $hari = $hariIni->formatLocalized('%A');
 
         $idGuru = DB::table('users')
             ->join('guru', 'users.id_user', '=', 'guru.npdn')
@@ -43,7 +47,7 @@ class GuruController extends Controller
         $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
 
         // dd($jadwal);
-        return view('guru.index', compact('jadwal', 'pengumuman'));
+        return view('guru.index', compact('jadwal', 'pengumuman', 'tgl', 'hari'));
     }
 
     public function surat()
@@ -215,11 +219,90 @@ class GuruController extends Controller
     public function tugassubmitted()
     {
         $tugas = DB::table('tugas')
-            ->orderBy('dedline', 'asc')
+            ->orderBy('tugas.dedline', 'asc')
             ->get();
 
-        return view('guru.tugas.tugasSubmitted', compact('tugas'));
+        $tugasIdArray = $tugas->pluck('id_tugas')->toArray();
+
+        $jlhPengumpul = DB::table('tugas')
+            ->join('siswa', function ($join) {
+                $join->on('tugas.jurusan', '=', 'siswa.jurusan')
+                    ->on('tugas.kelas', '=', 'siswa.kelas');
+            })
+            ->groupBy('tugas.id_tugas')
+            ->select('tugas.id_tugas', DB::raw('count(siswa.id) as jumlah_pengumpul'))
+            ->get();
+
+        $jlhSudahMengumpul = DB::table('tugas')
+            ->leftJoin('hasiltugas', 'tugas.id_tugas', '=', 'hasiltugas.id_tugas')
+            ->groupBy('tugas.id_tugas')
+            ->select('tugas.id_tugas', DB::raw('count(hasiltugas.id_hasil) as jumlah_sudah_mengumpulkan'))
+            ->get();
+
+        $jlhBelumMengumpul = [];
+        foreach ($jlhPengumpul as $pengumpul) {
+            foreach ($jlhSudahMengumpul as $mengumpulkan) {
+                if ($pengumpul->id_tugas == $mengumpulkan->id_tugas) {
+                    $jumlahBelumMengumpul = $pengumpul->jumlah_pengumpul - $mengumpulkan->jumlah_sudah_mengumpulkan;
+                    $jlhBelumMengumpul[$pengumpul->id_tugas] = $jumlahBelumMengumpul;
+                }
+            }
+        }
+
+        // dd($tugas);
+        return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
+
+
+    // $jlhSudahPengumpul = DB::table('tugas')
+    //         ->join('siswa', function ($join) {
+    //             $join->on('tugas.jurusan', '=', 'siswa.jurusan')
+    //                 ->on('tugas.kelas', '=', 'siswa.kelas');
+    //         })
+    //         ->leftJoin('hasiltugas', function ($join) use ($tugasIdArray) {
+    //             $join->on('siswa.id', '=', 'hasiltugas.id_user')
+    //                 ->whereIn('hasiltugas.id_tugas', $tugasIdArray);
+    //         })
+    //         ->where('hasiltugas.id_user')
+    //         ->groupBy('tugas.id_tugas')
+    //         ->select('tugas.id_tugas', DB::raw('count(siswa.id) as jumlah_pengumpul'))
+    //         ->get();
+
+    //     $jlhSudahMengumpul = DB::table('tugas')
+    //         ->join('siswa', function ($join) {
+    //             $join->on('tugas.jurusan', '=', 'siswa.jurusan')
+    //                 ->on('tugas.kelas', '=', 'siswa.kelas');
+    //         })
+    //         ->join('hasiltugas', 'tugas.id_tugas', '=', 'hasiltugas.id_tugas')
+    //         ->groupBy('tugas.id_tugas')
+    //         ->select('tugas.id_tugas', DB::raw('count(hasiltugas.id_tugas) as jumlah_pengumpul'))
+    //         ->get();
+
+    //     $siswaBelumMengumpulkan = DB::table('siswa')
+    //         ->join('tugas', function ($join) {
+    //             $join->on('tugas.jurusan', '=', 'siswa.jurusan')
+    //                 ->on('tugas.kelas', '=', 'siswa.kelas');
+    //         })
+    //         ->leftJoin('hasiltugas', function ($join) use ($tugasIdArray) {
+    //             $join->on('siswa.id', '=', 'hasiltugas.id_user')
+    //                 ->whereIn('hasiltugas.id_tugas', $tugasIdArray);
+    //         })
+    //         ->whereNull('hasiltugas.id_user')
+    //         ->groupBy('tugas.id_tugas')
+    //         ->select('tugas.id_tugas', DB::raw('COUNT(siswa.id) as jumlah_siswa_belum_mengumpulkan'))
+    //         ->get();
+
+
+    //     $siswaBelumMengumpulkan = DB::table('tugas')
+    //         ->leftJoin('hasiltugas', function ($join) use ($tugasIdArray) {
+    //             $join->on('tugas.id_tugas', '=', 'hasiltugas.id_user')
+    //                 ->whereIn('hasiltugas.id_tugas', $tugasIdArray);
+    //         })
+    //         ->whereNull('hasiltugas.id_hasil')
+    //         ->select(DB::raw('count(hasiltugas.id_tugas) as jumlah_siswa_belum_mengumpulkan'))
+    //         ->groupBy('hasiltugas.id_tugas')
+    //         ->get();
+
 
     public function tugasguruall($id_tugas)
     {
@@ -380,7 +463,35 @@ class GuruController extends Controller
             ->orderBy('dedline', 'asc')
             ->get();
 
-        return view('guru.ujian.ujian_submitted', compact('ujian'));
+
+        $ujianIdArray = $ujian->pluck('id')->toArray();
+
+        $jlhPengumpul = DB::table('ujian')
+            ->join('siswa', function ($join) {
+                $join->on('ujian.jurusan', '=', 'siswa.jurusan')
+                    ->on('ujian.kelas', '=', 'siswa.kelas');
+            })
+            ->groupBy('ujian.id')
+            ->select('ujian.id', DB::raw('count(siswa.id) as jumlah_pengumpul'))
+            ->get();
+
+        $jlhSudahMengumpul = DB::table('ujian')
+            ->leftJoin('hasilujian', 'ujian.id', '=', 'hasilujian.id_ujian')
+            ->groupBy('ujian.id')
+            ->select('ujian.id', DB::raw('count(hasilujian.id) as jumlah_sudah_mengumpulkan'))
+            ->get();
+
+        $jlhBelumMengumpul = [];
+        foreach ($jlhPengumpul as $pengumpul) {
+            foreach ($jlhSudahMengumpul as $mengumpulkan) {
+                if ($pengumpul->id == $mengumpulkan->id) {
+                    $jumlahBelumMengumpul = $pengumpul->jumlah_pengumpul - $mengumpulkan->jumlah_sudah_mengumpulkan;
+                    $jlhBelumMengumpul[$pengumpul->id] = $jumlahBelumMengumpul;
+                }
+            }
+        }
+
+        return view('guru.ujian.ujian_submitted', compact('ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
 
     public function ujianguruall($id_ujian)

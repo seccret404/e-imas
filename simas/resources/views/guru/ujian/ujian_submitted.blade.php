@@ -50,6 +50,8 @@
                                                 <th>Dedline</th>
                                                 <th>Jurusan</th>
                                                 <th>Kelas</th>
+                                                <th>Siswa Mengumpulkan</th>
+                                                <th>Siswa Belum Mengumpulkan</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -62,6 +64,20 @@
                                                     <td>{{ $item->dedline }}</td>
                                                     <td>{{ $item->jurusan }}</td>
                                                     <td>{{ $item->kelas }}</td>
+                                                    <td>
+                                                        @foreach ($jlhSudahMengumpul as $mengumpulkan)
+                                                            @if ($mengumpulkan->id == $item->id)
+                                                                {{ $mengumpulkan->jumlah_sudah_mengumpulkan }} orang
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($jlhBelumMengumpul[$item->id]))
+                                                            {{ $jlhBelumMengumpul[$item->id] }} orang
+                                                        @else
+                                                            {{ $pengumpul->jumlah_pengumpul }} orang
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         <a href="{{ url('ujianguruall/' . $item->id) }}"
                                                             class="btn btn-primary">
@@ -82,4 +98,3 @@
         </div>
     </div>
 @endsection
-

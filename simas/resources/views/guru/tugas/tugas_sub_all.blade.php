@@ -79,6 +79,7 @@
                                                 <th>No</th>
                                                 <th>Nama Siswa</th>
                                                 <th>File Jawaban</th>
+                                                <th>Nilai</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -94,15 +95,24 @@
                                                                 src="{{ url('asset/hasil/' . $item->file_hasil_tugas) }}" alt="{{ $item->file_hasil_tugas }}"> --}}
                                                         </a></td>
                                                     <td>
+                                                        @if ($item->nilai == 0)
+                                                            <p>Tugas belum dinilai</p>
+                                                        @else
+                                                            {{ $item->nilai }}
+                                                        @endif
+
+                                                    </td>
+                                                    <td>
                                                         @if ($item->nilai > 0)
                                                             <div class="col text-success">
                                                                 <strong>
-                                                                        <p>Nilai Sudah diberikan</p>
-                                                                    </strong>
+                                                                    <p>Nilai Sudah diberikan</p>
+                                                                </strong>
                                                             </div>
                                                         @else
                                                             <div class="col">
-                                                                <a href="/tugasgurunilai/edit/{{ $item->id_hasil }}" class="text-primary"><strong>
+                                                                <a href="/tugasgurunilai/edit/{{ $item->id_hasil }}"
+                                                                    class="text-primary"><strong>
                                                                         <p>Beri Nilai</p>
                                                                     </strong></a>
                                                             </div>

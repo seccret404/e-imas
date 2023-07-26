@@ -47,9 +47,12 @@
                                                 <th>No</th>
                                                 <th>Nama Pelajaran</th>
                                                 <th>Judul</th>
-                                                <th>Dedline</th>
+                                                <th>Deadline</th>
                                                 <th>Jurusan</th>
                                                 <th>Kelas</th>
+                                                {{-- <th>Jumlah Siswa Mengumpulkan</th> --}}
+                                                <th>Siswa Mengumpulkan</th>
+                                                <th>Siswa Belum Mengumpulkan</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -63,18 +66,44 @@
                                                     <td>{{ $item->jurusan }}</td>
                                                     <td>{{ $item->kelas }}</td>
                                                     <td>
-                                                        <a href="{{ url('tugasguruall/' . $item->id_tugas) }}"
-                                                            class="btn btn-primary">
-                                                            <p>Detail Jawaban</p>
-                                                        </a>
+                                                        @foreach ($jlhSudahMengumpul as $mengumpulkan)
+                                                            @if ($mengumpulkan->id_tugas == $item->id_tugas)
+                                                                {{ $mengumpulkan->jumlah_sudah_mengumpulkan }} orang
+                                                            @endif
+                                                        @endforeach
                                                     </td>
-
-
+                                                    <td>
+                                                        @if (isset($jlhBelumMengumpul[$item->id_tugas]))
+                                                            {{ $jlhBelumMengumpul[$item->id_tugas] }} orang
+                                                        @else
+                                                            {{ $pengumpul->jumlah_pengumpul }} orang
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($jlhSudahMengumpul[$item->id_tugas]) && $jlhSudahMengumpul[$item->id_tugas]->jumlah_sudah_mengumpulkan > 0)
+                                                            <a href="#" class="btn btn-primary" readonly>
+                                                                <p>Belum ada jawaban yang terkirim</p>
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ url('tugasguruall/' . $item->id_tugas) }}"
+                                                                class="btn btn-primary">
+                                                                <p>Detail Jawaban</p>
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                    {{-- <td>
+                                                            <a href="{{ url('tugasguruall/' . $item->id_tugas) }}"
+                                                                class="btn btn-primary">
+                                                                <p>Detail Jawaban</p>
+                                                            </a>
+                                                    </td> --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>
+                                    </div>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -82,4 +111,3 @@
         </div>
     </div>
 @endsection
-
