@@ -227,7 +227,7 @@ class SiswaController extends Controller
             ->where('hasiltugas.id_user', $id_user)
             ->where('tugas.jurusan', $jurusan)
             ->where('tugas.kelas', $kelas)
-            ->where('tugas.dedline', '>=', $tgl_presensi)
+            // ->where('tugas.dedline', '>=', $tgl_presensi)
             ->orderBy('tugas.dedline', 'asc')
             ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
             ->get();
@@ -259,12 +259,12 @@ class SiswaController extends Controller
         $tugas = DB::table('tugas')
             ->leftJoin('hasiltugas', function ($join) use ($id_user) {
                 $join->on('tugas.id_tugas', '=', 'hasiltugas.id_tugas')
-                    ->where('hasiltugas.id_user', $id_user)
-                    ->orWhereNull('hasiltugas.id_user');
+                    ->where('hasiltugas.id_user', $id_user);
             })
             ->where('tugas.jurusan', $jurusan)
             ->where('tugas.kelas', $kelas)
             ->where('tugas.dedline', '<', $tgl_presensi)
+            ->whereNull('hasiltugas.id_user')
             ->orderBy('tugas.dedline', 'asc')
             ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
             ->get();
@@ -519,7 +519,7 @@ class SiswaController extends Controller
             ->where('hasilujian.id_siswa', $id_user)
             ->where('ujian.jurusan', $jurusan)
             ->where('ujian.kelas', $kelas)
-            ->where('ujian.dedline', '>=', $tgl_presensi)
+            // ->where('ujian.dedline', '>=', $tgl_presensi)
             ->orderBy('ujian.dedline', 'asc')
             ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
             ->get();
@@ -551,12 +551,12 @@ class SiswaController extends Controller
         $ujian = DB::table('ujian')
             ->leftJoin('hasilujian', function ($join) use ($id_user) {
                 $join->on('ujian.id', '=', 'hasilujian.id_ujian')
-                    ->where('hasilujian.id_siswa', $id_user)
-                    ->orWhereNull('hasilujian.id_siswa');
+                    ->where('hasilujian.id_siswa', $id_user);
             })
             ->where('ujian.jurusan', $jurusan)
             ->where('ujian.kelas', $kelas)
             ->where('ujian.dedline', '<', $tgl_presensi)
+            ->WhereNull('hasilujian.id_siswa')
             ->orderBy('ujian.dedline', 'asc')
             ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
             ->get();
