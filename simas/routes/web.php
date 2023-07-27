@@ -142,6 +142,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::post('/surat/{id}/delete', [SiswaController::class, 'deletesurat']);
 
                 Route::get('/tugas-siswa', [SiswaController::class, 'tugas']);
+                Route::get('/tugas-siswa-terkirim', [SiswaController::class, 'tugasterkirim']);
+                Route::get('/tugas-siswa-terlambat', [SiswaController::class, 'tugasterlambat']);
 
                 Route::get('/absen', [SiswaController::class, 'absen']);
                 //ruangan
@@ -169,6 +171,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/hasil-tugas/view/{id_tugas}', [SiswaController::class, 'hasil'])->name('hasil-tugas.view');
                 //ujian
                 Route::get('/ujian-siswa', [SiswaController::class, 'ujian']);
+                Route::get('/ujian-siswa-terkirim', [SiswaController::class, 'ujianterkirim']);
+                Route::get('/ujian-siswa-terlambat', [SiswaController::class, 'ujianterlambat']);
                 Route::get('/uploadujian/{id}', [SiswaController::class, 'addujian']);
                 Route::post('/upload-ujian', [SiswaController::class, 'unggahujian']);
 

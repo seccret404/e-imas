@@ -79,6 +79,7 @@
                                                 <th>No</th>
                                                 <th>Nama Siswa</th>
                                                 <th>File Jawaban</th>
+                                                <th>Nilai</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -93,6 +94,14 @@
                                                             {{-- <img
                                                                 src="{{ url('asset/hasil/' . $item->file_hasil_tugas) }}" alt="{{ $item->file_hasil_tugas }}"> --}}
                                                         </a></td>
+                                                        <td>
+                                                            @if ($item->nilai == 0)
+                                                                <p>Ujian belum dinilai</p>
+                                                            @else
+                                                                {{ $item->nilai }}
+                                                            @endif
+    
+                                                        </td>
                                                     <td>
                                                         @if ($item->nilai > 0)
                                                             <div class="col text-success">

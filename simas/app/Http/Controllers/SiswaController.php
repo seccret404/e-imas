@@ -40,11 +40,11 @@ class SiswaController extends Controller
         // $jadwal = Jadwal::where('hari', $hariSekarang)->get();
         $jadwal = DB::table('jadwal')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
-            ->join('ruangan','jadwal.ruangan','=','ruangan.id')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->where('jurusan', $jurusan)
             ->where('kelas', $kelas)
             ->where('hari', $hariSekarang)
-            ->select('jadwal.*', 'guru.nama as nama_guru','ruangan.nama_ruangan')
+            ->select('jadwal.*', 'guru.nama as nama_guru', 'ruangan.nama_ruangan')
             ->orderBy('jadwal.jam_masuk', 'asc')
             ->get();
 
@@ -59,8 +59,8 @@ class SiswaController extends Controller
 
         $nisn = Auth::user()->id_user;
         $namaWali = DB::table('siswa')->join('guru', 'siswa.id_guru', '=', 'guru.id')->select('guru.nama as nama_guru')
-        ->where('nisn',$nisn)
-        ->get();
+            ->where('nisn', $nisn)
+            ->get();
 
         return view('siswa.index', compact('jadwal', 'hari', 'tgl', 'status', 'pengumuman', 'prestasi', 'mapel', 'jmlhsiswa', 'namaWali'));
     }
@@ -182,18 +182,89 @@ class SiswaController extends Controller
         $hari = $hariIni->formatLocalized('%A');
         setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
         $hariSekarang = strftime('%A');
+        //dd($hariSekarang);
+        $tgl_presensi = date("Y-m-d");
+
+        $tugas = DB::table('tugas')
+            ->leftJoin('hasiltugas', function ($join) use ($id_user) {
+                $join->on('tugas.id_tugas', '=', 'hasiltugas.id_tugas')
+                    ->where('hasiltugas.id_user', $id_user);
+            })
+            ->whereNull('hasiltugas.id_user')
+            ->where('tugas.jurusan', $jurusan)
+            ->where('tugas.kelas', $kelas)
+            ->where('tugas.dedline', '>=', $tgl_presensi)
+            ->orderBy('tugas.dedline', 'asc')
+            ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
+            ->get();
+
+        $warna = DB::table('tugas')->get();
+        if ($warna > $hariSekarang) {
+            $bg = "text-primary";
+        } else if ($warna = $hariSekarang) {
+            $bg = "text-warning";
+        }
+
+        return view('siswa.tugas', compact('tugas', 'hari', 'tgl', 'bg'));
+    }
+
+
+    public function tugasterkirim()
+    {
+        $hariIni = Carbon::now();
+        $id_user = Auth::user()->id;
+        $tgl = $hariIni->format('d-m-Y');
+        $jurusan = Auth::user()->jurusan;
+        $kelas = Auth::user()->kelas;
+        $hari = $hariIni->formatLocalized('%A');
+        setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
+        $hariSekarang = strftime('%A');
+        //dd($hariSekarang);
+        $tgl_presensi = date("Y-m-d");
+
+        $tugas = DB::table('tugas')
+            ->join('hasiltugas', 'tugas.id_tugas', '=', 'hasiltugas.id_tugas')
+            ->where('hasiltugas.id_user', $id_user)
+            ->where('tugas.jurusan', $jurusan)
+            ->where('tugas.kelas', $kelas)
+            // ->where('tugas.dedline', '>=', $tgl_presensi)
+            ->orderBy('tugas.dedline', 'asc')
+            ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
+            ->get();
+
+        $warna = DB::table('tugas')->get();
+        if ($warna > $hariSekarang) {
+            $bg = "text-primary";
+        } else if ($warna = $hariSekarang) {
+            $bg = "text-warning";
+        }
+
+        return view('siswa.tugasterkirim', compact('tugas', 'hari', 'tgl', 'bg'));
+    }
+
+
+    public function tugasterlambat()
+    {
+        $hariIni = Carbon::now();
+        $id_user = Auth::user()->id;
+        $tgl = $hariIni->format('d-m-Y');
+        $jurusan = Auth::user()->jurusan;
+        $kelas = Auth::user()->kelas;
+        $hari = $hariIni->formatLocalized('%A');
+        setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
+        $hariSekarang = strftime('%A');
         //dd($hariSe$karang);
         $tgl_presensi = date("Y-m-d");
 
         $tugas = DB::table('tugas')
             ->leftJoin('hasiltugas', function ($join) use ($id_user) {
                 $join->on('tugas.id_tugas', '=', 'hasiltugas.id_tugas')
-                    ->where('hasiltugas.id_user', $id_user)
-                    ->orWhereNull('hasiltugas.id_user');
+                    ->where('hasiltugas.id_user', $id_user);
             })
             ->where('tugas.jurusan', $jurusan)
             ->where('tugas.kelas', $kelas)
-            ->where('tugas.dedline', '>=', $hariSekarang)
+            ->where('tugas.dedline', '<', $tgl_presensi)
+            ->whereNull('hasiltugas.id_user')
             ->orderBy('tugas.dedline', 'asc')
             ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
             ->get();
@@ -206,7 +277,7 @@ class SiswaController extends Controller
         }
 
 
-        return view('siswa.tugas', compact('tugas', 'hari', 'tgl', 'bg'));
+        return view('siswa.tugasterlambat', compact('tugas', 'hari', 'tgl', 'bg'));
     }
 
 
@@ -405,18 +476,17 @@ class SiswaController extends Controller
         $hari = $hariIni->formatLocalized('%A');
         setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
         $hariSekarang = strftime('%A');
-        //dd($hariSe$karang);
         $tgl_presensi = date("Y-m-d");
 
         $ujian = DB::table('ujian')
             ->leftJoin('hasilujian', function ($join) use ($id_user) {
                 $join->on('ujian.id', '=', 'hasilujian.id_ujian')
-                    ->where('hasilujian.id_siswa', $id_user)
-                    ->orWhereNull('hasilujian.id_siswa');
+                    ->where('hasilujian.id_siswa', $id_user);
             })
+            ->where('hasilujian.id_siswa', null)
             ->where('ujian.jurusan', $jurusan)
             ->where('ujian.kelas', $kelas)
-            ->where('ujian.dedline', '>=', $hariSekarang)
+            ->where('ujian.dedline', '>=', $tgl_presensi)
             ->orderBy('ujian.dedline', 'asc')
             ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
             ->get();
@@ -429,6 +499,76 @@ class SiswaController extends Controller
         }
 
         return view('siswa.ujian', compact('ujian', 'hari', 'tgl', 'bg'));
+    }
+
+
+    public function ujianterkirim()
+    {
+        $hariIni = Carbon::now();
+        $id_user = Auth::user()->id;
+        $tgl = $hariIni->format('d-m-Y');
+        $jurusan = Auth::user()->jurusan;
+        $kelas = Auth::user()->kelas;
+        $hari = $hariIni->formatLocalized('%A');
+        setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
+        $hariSekarang = strftime('%A');
+        $tgl_presensi = date("Y-m-d");
+
+        $ujian = DB::table('ujian')
+            ->join('hasilujian', 'ujian.id', '=', 'hasilujian.id_ujian')
+            ->where('hasilujian.id_siswa', $id_user)
+            ->where('ujian.jurusan', $jurusan)
+            ->where('ujian.kelas', $kelas)
+            // ->where('ujian.dedline', '>=', $tgl_presensi)
+            ->orderBy('ujian.dedline', 'asc')
+            ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
+            ->get();
+
+        $warna = DB::table('ujian')->get();
+        if ($warna > $hariSekarang) {
+            $bg = "text-primary";
+        } else if ($warna = $hariSekarang) {
+            $bg = "text-warning";
+        }
+
+        return view('siswa.ujianterkirim', compact('ujian', 'hari', 'tgl', 'bg'));
+    }
+
+
+    public function ujianterlambat()
+    {
+        $hariIni = Carbon::now();
+        $id_user = Auth::user()->id;
+        $tgl = $hariIni->format('d-m-Y');
+        $jurusan = Auth::user()->jurusan;
+        $kelas = Auth::user()->kelas;
+        $hari = $hariIni->formatLocalized('%A');
+        setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
+        $hariSekarang = strftime('%A');
+        //dd($hariSe$karang);
+        $tgl_presensi = date("Y-m-d");
+
+        $ujian = DB::table('ujian')
+            ->leftJoin('hasilujian', function ($join) use ($id_user) {
+                $join->on('ujian.id', '=', 'hasilujian.id_ujian')
+                    ->where('hasilujian.id_siswa', $id_user);
+            })
+            ->where('ujian.jurusan', $jurusan)
+            ->where('ujian.kelas', $kelas)
+            ->where('ujian.dedline', '<', $tgl_presensi)
+            ->WhereNull('hasilujian.id_siswa')
+            ->orderBy('ujian.dedline', 'asc')
+            ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
+            ->get();
+
+        $warna = DB::table('ujian')->get();
+        if ($warna > $hariSekarang) {
+            $bg = "text-primary";
+        } else if ($warna = $hariSekarang) {
+            $bg = "text-warning";
+        }
+
+        return view('siswa.ujianterlambat', compact('ujian', 'hari', 'tgl', 'bg'));
     }
 
     public function addujian($id)
