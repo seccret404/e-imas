@@ -188,7 +188,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
                 //absen
                 Route::get('/detail-absen', [AbsensiController::class, 'absens_siswa']);
-                Route::post('/update-absen/{id}', [AbsensiController::class, 'update']);
+                Route::post('/update-absen/{tgl_presensi}', [AbsensiController::class, 'update']);
 
                 //hasil ujian
                 Route::get('/hasil-ujian', [HasilController::class, 'index']);

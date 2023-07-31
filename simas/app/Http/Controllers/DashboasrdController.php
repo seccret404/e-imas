@@ -116,6 +116,7 @@ class DashboasrdController extends Controller
             'tepat' => intval($absengurutepat),
             'belum' => intval($absensiswabelum)
         ];
+        // dd($absensiswa);
         return view('admin.index', compact('pengumuman', 'siswa', 'guru', 'man', 'woman', 'gender', 'genderguru', 'suratizinguru', 'suratizinsiswa', 'absenguru', 'absensiswa'));
     }
 
