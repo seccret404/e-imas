@@ -385,7 +385,7 @@
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'Perhatikan! Masih ada data kosong',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
@@ -396,7 +396,7 @@
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Departemen Harus Diisi',
+                        title: 'Perhatikan! Masih ada data kosong',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
