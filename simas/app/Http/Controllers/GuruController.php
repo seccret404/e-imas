@@ -562,8 +562,8 @@ class GuruController extends Controller
             $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
-            $latitudekantor = 2.379135;
-            $longitudekantor = 99.151415;
+            $latitudekantor = 2.324110; 
+            $longitudekantor = 99.047969;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;

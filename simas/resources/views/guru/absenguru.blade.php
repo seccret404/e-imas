@@ -65,64 +65,58 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama </th>
-                                                <th>Tanggal Presensi</th>
-                                                <th>Jam Masuk</th>
-                                                <th>Jam Keluar</th>
+                                                <th>Nama</th>
+                                                <th>Dates in Month</th>
+                                                <th>Absen Masuk</th>
+                                                <th>Absensi Keluar</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($absen as $item)
+                                            @foreach ($absenWithDates as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $item->name }}</td>
-                                                    <td>{{ $item->tgl_presensi }}</td>
+                                                    <td>{{ $item['name'] }}</td>
+                                                    <td>{{ $item['tgl_presensi'] }}</td>
+                                                    <td>{{ $item['jam_masuk'] ?? 'Belum Absen Masuk' }}</td>
                                                     <td>
-                                                        @if ($item->jam_masuk > '08:00:00')
-                                                            <button class="btn btn-danger"
-                                                                disabled>{{ $item->jam_masuk }}</button>
-                                                        @else
-                                                            <button class="btn btn-success"
-                                                                disabled>{{ $item->jam_masuk }}</button>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($item->jam_keluar == null)
-                                                            <button class="btn btn-warning">Belum Absen </button>
-                                                            <form action="update-absen-guru/{{ $item->id }}" method="post">
-                                                                @csrf
-                                                                <div class="row text-center">
-                                                                    <div class="col">
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary btn-block"
-                                                                            style="width: 100%">
-                                                                            <ion-icon name="camera-outline"></ion-icon>
-                                                                            Absen Pulang
-                                                                        </button>
+                                                        @if ($item['jam_masuk'])
+                                                            @if (isset($item['jam_keluar']))
+                                                                @if ($item['jam_keluar'] > '14:00:00')
+                                                                    <button class="btn wbtn-danger"
+                                                                        disabled>{{ $item['jam_keluar'] }}</button>
+                                                                @else
+                                                                    <button class="btn btn-success"
+                                                                        disabled>{{ $item['jam_keluar'] }}</button>
+                                                                @endif
+                                                            @else
+                                                                <button class="btn btn-warning">Belum Absen Pulang</button>
+                                                                <form action="update-absen-guru/{{ $item['id'] }}" 
+                                                                    method="post">
+                                                                    @csrf
+                                                                    <div class="row text-center">
+                                                                        <div class="col">
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary btn-block"
+                                                                                style="width: 100%">
+                                                                                <ion-icon name="camera-outline"></ion-icon>
+                                                                                Absen Pulang
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
+                                                                </form>
+                                                            @endif
+                                                        @else
+                                                        @endif
+                                                    </td>
 
-                                                            </form>
-                                                        @elseif($item->jam_keluar > '14:00:00')
-                                                            <button class="btn btn-danger"
-                                                                disabled>{{ $item->jam_keluar }}</button>
-                                                        @else
-                                                            <button class="btn btn-success"
-                                                                disabled>{{ $item->jam_keluar }}</button>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($item->jam_masuk == null)
-                                                            <button class="btn btn-warning">Belum Absen Masuk</button>
-                                                        @elseif($item->jam_keluar == null)
-                                                            <button class="btn btn-warning">Belum Absen Pulang</button>
-                                                        @else
-                                                            <button class="btn btn-success">Absen Komplit</button>
-                                                        @endif
-                                                    </td>
+                                                    <td>{{ $item['status'] }}</td>
                                                 </tr>
-                                            @endforeach 
+                                            @endforeach
                                         </tbody>
+
+
+                                    </div>
                                 </table>
                             </div>
                         </div>
