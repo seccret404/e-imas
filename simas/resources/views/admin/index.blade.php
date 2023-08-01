@@ -179,142 +179,158 @@
                     </div>
                 </div>
                 <div class="row">
-                      <div class="col-md-8 mt-3">
+                    <div class="col-md-8 mt-3">
                         {{-- bagian grafik --}}
                         <div class="row">
                             <div class="col-md-6">
-                                  <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Grafik Siswa</h3>
-                            <div id="chart-siswa" class="chart-lg"></div>
-                        </div>
-                    </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Grafik Siswa</h3>
+                                        <div id="chart-siswa" class="chart-lg"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Grafik Guru</h3>
-                            <div id="chart-guru" class="chart-lg"></div>
-                        </div>
-                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title">Grafik Guru</h3>
+                                        <div id="chart-guru" class="chart-lg"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-5">
-                            <div class="col-md-6"><div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Grafik Absen Guru</h3>
-                            <div id="chart-absenguru" class="chart-lg"></div>
-                        </div>
-                    </div></div>
-                            <div class="col-md-6"><div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Grafik Absen Siswa</h3>
-                            <div id="chart-absensiswa" class="chart-lg"></div>
-                        </div>
-                    </div></div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title" style="display: inline-block; margin-right: 10px;">Grafik Absen Guru</h3>
+                                        <a href="/rekap-absensi-guru">
+                                            <button class="btn btn-primary" style="display: inline-block;">Lihat Detail</button>
+                                        </a>
+                                        <div id="chart-absenguru" class="chart-lg"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title" style="display: inline-block; margin-right: 10px;">Grafik Absen Siswa</h3>
+                                        <a href="/rekap-absensi-siswa">
+                                            <button class="btn btn-primary" style="display: inline-block;">Lihat Detail</button>
+                                        </a>                                        <div id="chart-absensiswa" class="chart-lg"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row mt-5">
-                            <div class="col-md-6">   <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Grafik Surat Izin Guru</h3>
-                            <div id="chart-suratguru" class="chart-lg"></div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Grafik Surat Izin Guru</h3>
+                                        <div id="chart-suratguru" class="chart-lg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Grafik Surat Izin Siswa</h3>
+                                        <div id="chart-suratsiswa" class="chart-lg"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div></div>
-                            <div class="col-md-6"> <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Grafik Surat Izin Siswa</h3>
-                            <div id="chart-suratsiswa" class="chart-lg"></div>
+
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        @if (Session::get('success'))
+                            <div class="alert alert-success">
+
+                                {{ Session::get('success') }}
+                            </div>
+                        @endif
+                        @if (Session::get('error'))
+                            <div class="alert alert-danger">
+
+                                {{ Session::get('error') }}
+
+                            </div>
+                        @endif
+                        <div class="card">
+                            <div class="card-header">
+
+                                <h3>Pengumuman</h3>
+
+
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table table-vcenter">
+                                    @foreach ($pengumuman as $item)
+                                        <thead>
+                                            <tr>
+                                                <th class="w-50">Judul</th>
+                                                <th class="w-50">Catatan</th>
+                                                <th>Lampiran File</th>
+                                                <th>Aksi</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td class="w-50">
+                                                    <p>{{ $item->judul }}</p>
+                                                </td>
+                                                <td class="w-50">
+                                                    <p>{{ Str::words($item->info, 5, '....') }}</p>
+                                                </td>
+                                                <td class="text-nowrap text-muted">
+                                                    <p class="text-muted">{{ $item->created_at }}</p>
+
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    <p><a href="{{ url('asset/pengumuman/' . $item->file) }}">Lihat
+                                                            Lampiran
+                                                            File</a>
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                    <form method="POST"
+                                                        action="/pengumuman/{{ $item->id_pengumuman }}/delete"
+                                                        class="mt-2">
+                                                        @csrf
+
+                                                        <a class="btn btn-danger deletecom">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="icon icon-tabler icon-tabler-trash" width="24"
+                                                                height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                                stroke="currentColor" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                </path>
+                                                                <path d="M4 7l16 0"></path>
+                                                                <path d="M10 11l0 6"></path>
+                                                                <path d="M14 11l0 6"></path>
+                                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                </path>
+                                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                            </svg>
+                                                        </a>
+                                                    </form>
+                                                    </p>
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
-                    </div></div>
-                        </div>
-
-                </div>
-                <div class="col-md-4 mt-3">
-                    @if (Session::get('success'))
-                    <div class="alert alert-success">
-
-                        {{ Session::get('success') }}
                     </div>
-                @endif
-                @if (Session::get('error'))
-                    <div class="alert alert-danger">
-
-                        {{ Session::get('error') }}
-
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-header">
-
-                        <h3>Pengumuman</h3>
-
-
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table card-table table-vcenter">
-                            @foreach ($pengumuman as $item)
-                            <thead>
-                                <tr>
-                                 <th class="w-50">Judul</th>
-                                <th class="w-50">Catatan</th>
-                                <th>Lampiran File</th>
-                                <th>Aksi</th>
-                                </tr>
-
-                            </thead>
-                                <tbody>
-                                    <tr >
-
-                                        <td class="w-50">
-                                            <p>{{ $item->judul }}</p>
-                                        </td>
-                                        <td class="w-50">
-                                            <p>{{ Str::words($item->info, 5, '....') }}</p>
-                                        </td>
-                                        <td class="text-nowrap text-muted">
-                                            <p class="text-muted">{{ $item->created_at }}</p>
-
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <p><a href="{{ url('asset/pengumuman/' . $item->file) }}">Lihat Lampiran
-                                                    File</a>
-                                            </p>
-                                        </td>
-
-                                        <td>
-                                            <p>
-                                            <form method="POST"
-                                                action="/pengumuman/{{ $item->id_pengumuman }}/delete"
-                                                class="mt-2">
-                                                @csrf
-
-                                                <a class="btn btn-danger deletecom">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-trash" width="24"
-                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M4 7l16 0"></path>
-                                                        <path d="M10 11l0 6"></path>
-                                                        <path d="M14 11l0 6"></path>
-                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
-                                                        </path>
-                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                                                    </svg>
-                                                </a>
-                                            </form>
-                                            </p>
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-                            @endforeach
-                        </table>
-                    </div>
-                </div>
-                </div>
                 </div>
 
 
@@ -441,7 +457,8 @@
                 dataLabels: {
                     enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
                     formatter: function(val) {
-                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') +
+                        " %"; // Ubah format data labels
                     }
                 },
                 tooltip: {
@@ -481,7 +498,8 @@
                 dataLabels: {
                     enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
                     formatter: function(val) {
-                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') +
+                        " %"; // Ubah format data labels
                     }
                 },
                 tooltip: {
@@ -521,7 +539,8 @@
                 dataLabels: {
                     enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
                     formatter: function(val) {
-                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') +
+                        " %"; // Ubah format data labels
                     }
                 },
                 tooltip: {
@@ -561,7 +580,8 @@
                 dataLabels: {
                     enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
                     formatter: function(val) {
-                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') +
+                        " %"; // Ubah format data labels
                     }
                 },
                 tooltip: {
@@ -601,7 +621,8 @@
                 dataLabels: {
                     enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
                     formatter: function(val) {
-                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') +
+                        " %"; // Ubah format data labels
                     }
                 },
                 tooltip: {
@@ -641,7 +662,8 @@
                 dataLabels: {
                     enabled: true, // Ubah enabled menjadi true agar data labels ditampilkan
                     formatter: function(val) {
-                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " %"; // Ubah format data labels
+                        return parseFloat(val).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') +
+                        " %"; // Ubah format data labels
                     }
                 },
                 tooltip: {

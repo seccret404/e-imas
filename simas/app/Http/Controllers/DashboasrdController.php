@@ -67,10 +67,15 @@ class DashboasrdController extends Controller
         //     ->whereDate('created_at', '<', $currentDate)
         //     ->delete();
 
+        // Get the current date
+        $currentDate = Carbon::now()->toDateString();
+
         $absenguruterlambat = DB::table('presensiguru')
+            ->where('tgl_presensi', $currentDate)
             ->where('jam_masuk', '>', '08:00:00')
             ->count();
         $absengurutepat = DB::table('presensiguru')
+            ->where('tgl_presensi', $currentDate)
             ->where('jam_masuk', '<=', '08:00:00')
             ->count();
         $absengurubelum = DB::table('guru')
@@ -78,9 +83,11 @@ class DashboasrdController extends Controller
             ->whereNull('presensiguru.id_guru')
             ->count();
         $absensiswaterlambat = DB::table('presensisiswa')
+            ->where('tgl_presensi', $currentDate)
             ->where('jam_masuk', '>', '08:00:00')
             ->count();
         $absensiswatepat = DB::table('presensisiswa')
+            ->where('tgl_presensi', $currentDate)
             ->where('jam_masuk', '<=', '08:00:00')
             ->count();
         $absensiswabelum = DB::table('siswa')
@@ -123,15 +130,17 @@ class DashboasrdController extends Controller
     public function guru()
     {
 
-        $guru =  DB::table('guru')->where('status',"aktif")->get();
+        $guru =  DB::table('guru')->where('status', "aktif")->get();
 
         return view('admin.guru.index', compact('guru'));
     }
-    public function updateStatus($id){
-            Guru::where('id',$id)->update(['status'=>"non-aktif"]);
-            return redirect('/guru')->with(['success',"Guru Berhasil Di Nonaktifka!!"]);
+    public function updateStatus($id)
+    {
+        Guru::where('id', $id)->update(['status' => "non-aktif"]);
+        return redirect('/guru')->with(['success', "Guru Berhasil Di Nonaktifka!!"]);
     }
-    public function finish($id_pesanan) {
+    public function finish($id_pesanan)
+    {
         Pemesanan::where('id_pesanan', $id_pesanan)->update(['status' => 4]);
         return redirect()->route('pemesanan');
     }
@@ -267,7 +276,7 @@ class DashboasrdController extends Controller
     {
         $request->validate([
 
-            'nama'=>'required|unique:akademik'
+            'nama' => 'required|unique:akademik'
         ]);
         $tahun = $request->tahun;
         $nama = $request->nama;
@@ -640,10 +649,10 @@ class DashboasrdController extends Controller
     public function ahli()
     {
         $guru = DB::table('users')
-        ->join('keahlianguru', 'users.id', '=', 'keahlianguru.id_user')
-        ->select('users.name as nama_guru','users.id as id', DB::raw('COUNT(keahlianguru.id) as jumlah_keahlian' ))
-        ->groupBy('users.id','users.name')
-        ->get();
+            ->join('keahlianguru', 'users.id', '=', 'keahlianguru.id_user')
+            ->select('users.name as nama_guru', 'users.id as id', DB::raw('COUNT(keahlianguru.id) as jumlah_keahlian'))
+            ->groupBy('users.id', 'users.name')
+            ->get();
 
         return view('admin.guru.keahlian', compact('guru'));
     }
@@ -666,7 +675,7 @@ class DashboasrdController extends Controller
                 ->get();
 
             return view('admin.guru.detail', compact('guru', 'pj'));
-        }else{
+        } else {
             "oke";
         }
     }
