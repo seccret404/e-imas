@@ -128,6 +128,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
                 //prestasi
                 Route::get('/prestasi-admin', [PrestasiController::class, 'index']);
+
+                //rekap absensi
+                Route::get('/rekap-absensi-guru', [AbsensiController::class, 'rekapabsenguru']);
+                Route::get('/rekapabsenguru', [AbsensiController::class, 'rekapabsenguru'])->name('rekapabsenguru');
+                Route::get('/rekap-absensi-siswa', [AbsensiController::class, 'rekapabsensiswa']);
+                Route::get('/rekapabsensiswa', [AbsensiController::class, 'rekapabsensiswa'])->name('rekapabsensiswa');
         });
 
         Route::middleware(['auth', 'role:siswa'])->group(function () {
