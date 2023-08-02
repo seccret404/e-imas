@@ -56,6 +56,19 @@
                                 </div>
                                 <div class="form-row align-items-center" style="display: flex;">
                                     <div class="col-auto">
+                                        <label for="kelas" style="margin-right: 65px;">KELAS</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <select class="form-control mb-2" id="kelas" name="kelas">
+                                            <option value="">Semua Kelas</option>
+                                            <option value="10" {{ $kelas == '10' ? 'selected' : '' }}>Kelas 10</option>
+                                            <option value="11" {{ $kelas == '11' ? 'selected' : '' }}>Kelas 11</option>
+                                            <option value="12" {{ $kelas == '12' ? 'selected' : '' }}>Kelas 12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center" style="display: flex;">
+                                    <div class="col-auto">
                                         <button type="submit" class="btn btn-primary">Filter</button>
                                     </div>
                                 </div>
@@ -135,7 +148,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 @endsection
