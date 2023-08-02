@@ -56,6 +56,21 @@
                                 </div>
                                 <div class="form-row align-items-center" style="display: flex;">
                                     <div class="col-auto">
+                                        <label for="name" style="margin-right: 67px;">NAMA</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <select class="form-control mb-2" id="name" name="name">
+                                            <option value="">-- Pilih Guru --</option>
+                                            @foreach ($allUsers as $user)
+                                                <option value="{{ $user->name }}"
+                                                    @if ($nameFilter === $user->name) selected @endif>{{ $user->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center" style="display: flex;">
+                                    <div class="col-auto">
                                         <button type="submit" class="btn btn-primary">Filter</button>
                                     </div>
                                 </div>
@@ -135,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
