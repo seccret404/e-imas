@@ -33,14 +33,9 @@
                     </div>
                 @endif
             </div>
-            <div class="col-12">
-                <form class="card" action="/upload-tugas" method="POST">
-                    @csrf
-
-
-
-
-                    <div class="card-body">
+            <div class="col-12 card">
+                <div class="card-body">
+                    @if ($item && $item->file_hasil_tugas)
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col">
@@ -74,18 +69,23 @@
                                     <h3>File Tugas</h3>
                                 </div>
                                 <div class="col-8">
-                                    @if ($item->file_hasil_tugas)
+                                    @if ($item && $item->file_hasil_tugas)
                                         <img src="{{ url('asset/hasil/' . $item->file_hasil_tugas) }}">
+                                    @else
                                     @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <h3>Tugas Belum di Submit</h3>
+                    @endif
+                </div>
 
-                    <div class="card-footer text-center ">
-                        <button class="btn btn-primary" type="submit">Kirim Tugas</button>
-                        </a>
-                    </div>
+                <div class="card-footer text-center ">
+                    <a href="{{ url('tugas-siswa') }}">
+                        <button class="btn btn-primary">Kembali</button></a>
+                    </a>
+                </div>
                 </form>
             </div>
 

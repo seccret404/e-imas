@@ -6,7 +6,7 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                      
+
                     </div>
                     <h2 class="page-title">
                         {{ $hari }},{{ $tgl }}
@@ -98,29 +98,11 @@
                                                     <p style="color: black">Tahun Akademik : {{ $item->tahun_akademik }}
                                                     </p>
                                                 </div>
-                                                @if ($item->nilai > 0)
-                                                    <p><strong>Nilai : {{ $item->nilai }}</strong></p>
-                                                @else
-                                                    @if ($item->uploaded == 1)
-                                                        <p><strong><span class="btn btn-success readonly"
-                                                                    style="cursor: default;">Submitted for
-                                                                    grading</span></strong></p>
-                                                    @else
-                                                        <a href="/uploadujian/{{ $item->id }}" class="btn btn-primary"
-                                                            id="tambah_departemen"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                class="icon icon-tabler icon-tabler-plus" width="24"
-                                                                height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                                stroke="currentColor" fill="none" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none">
-                                                                </path>
-                                                                <path d="M12 5l0 14"></path>
-                                                                <path d="M5 12l14 0"></path>
-                                                            </svg>Kirim Tugas</a>
-                                                    @endif
-                                                @endif
-                                                <a href="{{ route('hasil-ujian.view', ['id' => $item->id]) }}"
-                                                    class="btn btn-primary">View</a>
+                                                <p><strong><span class="btn btn-danger readonly"
+                                                            style="cursor: default;">Waktu Submit sudah
+                                                            Terlambat</span></strong></p>
+                                                {{-- <a href="{{ route('hasil-ujian.view', ['id' => $item->id]) }}"
+                                                    class="btn btn-primary">View</a> --}}
                                             </div>
                                             <div class="col-auto align-self-center">
                                                 <div class="badge bg-primary"></div>
