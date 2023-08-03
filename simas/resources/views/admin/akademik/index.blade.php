@@ -246,7 +246,7 @@ $(function () {
             Swal.fire({
                 position: 'top-center',
                 icon: 'warning',
-                title: 'Kode Departemen Harus Diisi',
+                title: 'Tidak boleh data kosong!',
                 showConfirmButton: true,
                 timer: 2000
             }).then((result) => {
@@ -257,7 +257,7 @@ $(function () {
             Swal.fire({
                 position: 'top-center',
                 icon: 'warning',
-                title: 'Nama Departemen Harus Diisi',
+                title: 'Tidak boleh data kosong!',
                 showConfirmButton: true,
                 timer: 2000
             }).then((result) => {

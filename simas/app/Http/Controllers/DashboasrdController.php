@@ -275,11 +275,21 @@ class DashboasrdController extends Controller
     public function addakademik(Request $request)
     {
         $request->validate([
-
-            'nama' => 'required|unique:akademik'
+            'nama' => 'required'
         ]);
+
         $tahun = $request->tahun;
         $nama = $request->nama;
+
+        // Check if the data already exists and appears twice in the database
+        $countData = DB::table('akademik')
+            ->where('tahun', $tahun)
+            ->where('nama', $nama)
+            ->count();
+
+        if ($countData >= 1) {
+            return Redirect::back()->with(['error' => 'Data sudah ada dan mencapai batas maksimal (1 kali)']);
+        }
 
         $data = [
             'tahun' => $tahun,
@@ -306,9 +316,7 @@ class DashboasrdController extends Controller
         return view('admin.pelajaran.matapelajaran', compact('akademik', 'guru', 'mapel'));
     }
 
-    public function addmapel(Request $request)
-    {
-
+    public function addmapel(Request $request){
 
         $nama_pelajaran = $request->nama_pelajaran;
         $jurusan = $request->jurusan;
@@ -336,7 +344,6 @@ class DashboasrdController extends Controller
             ->where('kelas', 10)
             ->get();
 
-
         $jadwal = DB::table('jadwal')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
@@ -347,8 +354,8 @@ class DashboasrdController extends Controller
         return view('admin.pelajaran.ipa.kelas10', compact('mapel', 'guru', 'jadwal', 'room'));
     }
 
-    public function kelasipaxi()
-    {
+    public function kelasipaxi(){
+        $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
             ->where('kelas', 11)
@@ -359,11 +366,12 @@ class DashboasrdController extends Controller
             ->select('jadwal.*', 'ruangan.nama_ruangan')
             ->get();
 
-        return view('admin.pelajaran.ipa.kelas11', compact('guru', 'mapel', 'jadwal'));
+        return view('admin.pelajaran.ipa.kelas11', compact('guru', 'mapel', 'jadwal', 'room'));
     }
 
     public function kelasipaxii()
     {
+        $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
             ->where('kelas', 12)
@@ -372,11 +380,12 @@ class DashboasrdController extends Controller
         $jadwal = DB::table('jadwal')
             ->where('kelas', 12)
             ->get();
-        return view('admin.pelajaran.ipa.kelas12', compact('guru', 'mapel', 'jadwal'));
+        return view('admin.pelajaran.ipa.kelas12', compact('guru', 'mapel', 'jadwal', 'room'));
     }
 
     public function kelasipsx()
     {
+        $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
             ->where('jurusan', "IPS")
@@ -385,11 +394,12 @@ class DashboasrdController extends Controller
             ->where('kelas', 10)
             ->where('jurusan', "IPS")
             ->get();
-        return view('admin.pelajaran.ips.kelas10', compact('guru', 'mapel', 'jadwal'));
+        return view('admin.pelajaran.ips.kelas10', compact('guru', 'mapel', 'jadwal', 'room'));
     }
 
     public function kelasipsxi()
     {
+        $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
             ->where('jurusan', "IPS")
@@ -398,11 +408,12 @@ class DashboasrdController extends Controller
             ->where('kelas', 11)
             ->where('jurusan', "IPS")
             ->get();
-        return view('admin.pelajaran.ips.kelas11', compact('guru', 'mapel', 'jadwal'));
+        return view('admin.pelajaran.ips.kelas11', compact('guru', 'mapel', 'jadwal', 'room'));
     }
 
     public function kelasipsxii()
     {
+        $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
             ->where('jurusan', "IPS")
@@ -411,7 +422,7 @@ class DashboasrdController extends Controller
             ->where('kelas', 12)
             ->where('jurusan', "IPS")
             ->get();
-        return view('admin.pelajaran.ips.kelas12', compact('guru', 'mapel', 'jadwal'));
+        return view('admin.pelajaran.ips.kelas12', compact('guru', 'mapel', 'jadwal', 'room'));
     }
 
     public function addjadwal(Request $request)
