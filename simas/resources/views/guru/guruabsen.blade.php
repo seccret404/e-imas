@@ -62,19 +62,19 @@ crossorigin=""/>
     <div class="row text-center">
         <div class="col">
 
-            <button type="submit" class="btn btn-primary btn-block" style="width: 30%">
+            <button type="submit" class="btn btn-primary btn-block" style="width: 30%" id="captureButton">
                 <ion-icon name="camera-outline"></ion-icon>
                 Absen Masuk
             </button>
     </div>
     </div>
-    {{-- <div class="row mt-2 justify-content-center">
-        <div class="col-6 mb-5">
-            <div id="map">
-            </div>
-        </div>
 
-    </div> --}}
+    <div class="row mt-2 justify-content-center">
+        <div class="col-6 mb-5">
+            <div id="capturedImage"></div>
+            <input type="hidden" name="captured_image" id="capturedImageInput">
+        </div>
+    </div>
 </form>
 
     <audio id="notifikasi_in">
@@ -94,7 +94,7 @@ crossorigin=""/>
     Webcam.set({
         height:480,
         width:400,
-        image_format:'jpeg',
+        image_format:'jpg',
         jpeg_quality:80
 
     });
@@ -103,6 +103,8 @@ crossorigin=""/>
 
     var lokasi1 = document.getElementById('lokasiin');
     var lokasi2 = document.getElementById('lokasion');
+
+
 
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -118,7 +120,10 @@ crossorigin=""/>
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-    var circle = L.circle([2.324110, 99.047969 ], {
+    // 2.965918, 99.068474
+    // 2.324110, 99.047969
+
+    var circle = L.circle([2.965918, 99.068474 ], {
     color: 'red',
     fillColor: '#f04',
     fillOpacity: 0.5,
@@ -129,6 +134,26 @@ crossorigin=""/>
 
 
     }
+     document.getElementById('captureButton').addEventListener('click', function () {
+        Webcam.snap(function (dataUri) {
+            // Create an image element and set the captured image as its source
+            var img = document.createElement('img');
+            img.src = dataUri;
+            img.style.borderRadius = '15px';
+            img.style.marginTop = '-40px';
+
+            // Add the captured image below the button
+            var capturedImageContainer = document.getElementById('capturedImage');
+            capturedImageContainer.innerHTML = ''; // Clear previous images
+            capturedImageContainer.appendChild(img);
+
+            // Set the captured image data URI in the hidden input field
+            document.getElementById('capturedImageInput').value = dataUri;
+
+        });
+
+
+    });
 </script>
 
 @endpush

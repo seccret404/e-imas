@@ -11,6 +11,8 @@ use App\Models\KeahlianGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
 class GuruController extends Controller
@@ -32,7 +34,7 @@ class GuruController extends Controller
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
             ->where('jadwal.kode_guru', $idGuru->id)
-            ->orderByRaw("CASE 
+            ->orderByRaw("CASE
                                 WHEN jadwal.hari = 'Monday' THEN 1
                                 WHEN jadwal.hari = 'Tuesday' THEN 2
                                 WHEN jadwal.hari = 'Wednesday' THEN 3
@@ -562,8 +564,8 @@ class GuruController extends Controller
             $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
-            $latitudekantor = 2.324110; 
-            $longitudekantor = 99.047969;
+            $latitudekantor = 2.965918;
+            $longitudekantor = 99.068474;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;
@@ -577,13 +579,26 @@ class GuruController extends Controller
                 if ($cek > 0) {
                     return redirect('/dashboard/guru')->with(['success' => "Telah Melakukan Absen"]);
                 } else {
+                    if ($request->has('captured_image')) {
+                        $imageDataUri = $request->input('captured_image');
+                        $imagePath = 'public/absen/guru/' . uniqid() . '.jpg';
+                        $image = Image::make($imageDataUri)->encode('jpg', 80);
+                        Storage::disk('public')->put($imagePath, $image);
+
+                        // Save the image path to the 'gambar' column
+                        $gambar = $imagePath;
+                    } else {
+                        // If the image is not captured, you can set a default image path or handle it accordingly
+                        $gambar = 'path/to/default/image.jpg';
+                    }
+
                     $data = [
                         'id_guru' => $id,
                         'npdn' => $id_user,
                         'tgl_presensi' => $tgl_presensi,
                         'jam_masuk' => $jam,
                         'jam_keluar' => Null,
-                        'gambar' => "nul",
+                        'gambar' => $gambar,
                         'location_masuk' => $lokasi,
                         'lokasi_keluar' => Null
 
