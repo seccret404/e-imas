@@ -93,7 +93,7 @@
                                                             </a>
                                                         @else
                                                             <a href="#" class="btn btn-primary" readonly>
-                                                                <p>Belum ada jawaban yang terkirim</p>
+                                                                <p>0 pengumpul</p>
                                                             </a>
                                                         @endif
                                                     </td>

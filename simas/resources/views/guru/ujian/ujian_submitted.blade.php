@@ -39,7 +39,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
+                            <div class="row mt-4  p-1">
                                 <table class="table table-bordered">
                                     <div class="col-12">
                                         <thead>
@@ -92,7 +92,7 @@
                                                             </a>
                                                         @else
                                                             <a href="#" class="btn btn-primary" readonly>
-                                                                <p>Belum ada jawaban yang terkirim</p>
+                                                                <p>0 orang pengumpul</p>
                                                             </a>
                                                         @endif
 
