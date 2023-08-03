@@ -162,11 +162,11 @@ class GuruController extends Controller
     public function indext()
     {
         $id_guru = Auth::user()->id;
-        $mapel = DB::table('jadwal')
-            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+        $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
             ->join('users', 'users.id_user', '=', 'guru.npdn')
             ->where('users.id', $id_guru)
-            ->select('jadwal.nama_pelajaran')
+            ->select('matapelajran.nama_pelajaran')
             ->get();
         $tugas = DB::table('tugas')->where('id_guru', $id_guru)->get();
         // dd($mapel);
@@ -251,59 +251,11 @@ class GuruController extends Controller
             }
         }
 
-        // dd($jlhSudahMengumpul);
-        return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
+        // dd($tugas);
+return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
 
 
-    // $jlhSudahPengumpul = DB::table('tugas')
-    //         ->join('siswa', function ($join) {
-    //             $join->on('tugas.jurusan', '=', 'siswa.jurusan')
-    //                 ->on('tugas.kelas', '=', 'siswa.kelas');
-    //         })
-    //         ->leftJoin('hasiltugas', function ($join) use ($tugasIdArray) {
-    //             $join->on('siswa.id', '=', 'hasiltugas.id_user')
-    //                 ->whereIn('hasiltugas.id_tugas', $tugasIdArray);
-    //         })
-    //         ->where('hasiltugas.id_user')
-    //         ->groupBy('tugas.id_tugas')
-    //         ->select('tugas.id_tugas', DB::raw('count(siswa.id) as jumlah_pengumpul'))
-    //         ->get();
-
-    //     $jlhSudahMengumpul = DB::table('tugas')
-    //         ->join('siswa', function ($join) {
-    //             $join->on('tugas.jurusan', '=', 'siswa.jurusan')
-    //                 ->on('tugas.kelas', '=', 'siswa.kelas');
-    //         })
-    //         ->join('hasiltugas', 'tugas.id_tugas', '=', 'hasiltugas.id_tugas')
-    //         ->groupBy('tugas.id_tugas')
-    //         ->select('tugas.id_tugas', DB::raw('count(hasiltugas.id_tugas) as jumlah_pengumpul'))
-    //         ->get();
-
-    //     $siswaBelumMengumpulkan = DB::table('siswa')
-    //         ->join('tugas', function ($join) {
-    //             $join->on('tugas.jurusan', '=', 'siswa.jurusan')
-    //                 ->on('tugas.kelas', '=', 'siswa.kelas');
-    //         })
-    //         ->leftJoin('hasiltugas', function ($join) use ($tugasIdArray) {
-    //             $join->on('siswa.id', '=', 'hasiltugas.id_user')
-    //                 ->whereIn('hasiltugas.id_tugas', $tugasIdArray);
-    //         })
-    //         ->whereNull('hasiltugas.id_user')
-    //         ->groupBy('tugas.id_tugas')
-    //         ->select('tugas.id_tugas', DB::raw('COUNT(siswa.id) as jumlah_siswa_belum_mengumpulkan'))
-    //         ->get();
-
-
-    //     $siswaBelumMengumpulkan = DB::table('tugas')
-    //         ->leftJoin('hasiltugas', function ($join) use ($tugasIdArray) {
-    //             $join->on('tugas.id_tugas', '=', 'hasiltugas.id_user')
-    //                 ->whereIn('hasiltugas.id_tugas', $tugasIdArray);
-    //         })
-    //         ->whereNull('hasiltugas.id_hasil')
-    //         ->select(DB::raw('count(hasiltugas.id_tugas) as jumlah_siswa_belum_mengumpulkan'))
-    //         ->groupBy('hasiltugas.id_tugas')
-    //         ->get();
 
 
     public function tugasguruall($id_tugas)
@@ -492,10 +444,9 @@ class GuruController extends Controller
                 }
             }
         }
-
+        // dd($jlhPengumpul);
         return view('guru.ujian.ujian_submitted', compact('ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
-
     public function ujianguruall($id_ujian)
     {
         $ujianall = DB::table('hasilujian')->where('id_ujian', $id_ujian)->get();
@@ -565,7 +516,7 @@ class GuruController extends Controller
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
             $latitudekantor = 2.324110;
-            $longitudekantor = 99.047969;
+             $longitudekantor = 99.047969;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;
