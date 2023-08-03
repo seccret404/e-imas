@@ -445,7 +445,7 @@ return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSu
             }
         }
         // dd($jlhPengumpul);
-        return view('guru.ujian.ujian_submitted', compact('ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
+        return view('guru.ujian.ujian_submitted', compact('pengumpul','ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
     public function ujianguruall($id_ujian)
     {
