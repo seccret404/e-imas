@@ -181,6 +181,7 @@ class AbsensiController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $nameFilter = $request->input('name');
 
         // Set the default filter to the current month if no dates are provided
         if (empty($startDate) || empty($endDate)) {
@@ -191,9 +192,18 @@ class AbsensiController extends Controller
             $endDate = date('Y-m-t', strtotime($startDate));
         }
 
+        $allUsers = DB::table('users')
+        ->select('id', 'name')
+        ->where('role', 'guru')
+        ->get();
+
         $users = DB::table('users')
             ->select('id', 'name')
             ->where('role', 'guru')
+            ->when($nameFilter, function ($query, $nameFilter) {
+                // Filter by class if $kelas is provided
+                return $query->where('name', $nameFilter);
+            })
             ->get();
 
         // Generate the calendar for the selected date range
@@ -225,13 +235,14 @@ class AbsensiController extends Controller
             $groupedAbsen[$userId][$date] = $attendance;
         }
 
-        return view('admin.rekap_absen.rekap_absen_guru', compact('users', 'groupedAbsen', 'datesInMonth', 'startDate', 'endDate'));
+        return view('admin.rekap_absen.rekap_absen_guru', compact('users', 'allUsers', 'groupedAbsen', 'datesInMonth', 'startDate', 'endDate', 'nameFilter'));
     }
 
     public function rekapabsensiswa(Request $request)
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $kelas = $request->input('kelas');
 
         // Set the default filter to the current month if no dates are provided
         if (empty($startDate) || empty($endDate)) {
@@ -245,6 +256,10 @@ class AbsensiController extends Controller
         $users = DB::table('users')
             ->select('id', 'name')
             ->where('role', 'siswa')
+            ->when($kelas, function ($query, $kelas) {
+                // Filter by class if $kelas is provided
+                return $query->where('kelas', $kelas);
+            })
             ->get();
 
         // Generate the calendar for the selected date range
@@ -275,6 +290,6 @@ class AbsensiController extends Controller
 
             $groupedAbsen[$userId][$date] = $attendance;
         }
-        return view('admin.rekap_absen.rekap_absen_siswa', compact('users', 'groupedAbsen', 'datesInMonth', 'startDate', 'endDate'));
+        return view('admin.rekap_absen.rekap_absen_siswa', compact('users', 'groupedAbsen', 'datesInMonth', 'startDate', 'endDate', 'kelas'));
     }
 }

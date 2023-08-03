@@ -589,10 +589,10 @@
                     <div class="dropdown-menu">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
-                                <a class="dropdown-item {{ \Request::is('guru') ? 'active' : '' }}" href="/rekap-absensi-guru">
+                                <a class="dropdown-item {{ \Request::is('rekap-absensi-guru') ? 'active' : '' }}" href="/rekap-absensi-guru">
                                     Guru
                                 </a>
-                                <a class="dropdown-item {{ \Request::is('siswa') ? 'active' : '' }}"
+                                <a class="dropdown-item {{ \Request::is('rekap-absensi-siswa') ? 'active' : '' }}"
                                     href="/rekap-absensi-siswa">
                                     Siswa
                                 </a>
