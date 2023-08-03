@@ -65,9 +65,15 @@
                                                     <td>{{ $item->jurusan }}</td>
                                                     <td>{{ $item->kelas }}</td>
                                                     <td>
+                                                        @php
+                                                            $jumlahSudahMengumpulkan = 0;
+                                                        @endphp
                                                         @foreach ($jlhSudahMengumpul as $mengumpulkan)
                                                             @if ($mengumpulkan->id == $item->id)
                                                                 {{ $mengumpulkan->jumlah_sudah_mengumpulkan }} orang
+                                                                @php
+                                                                    $jumlahSudahMengumpulkan = $mengumpulkan->jumlah_sudah_mengumpulkan;
+                                                                @endphp
                                                             @endif
                                                         @endforeach
                                                     </td>
@@ -79,10 +85,17 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="{{ url('ujianguruall/' . $item->id) }}"
-                                                            class="btn btn-primary">
-                                                            <p>Detail Jawaban</p>
-                                                        </a>
+                                                        @if ($jumlahSudahMengumpulkan > 0)
+                                                            <a href="{{ url('ujianguruall/' . $item->id) }}"
+                                                                class="btn btn-primary">
+                                                                <p>Detail Jawaban</p>
+                                                            </a>
+                                                        @else
+                                                            <a href="#" class="btn btn-primary" readonly>
+                                                                <p>Belum ada jawaban yang terkirim</p>
+                                                            </a>
+                                                        @endif
+
                                                     </td>
 
 

@@ -66,9 +66,15 @@
                                                     <td>{{ $item->jurusan }}</td>
                                                     <td>{{ $item->kelas }}</td>
                                                     <td>
+                                                        @php
+                                                            $jumlahSudahMengumpulkan = 0;
+                                                        @endphp
                                                         @foreach ($jlhSudahMengumpul as $mengumpulkan)
                                                             @if ($mengumpulkan->id_tugas == $item->id_tugas)
                                                                 {{ $mengumpulkan->jumlah_sudah_mengumpulkan }} orang
+                                                                @php
+                                                                    $jumlahSudahMengumpulkan = $mengumpulkan->jumlah_sudah_mengumpulkan;
+                                                                @endphp
                                                             @endif
                                                         @endforeach
                                                     </td>
@@ -80,26 +86,21 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if (isset($jlhSudahMengumpul[$item->id_tugas]) && $jlhSudahMengumpul[$item->id_tugas]->jumlah_sudah_mengumpulkan > 0)
+                                                        @if ($jumlahSudahMengumpulkan > 0)
+                                                            <a href="{{ url('tugasguruall/' . $item->id_tugas) }}"
+                                                                class="btn btn-primary">
+                                                                <p>Detail Jawaban</p>
+                                                            </a>
+                                                        @else
                                                             <a href="#" class="btn btn-primary" readonly>
                                                                 <p>Belum ada jawaban yang terkirim</p>
                                                             </a>
-                                                        @else
-                                                            <a href="{{ url('tugasguruall/' . $item->id_tugas) }}"
-                                                                class="btn btn-primary">
-                                                                <p>Detail Jawaban</p>
-                                                            </a>
                                                         @endif
                                                     </td>
-                                                    {{-- <td>
-                                                            <a href="{{ url('tugasguruall/' . $item->id_tugas) }}"
-                                                                class="btn btn-primary">
-                                                                <p>Detail Jawaban</p>
-                                                            </a>
-                                                    </td> --}}
                                                 </tr>
                                             @endforeach
                                         </tbody>
+
                                     </div>
                                 </table>
                             </div>

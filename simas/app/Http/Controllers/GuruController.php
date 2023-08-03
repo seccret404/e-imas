@@ -251,7 +251,7 @@ class GuruController extends Controller
             }
         }
 
-        // dd($tugas);
+        // dd($jlhSudahMengumpul);
         return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
 
