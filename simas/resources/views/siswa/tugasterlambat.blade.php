@@ -96,8 +96,8 @@
                                                 </div>
                                                 <p><strong><span class="btn btn-danger readonly"
                                                     style="cursor: default;">Waktu Submit sudah Terlambat</span></strong></p>
-                                                <a href="{{ route('hasil-tugas.view', ['id_tugas' => $item->id_tugas]) }}"
-                                                    class="btn btn-primary">View</a>
+                                                {{-- <a href="{{ route('hasil-tugas.view', ['id_tugas' => $item->id_tugas]) }}"
+                                                    class="btn btn-primary">View</a> --}}
                                             </div>
                                             <div class="col-auto align-self-center">
                                                 <div class="badge bg-primary"></div>
