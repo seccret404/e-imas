@@ -5,7 +5,7 @@
 
 <div class="page-header d-print-none">
     <div class="container-xl">
-        <div class="row g-2 align-items-center">
+        <div class="row g-2 align-items-center text-white">
             <div class="col">
                 <div class="page-pretitle">
                     Jadwal Hari ini
@@ -48,7 +48,7 @@
                         <path d="M13 12l2 0"></path>
                         <path d="M9 16l.01 0"></path>
                         <path d="M13 16l2 0"></path>
-                    </svg>Absens</a>
+                    </svg>Absensi</a>
             </div>
             <div class="col-md-3">
                 <div class="card card-sm">

@@ -7,7 +7,7 @@
                     <div class="page-pretitle">
 
                     </div>
-                    <h2 class="page-title">
+                    <h2 class="page-title text-white">
                         Rekap Absensi Siswa
                     </h2>
                 </div>
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 @endsection

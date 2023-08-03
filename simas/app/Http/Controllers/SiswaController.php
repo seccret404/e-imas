@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Hasil;
+use App\Models\Surat;
 use App\Models\Tugas;
+use App\Models\Ujian;
 use App\Models\Jadwal;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Surat;
-use App\Models\Ujian;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
@@ -303,54 +305,64 @@ class SiswaController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    if (Auth::check()) {
+        $id = Auth::user()->id;
+        $id_user = Auth::user()->id_user;
+        $tgl_presensi = date("Y-m-d");
+        $jam = date("H:i:s");
+        $latitudekantor = 2.965918;
+        $longitudekantor = 99.068474;
+        $latitudeuser = $request->input('lokasiin');
+        $longitudeuser = $request->input('lokasion');
+        $lokasi = $latitudeuser . ',' . $longitudeuser;
+        $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
+        $radius = round($jarak["meters"]);
 
-        if (Auth::check()) {
-            $id = Auth::user()->id;
-            $id_user = Auth::user()->id_user;
-            $tgl_presensi = date("Y-m-d");
-            $jam = date("H:i:s");
-            $latitudekantor = 2.324110; 
-            $longitudekantor = 99.047969;
-            $latitudeuser = $request->input('lokasiin');
-            $longitudeuser = $request->input('lokasion');
-            $lokasi = $latitudeuser . ',' . $longitudeuser;
-            $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
-            $radius = round($jarak["meters"]);
-
-            $cek = DB::table('presensisiswa')->where('tgl_presensi', $tgl_presensi)->where('nisn', $id_user)->count();
-            if ($radius > 1000) {
-                return Redirect::back()->with(['warning' => "Anda Berada Diluar Radius Sekolah"]);
+        $cek = DB::table('presensisiswa')->where('tgl_presensi', $tgl_presensi)->where('nisn', $id_user)->count();
+        if ($radius > 1000) {
+            return Redirect::back()->with(['warning' => "Anda Berada Diluar Radius Sekolah"]);
+        } else {
+            if ($cek > 0) {
+                return redirect('/dashboard/siswa')->with(['success' => "Telah Melakukan Absen"]);
             } else {
-                if ($cek > 0) {
-                    return redirect('/dashboard/siswa')->with(['success' => "Telah Melakukan Absen"]);
+                // Handle image upload
+                if ($request->has('captured_image')) {
+                    $imageDataUri = $request->input('captured_image');
+                    $imagePath = 'path/to/store/image/absensi/siswa/' . uniqid() . '.jpg';
+                    $image = Image::make($imageDataUri)->encode('jpg', 80);
+                    Storage::disk('public')->put($imagePath, $image);
+
+                    // Save the image path to the 'gambar' column
+                    $gambar = $imagePath;
                 } else {
-                    $data = [
-                        'id_siswa' => $id,
-                        'nisn' => $id_user,
-                        'tgl_presensi' => $tgl_presensi,
-                        'jam_masuk' => $jam,
-                        'jam_keluar' => Null,
-                        'gambar' => "nul",
-                        'location_masuk' => $lokasi,
-                        'lokasi_keluar' => Null
+                    // If the image is not captured, you can set a default image path or handle it accordingly
+                    $gambar = 'path/to/default/image.jpg';
+                }
 
 
-                    ];
 
-                    $simpan = DB::table('presensisiswa')->insert($data);
-                    if ($simpan) {
-                        return redirect('/detail-absen')->with(['success' => "Absen Selesai Selamat Belajar"]);
-                    } else {
-                        return redirect('/detail-absen')->with(['error' => "Absen Gagal"]);
-                    }
+                $data = [
+                    'id_siswa' => $id,
+                    'nisn' => $id_user,
+                    'tgl_presensi' => $tgl_presensi,
+                    'jam_masuk' => $jam,
+                    'jam_keluar' => Null,
+                    'gambar' => $gambar, // Save the image path to the 'gambar' column
+                    'location_masuk' => $lokasi,
+                    'lokasi_keluar' => Null
+                ];
+
+                $simpan = DB::table('presensisiswa')->insert($data);
+                if ($simpan) {
+                    return redirect('/detail-absen')->with(['success' => "Absen Selesai Selamat Belajar"]);
+                } else {
+                    return redirect('/detail-absen')->with(['error' => "Absen Gagal"]);
                 }
             }
         }
     }
-
-
-
+}
 
 
 
