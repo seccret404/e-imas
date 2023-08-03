@@ -162,11 +162,11 @@ class GuruController extends Controller
     public function indext()
     {
         $id_guru = Auth::user()->id;
-        $mapel = DB::table('matapelajran')
-            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+        $mapel = DB::table('jadwal')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
             ->join('users', 'users.id_user', '=', 'guru.npdn')
             ->where('users.id', $id_guru)
-            ->select('matapelajran.nama_pelajaran')
+            ->select('jadwal.nama_pelajaran')
             ->get();
         $tugas = DB::table('tugas')->where('id_guru', $id_guru)->get();
         // dd($mapel);
