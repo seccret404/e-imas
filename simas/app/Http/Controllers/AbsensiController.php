@@ -55,6 +55,7 @@ class AbsensiController extends Controller
                 'tgl_presensi' => $date,
                 'name' => null,
                 'jam_masuk' => null,
+                'gambar' => null,
                 'jam_keluar' => null,
                 'status' => 'Belum Absen'
             ];
@@ -64,6 +65,7 @@ class AbsensiController extends Controller
                     $absensiData['id'] = $item->id;
                     $absensiData['name'] = $item->name;
                     $absensiData['jam_masuk'] = $item->jam_masuk;
+                    $absensiData['gambar'] = $item->gambar;
                     $absensiData['jam_keluar'] = $item->jam_keluar;
                     if ($item->jam_masuk && !$item->jam_keluar) {
                         $absensiData['status'] = 'Absensi Pulang Belum Dilakukan';

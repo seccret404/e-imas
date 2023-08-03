@@ -85,7 +85,7 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item['name'] }}</td>
                                                     <td>{{ $item['tgl_presensi'] }}</td>
-                                                    <td>{{ $item['jam_masuk'] ?? 'Belum Absen Masuk' }}</td>
+                                                    <td>{{ $item['jam_masuk'] ?? 'Belum Absen Masuk' }} <br> <a href="{{url ('Storage/'. $item['gambar'])}}">Lihat Gambar</a></td>
                                                     <td>
                                                         @if ($item['jam_masuk'])
                                                             @if (isset($item['jam_keluar']))

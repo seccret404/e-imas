@@ -329,7 +329,7 @@ class SiswaController extends Controller
                 // Handle image upload
                 if ($request->has('captured_image')) {
                     $imageDataUri = $request->input('captured_image');
-                    $imagePath = 'path/to/store/image/absensi/siswa/' . uniqid() . '.jpg';
+                    $imagePath = 'public/absen/siswa/' . uniqid() . '.jpg';
                     $image = Image::make($imageDataUri)->encode('jpg', 80);
                     Storage::disk('public')->put($imagePath, $image);
 
