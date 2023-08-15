@@ -130,7 +130,8 @@ class DashboasrdController extends Controller
     public function guru()
     {
 
-        $guru =  DB::table('guru')->where('status', "aktif")->get();
+        // $guru =  DB::table('guru')->where('status', "aktif")->get();
+        $guru =  DB::table('guru')->get();
 
         return view('admin.guru.index', compact('guru'));
     }
@@ -138,6 +139,11 @@ class DashboasrdController extends Controller
     {
         Guru::where('id', $id)->update(['status' => "non-aktif"]);
         return redirect('/guru')->with(['success', "Guru Berhasil Di Nonaktifka!!"]);
+    }
+    public function updateAktifStatus($id)
+    {
+        Guru::where('id', $id)->update(['status' => "aktif"]);
+        return redirect('/guru')->with(['success', "Guru Berhasil Di Aktifkan Kembali!!"]);
     }
     public function finish($id_pesanan)
     {
@@ -316,7 +322,8 @@ class DashboasrdController extends Controller
         return view('admin.pelajaran.matapelajaran', compact('akademik', 'guru', 'mapel'));
     }
 
-    public function addmapel(Request $request){
+    public function addmapel(Request $request)
+    {
 
         $nama_pelajaran = $request->nama_pelajaran;
         $jurusan = $request->jurusan;
@@ -354,7 +361,8 @@ class DashboasrdController extends Controller
         return view('admin.pelajaran.ipa.kelas10', compact('mapel', 'guru', 'jadwal', 'room'));
     }
 
-    public function kelasipaxi(){
+    public function kelasipaxi()
+    {
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
