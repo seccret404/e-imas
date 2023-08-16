@@ -23,7 +23,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <a href="/mata-pelajaran"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+
                     </div>
                     <div class="modal-body">
                         <form action="{{url('pelajaran/edit/'.$pelajaran->id)}}"  method="POST" id="form_departemen">
@@ -32,7 +33,6 @@
                                 <div class="col-12">
                                     <div class="input-icon mb-3">
                                         <span class="input-icon-addon">
-                                            <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
                                                 with="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                                 stroke="currentColor" fill="none" stroke-linecap="round"

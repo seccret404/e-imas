@@ -23,7 +23,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Ujian</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <a href="/ujianguru"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+
                         </div>
                         <div class="modal-body">
                             <form action="{{ url('/ujianguru/edit/' . $ujian->id) }}" method="POST" id="form_departemen">
@@ -132,7 +133,7 @@
                                                         value="12" {{ $ujian->kelas == '12' ? 'checked' : '' }}>
                                                     <span class="form-check-label">12</span>
                                                 </label>
-        
+
                                             </div>
                                         </div>
                                     </div>
@@ -146,7 +147,7 @@
                                     <div class="col-12">
                                         <div class="form-gorup">
                                             <div class="form-label">Tahun Akademik</div>
-        
+
                                             <select name="tahun_akademik" id="kode_dept" class="form-select tomselected ">
                                                 <option class="text-muted" value="">Tahun Akademik</option>
                                                 @foreach ($tahun as $item)
@@ -155,7 +156,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-        
+
                                     </div>
                                 </div>
                                 <div class="row mt-2">

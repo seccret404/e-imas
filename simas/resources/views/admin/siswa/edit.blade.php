@@ -23,7 +23,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Data</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <a href="/siswa"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
                     </div>
                     <div class="modal-body">
                         <form action="{{url('/siswa/edit/'.$siswa->id)}}" method="POST" id="form_departemen">

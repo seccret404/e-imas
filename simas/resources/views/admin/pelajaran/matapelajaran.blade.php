@@ -173,39 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="row">
-                        <div class="col-12">
 
-                            <div class="form-gorup">
-                                <div class="form-label">Tahun Akademik</div>
-
-                                <select name="nama" id="kode_dept" class="form-select tomselected ">
-                                    <option value="">masukkan tahun</option>
-                                    @foreach ($akademik as $item)
-                                    <option {{Request('tahun')== $item->tahun ? 'selected' : ''}}
-                                        value="{{$item->tahun}}">{{$item->tahun}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-12">
-
-                            <div class="form-gorup">
-                                <div class="form-label">Kode Guru</div>
-
-                                <select name="kode_guru" id="kode_dept" class="form-select tomselected ">
-                                    <option value="">masukkan kode</option>
-                                    @foreach ($guru as $item)
-                                    <option {{Request('kode_guru')== $item->kode_guru ? 'selected' : ''}}
-                                        value="{{$item->kode_guru}}">{{$item->kode_guru}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div> --}}
 
                     <div class="row mt-3">
                         <div class="col-12">

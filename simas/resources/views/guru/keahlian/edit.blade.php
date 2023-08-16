@@ -23,7 +23,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Keahlian</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <a href="/keahlian"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+
                         </div>
                         <div class="modal-body">
                             <form action="{{ url('/keahlian/edit/' . $keahlian->id) }}" method="POST" id="form_departemen">
