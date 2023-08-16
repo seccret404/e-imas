@@ -60,27 +60,13 @@
                     @endphp
                 @endforeach
 
-                {{-- <div class="col-12">
+                <div class="col-12 mt-5">
                     <div class="card card-sm">
                         <div class="card-body">
-                            <div class="r0w">
-                                <div class="col-12">
-                                    @if (Session::get('success'))
-                                        <div class="alert alert-success">
-
-                                            {{ Session::get('success') }}
-                                        </div>
-                                    @endif
-                                    @if (Session::get('error'))
-                                        <div class="alert alert-danger">
-
-                                            {{ Session::get('error') }}
-
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
                             <div class="row">
+                                <h2 class="page-title text-black">
+                                    Jadwal Keseluruhan
+                                </h2>
                                 <div class="row mt-4">
                                     <table class="table table-bordered">
                                         <div class="col-12">
@@ -95,7 +81,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($jadwal as $item)
+                                                @foreach ($allJadwal as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->hari }}</td>
@@ -115,35 +101,14 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row mt-5">
-                                <div class="col border " style="border:45px;border-color:black" >
-                                    <div class="card-body">
-                                        <h3 class="card-title">Pengumuman</h3>
-                                        <hr>
-                                        <ul class="steps steps-vertical" style="padding:5px">
-                                            @foreach ($pengumuman as $item)
-                                             <li class="step-item">
-                                                <div class="h4 m-0">{{$item->judul}}</div>
-                                                <div class="text-muted">{{Str::words($item->info,4,'....')}}</div>
-                                                <div class="div"><a href="/pengumuman/{{$item->id_pengumuman}}">Lihat</a></div>
-                                            </li>
-                                            @endforeach
-
-
-                                        </ul>
-                                      </div>
-                                   </div>
-                            </div>
                         </div>
 
 
                         <div>
                         </div>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>
 @endsection
-
-

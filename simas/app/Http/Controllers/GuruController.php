@@ -34,6 +34,7 @@ class GuruController extends Controller
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
             ->where('jadwal.kode_guru', $idGuru->id)
+            ->where('jadwal.hari', $hari)
             ->orderByRaw("CASE
                                 WHEN jadwal.hari = 'Monday' THEN 1
                                 WHEN jadwal.hari = 'Tuesday' THEN 2
@@ -46,10 +47,28 @@ class GuruController extends Controller
                           END")
             ->orderBy('jadwal.jam_masuk', 'asc')
             ->get();
+
+        $allJadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->where('jadwal.kode_guru', $idGuru->id)
+            ->orderByRaw("CASE
+                            WHEN jadwal.hari = 'Monday' THEN 1
+                            WHEN jadwal.hari = 'Tuesday' THEN 2
+                            WHEN jadwal.hari = 'Wednesday' THEN 3
+                            WHEN jadwal.hari = 'Thursday' THEN 4
+                            WHEN jadwal.hari = 'Friday' THEN 5
+                            WHEN jadwal.hari = 'Saturday' THEN 6
+                            WHEN jadwal.hari = 'Sunday' THEN 7
+                            ELSE 8
+                      END")
+            ->orderBy('jadwal.jam_masuk', 'asc')
+            ->get();
+
         $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
 
-        // dd($jadwal);
-        return view('guru.index', compact('jadwal', 'pengumuman', 'tgl', 'hari'));
+        // dd($allJadwal);
+        return view('guru.index', compact('jadwal', 'pengumuman', 'tgl', 'hari', 'allJadwal'));
     }
 
     public function surat()
@@ -252,7 +271,7 @@ class GuruController extends Controller
         }
 
         // dd($tugas);
-return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
+        return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
 
 
@@ -445,7 +464,7 @@ return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSu
             }
         }
         // dd($jlhPengumpul);
-        return view('guru.ujian.ujian_submitted', compact('pengumpul','ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
+        return view('guru.ujian.ujian_submitted', compact('pengumpul', 'ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
     public function ujianguruall($id_ujian)
     {
@@ -516,7 +535,7 @@ return view('guru.tugas.tugasSubmitted', compact('tugas', 'jlhPengumpul', 'jlhSu
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
             $latitudekantor = 2.324110;
-             $longitudekantor = 99.047969;
+            $longitudekantor = 99.047969;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;
