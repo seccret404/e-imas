@@ -9,7 +9,7 @@
 
                 </div>
                 <h2 class="page-title text-white">
-                    Email ke siswa
+                  Kirim  Email ke siswa
                 </h2>
             </div>
         </div>

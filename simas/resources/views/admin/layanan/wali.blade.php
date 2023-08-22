@@ -9,7 +9,7 @@
 
                 </div>
                 <h2 class="page-title text-white">
-                    Email ke Wali
+                   Kirim Email ke Wali
                 </h2>
             </div>
         </div>
