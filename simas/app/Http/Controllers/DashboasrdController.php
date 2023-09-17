@@ -326,11 +326,15 @@ class DashboasrdController extends Controller
     {
 
         $nama_pelajaran = $request->nama_pelajaran;
+        $kode_guru = $request->kode_guru;
+        // $nama = $request->nama;
         $jurusan = $request->jurusan;
         $kelas = $request->kelas;
 
         $data = [
             'nama_pelajaran' => $nama_pelajaran,
+            'kode_guru' => $kode_guru,
+            // 'nama' => $nama,
             'jurusan' => $jurusan,
             'kelas' => $kelas
         ];
@@ -349,6 +353,7 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $mapel = DB::table('matapelajran')
             ->where('kelas', 10)
+            ->where('jurusan', 'IPA')
             ->get();
 
         $jadwal = DB::table('jadwal')
@@ -396,6 +401,7 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->where('kelas', 10)
             ->where('jurusan', "IPS")
             ->get();
         $jadwal = DB::table('jadwal')
@@ -410,6 +416,7 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->where('kelas', 11)
             ->where('jurusan', "IPS")
             ->get();
         $jadwal = DB::table('jadwal')
@@ -424,6 +431,7 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->where('kelas', 12)
             ->where('jurusan', "IPS")
             ->get();
         $jadwal = DB::table('jadwal')
@@ -477,6 +485,9 @@ class DashboasrdController extends Controller
         $status = $request->status;
         $keterangan = $request->keterangan;
 
+        if (empty($keterangan)) {
+            $keterangan = '-';
+        }
 
         $data = [
             'nama_ruangan' => $nama_ruangan,
@@ -703,29 +714,34 @@ class DashboasrdController extends Controller
 
     public function pengumumanadd(Request $request)
     {
-        //dd($request->all());
-
         $judul = $request->judul;
         $info = $request->info;
-
+    
         $file = $request->file('file');
-        $namafile = $file->getClientOriginalName();
-        $tujuanFile = 'asset/pengumuman';
-        $file->move($tujuanFile, $namafile);
-
+        
+        if($file){
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/pengumuman';
+            $file->move($tujuanFile, $namafile);
+        } else {
+            // Jika file kosong, atur nilai default
+            $namafile = '-';
+        }
+    
         $data = [
             'judul' => $judul,
             'info' => $info,
             'file' => $namafile
         ];
-
+    
         $simpan = DB::table('pengumuman')->insert($data);
         if ($simpan) {
-            return Redirect::back()->with(['success' => 'Pngumuman berhasil Tambah']);
+            return Redirect::back()->with(['success' => 'Pengumuman berhasil ditambah']);
         } else {
-            return Redirect::back()->with(['error' => 'Data gagal di proses']);
+            return Redirect::back()->with(['error' => 'Data gagal diproses']);
         }
     }
+    
 
     public function delete($id_pengumuman)
     {

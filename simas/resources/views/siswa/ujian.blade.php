@@ -116,7 +116,7 @@
                                                                 </path>
                                                                 <path d="M12 5l0 14"></path>
                                                                 <path d="M5 12l14 0"></path>
-                                                            </svg>Kirim Tugas</a>
+                                                            </svg>Kirim Ujian</a>
                                                     @endif
                                                 @endif
                                                 <a href="{{ route('hasil-ujian.view', ['id' => $item->id]) }}"

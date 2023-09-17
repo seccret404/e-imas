@@ -181,11 +181,11 @@ class GuruController extends Controller
     public function indext()
     {
         $id_guru = Auth::user()->id;
-        $mapel = DB::table('jadwal')
-            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+        $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
             ->join('users', 'users.id_user', '=', 'guru.npdn')
             ->where('users.id', $id_guru)
-            ->select('jadwal.nama_pelajaran')
+            ->select('matapelajran.nama_pelajaran')
             ->get();
         $tugas = DB::table('tugas')->where('id_guru', $id_guru)->get();
         // dd($mapel);
@@ -320,9 +320,16 @@ class GuruController extends Controller
     {
         $ujian = DB::table('ujian')->where('id_guru', Auth::user()->id)->get();
         $nama = Auth::user()->name;
+        $id_guru = Auth::user()->id;
         $tahun = DB::table('akademik')->get();
-        $mapel = DB::table('matapelajran')->get();
-        // dd($nama);
+        $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->join('users', 'users.id_user', '=', 'guru.npdn')
+            ->where('users.id', $id_guru)
+            ->select('matapelajran.*')
+            ->get();
+        // $mapel = DB::table('matapelajran')->get();
+        // dd($id_guru);
         return view('guru.ujian.index', compact('ujian', 'nama', 'tahun', 'mapel'));
     }
 
@@ -383,6 +390,7 @@ class GuruController extends Controller
             'dedline' => 'required',
             'jurusan' => 'required',
             'kelas' => 'required',
+            'catatan' => 'required',
             'tahun_akademik' => 'required',
         ]);
 
@@ -398,6 +406,7 @@ class GuruController extends Controller
         $ujian->dedline = $request->dedline;
         $ujian->jurusan = $request->jurusan;
         $ujian->kelas = $request->kelas;
+        $ujian->catatan = $request->catatan;
         $ujian->tahun_akademik = $request->tahun_akademik;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -464,7 +473,7 @@ class GuruController extends Controller
             }
         }
         // dd($jlhPengumpul);
-        return view('guru.ujian.ujian_submitted', compact('pengumpul', 'ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
+        return view('guru.ujian.ujian_submitted', compact('ujian', 'jlhSudahMengumpul', 'jlhBelumMengumpul'));
     }
     public function ujianguruall($id_ujian)
     {

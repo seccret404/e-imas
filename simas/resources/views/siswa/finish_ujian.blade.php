@@ -51,7 +51,7 @@
                                             <h3>Tanggal Terkirim</h3>
                                         </div>
                                         <div class="col-8">
-                                            <h3>{{ $item->created_at ?? 'Tugas belum di submit' }}</h3>
+                                            <h3>{{ $item->created_at ?? 'Ujian belum di submit' }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                     <div class="mb-3">
                         <div class="row">
                             <div class="col-4">
-                                <h3>Dedline Tugas</h3>
+                                <h3>Dedline Ujian</h3>
                             </div>
                             <div class="col-8">
                                 <h3>{{ $item->dedline }}</h3>
@@ -71,7 +71,7 @@
                     <div class="mb-3">
                         <div class="row">
                             <div class="col-4">
-                                <h3>File Tugas</h3>
+                                <h3>File Ujian</h3>
                             </div>
                             <div class="col-8">
                                 @if ($item->file_hasil_ujian)

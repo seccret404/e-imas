@@ -285,16 +285,14 @@
                                                 <td class="w-50">
                                                     <p>{{ Str::words($item->info, 5, '....') }}</p>
                                                 </td>
-                                                <td class="text-nowrap text-muted">
-                                                    <p class="text-muted">{{ $item->created_at }}</p>
-
-                                                </td>
                                                 <td class="text-nowrap">
-                                                    <p><a href="{{ url('asset/pengumuman/' . $item->file) }}">Lihat
-                                                            Lampiran
-                                                            File</a>
-                                                    </p>
+                                                    @if($item->file != '-')
+                                                        <p><a href="{{ url('asset/pengumuman/' . $item->file) }}">Lihat Lampiran File</a></p>
+                                                    @else
+                                                        <p>-</p>
+                                                    @endif
                                                 </td>
+                                                
 
                                                 <td>
                                                     <p>
@@ -359,7 +357,7 @@
                                     <label class="form-label">Judul</label>
 
                                     <input type="text" value="" id="nama_dept" name="judul"
-                                        class="form-control" placeholder="">
+                                        class="form-control" placeholder="" required>
                                 </div>
                             </div>
                         </div>
@@ -368,7 +366,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Catatan</label>
                                     <textarea class="form-control" name="info" data-bs-toggle="autosize" placeholder=""
-                                        style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
+                                        style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;" required></textarea>
                                 </div>
                             </div>
                         </div>

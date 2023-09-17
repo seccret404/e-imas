@@ -173,20 +173,20 @@
                                          </svg>
                                     </span>
                                     <input type="text" value="" id="nama_dept" name="judul" class="form-control"
-                                        placeholder="Judul Tugas">
+                                        placeholder="Judul Tugas" required>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="form-label">File Tugas</div>
-                        <input type="file" name="file" class="form-control">
+                        <input type="file" name="file" class="form-control" required>
                       </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="form-label">Dedline</div>
                             <div class="input-icon mb-2">
-                                <input type="date" name="dedline" class="form-control " placeholder="Select a date" id="datepicker-icon">
+                                <input type="date" name="dedline" class="form-control " placeholder="Select a date" id="datepicker-icon" required>
                                 <span class="input-icon-addon"><!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
                                 </span>
                               </div>
@@ -237,7 +237,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Catatan</label>
-                        <textarea class="form-control" name="catatan" data-bs-toggle="autosize" placeholder="Tinggalkan catatan..." style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
+                        <textarea class="form-control" name="catatan" data-bs-toggle="autosize" placeholder="Tinggalkan catatan..." style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;" required></textarea>
                       </div>
                     <div class="row mt-2">
                         <div class="col-12">
