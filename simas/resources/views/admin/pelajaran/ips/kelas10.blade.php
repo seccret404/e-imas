@@ -222,8 +222,7 @@
                                             <path d="M17 4l2.75 2"></path>
                                          </svg>
                                     </span>
-                                    <input type="time" value="" id="nama_dept" name="jam_masuk" class="form-control"
-                                        placeholder="Nama Mata Pelajaran">
+                                    <input type="time" value="" id="nama_dept" name="jam_masuk" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -244,8 +243,7 @@
                                             <path d="M17 4l2.75 2"></path>
                                          </svg>
                                     </span>
-                                    <input type="time" value="" id="nama_dept" name="jam_selesai" class="form-control"
-                                        placeholder="Nama Mata Pelajaran">
+                                    <input type="time" value="" id="nama_dept" name="jam_selesai" class="form-control">
                                 </div>
                             </div>
                         </div>

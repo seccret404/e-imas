@@ -318,7 +318,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ \Request::is('tugas') ? 'active' : '' }}" href="/tugas">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/home -->
@@ -340,7 +340,7 @@
                             Tugas
                         </span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link {{ \Request::is('mata-pelajaran') ? 'active' : '' }}" href="/mata-pelajaran">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">

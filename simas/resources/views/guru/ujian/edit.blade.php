@@ -79,6 +79,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <div class="form-label">File Ujian</div>
+                                    <p>File Before : <a href="{{ url('asset/ujian/' . $ujian->file) }}"
+                                        alt="{{ $ujian->file }}">{{ $ujian->file }}</a></p>
                                     <input type="file" name="file" class="form-control">
                                 </div>
                                 <div class="row">
@@ -151,7 +153,7 @@
                                             <select name="tahun_akademik" id="kode_dept" class="form-select tomselected ">
                                                 <option class="text-muted" value="">Tahun Akademik</option>
                                                 @foreach ($tahun as $item)
-                                                    <option {{ Request('tahun_akademik') == $item->tahun ? 'selected' : '' }}
+                                                    <option {{ Request('tahun_akademik') == $ujian->tahun ? 'selected' : '' }}
                                                         value="{{ $item->tahun }}">{{ $item->tahun }}</option>
                                                 @endforeach
                                             </select>
