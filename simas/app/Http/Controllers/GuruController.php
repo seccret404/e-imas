@@ -27,12 +27,12 @@ class GuruController extends Controller
         $idGuru = DB::table('users')
             ->join('guru', 'users.id_user', '=', 'guru.npdn')
             ->where('users.id', $idUser)
-            ->select('guru.id')
+            ->select('guru.id', 'guru.kode_guru')
             ->first();
 
         $jadwal = DB::table('jadwal')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
-            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
             ->where('jadwal.kode_guru', $idGuru->id)
             ->where('jadwal.hari', $hari)
             ->orderByRaw("CASE
@@ -50,8 +50,8 @@ class GuruController extends Controller
 
         $allJadwal = DB::table('jadwal')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
-            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
-            ->where('jadwal.kode_guru', $idGuru->id)
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->where('jadwal.kode_guru', $idGuru->kode_guru)
             ->orderByRaw("CASE
                             WHEN jadwal.hari = 'Monday' THEN 1
                             WHEN jadwal.hari = 'Tuesday' THEN 2

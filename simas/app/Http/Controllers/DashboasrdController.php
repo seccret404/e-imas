@@ -358,11 +358,12 @@ class DashboasrdController extends Controller
 
         $jadwal = DB::table('jadwal')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
-            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
             ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
             ->where('kelas', 10)
             ->where('jurusan', "IPA")
             ->get();
+        // dd($jadwal);
         return view('admin.pelajaran.ipa.kelas10', compact('mapel', 'guru', 'jadwal', 'room'));
     }
 
@@ -376,7 +377,10 @@ class DashboasrdController extends Controller
             ->get();
         $jadwal = DB::table('jadwal')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
-            ->select('jadwal.*', 'ruangan.nama_ruangan')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
+            ->where('kelas', 11)
+            ->where('jurusan', "IPA")
             ->get();
 
         return view('admin.pelajaran.ipa.kelas11', compact('guru', 'mapel', 'jadwal', 'room'));
@@ -391,7 +395,11 @@ class DashboasrdController extends Controller
             ->where('jurusan', "IPA")
             ->get();
         $jadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
             ->where('kelas', 12)
+            ->where('jurusan', "IPA")
             ->get();
         return view('admin.pelajaran.ipa.kelas12', compact('guru', 'mapel', 'jadwal', 'room'));
     }
@@ -405,6 +413,9 @@ class DashboasrdController extends Controller
             ->where('jurusan', "IPS")
             ->get();
         $jadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
             ->where('kelas', 10)
             ->where('jurusan', "IPS")
             ->get();
@@ -420,6 +431,9 @@ class DashboasrdController extends Controller
             ->where('jurusan', "IPS")
             ->get();
         $jadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
             ->where('kelas', 11)
             ->where('jurusan', "IPS")
             ->get();
@@ -435,6 +449,9 @@ class DashboasrdController extends Controller
             ->where('jurusan', "IPS")
             ->get();
         $jadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
             ->where('kelas', 12)
             ->where('jurusan', "IPS")
             ->get();
@@ -447,7 +464,7 @@ class DashboasrdController extends Controller
         $nama_pelajaran = $request->nama_pelajaran;
         $jam_masuk = $request->jam_masuk;
         $jam_selesai = $request->jam_selesai;
-        $kode_guru = $request->kode_guru;
+        $kode_guru = $request->kode_guru; // Ambil kode guru dari request
         $ruangan = $request->ruangan;
         $jurusan = $request->jurusan;
         $kelas = $request->kelas;
@@ -458,10 +475,9 @@ class DashboasrdController extends Controller
             'jam_masuk' => $jam_masuk,
             'jam_selesai' => $jam_selesai,
             'ruangan' => $ruangan,
-            'kode_guru' => $kode_guru,
+            'kode_guru' => $kode_guru, // Gunakan kode guru yang diambil dari request
             'jurusan' => $jurusan,
             'kelas' => $kelas
-
         ];
 
         $simpan = DB::table('jadwal')->insert($data);
@@ -471,6 +487,7 @@ class DashboasrdController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal tambah']);
         }
     }
+
 
     public function room()
     {
@@ -716,10 +733,10 @@ class DashboasrdController extends Controller
     {
         $judul = $request->judul;
         $info = $request->info;
-    
+
         $file = $request->file('file');
-        
-        if($file){
+
+        if ($file) {
             $namafile = $file->getClientOriginalName();
             $tujuanFile = 'asset/pengumuman';
             $file->move($tujuanFile, $namafile);
@@ -727,13 +744,13 @@ class DashboasrdController extends Controller
             // Jika file kosong, atur nilai default
             $namafile = '-';
         }
-    
+
         $data = [
             'judul' => $judul,
             'info' => $info,
             'file' => $namafile
         ];
-    
+
         $simpan = DB::table('pengumuman')->insert($data);
         if ($simpan) {
             return Redirect::back()->with(['success' => 'Pengumuman berhasil ditambah']);
@@ -741,7 +758,7 @@ class DashboasrdController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal diproses']);
         }
     }
-    
+
 
     public function delete($id_pengumuman)
     {

@@ -29,7 +29,7 @@ class SiswaController extends Controller
         $hari = $hariIni->formatLocalized('%A');
         setlocale(LC_TIME, 'id_ID'); // Set locale ke Bahasa Indonesia
         $hariSekarang = strftime('%A');
-        //dd($hariSekarang);
+        // dd($jurusan);
         $tgl_presensi = date("Y-m-d");
 
         $cek = DB::table('presensisiswa')->where('tgl_presensi', $tgl_presensi)->where('nisn', $id_user)->count();
@@ -41,7 +41,7 @@ class SiswaController extends Controller
 
         // $jadwal = Jadwal::where('hari', $hariSekarang)->get();
         $jadwal = DB::table('jadwal')
-            ->join('guru', 'jadwal.kode_guru', '=', 'guru.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->where('jurusan', $jurusan)
             ->where('kelas', $kelas)
