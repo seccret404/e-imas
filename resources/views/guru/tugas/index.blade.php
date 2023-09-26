@@ -185,8 +185,8 @@
                                 <div class="form-gorup">
                                     <div class="form-label">Mata Pelajaran</div>
 
-                                    <select name="nama_pelajaran" id="kode_dept" class="form-select tomselected ">
-                                        <option class="text-muted" value="">Matapelajaran</option>
+                                    <select name="nama_pelajaran" id="mata_pelajaran" class="form-select tomselected ">
+                                        <option class="text-muted" id="" value="">Matapelajaran</option>
                                         @foreach ($mapel as $item)
                                             <option
                                                 {{ Request('nama_pelajaran') == $item->nama_pelajaran ? 'selected' : '' }}
@@ -221,7 +221,7 @@
                                                 <path d="M14 12h4"></path>
                                             </svg>
                                         </span>
-                                        <input type="text" value="" id="nama_dept" name="judul"
+                                        <input type="text" value="" id="judul_tugas" name="judul"
                                             class="form-control" placeholder="Judul Tugas">
                                     </div>
                                 </div>
@@ -229,13 +229,13 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-label">File Tugas</div>
-                            <input type="file" name="file" class="form-control">
+                            <input type="file" id="file_tugas" name="file" class="form-control">
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-label">Dedline</div>
                                 <div class="input-icon mb-2">
-                                    <input type="date" name="dedline" class="form-control "
+                                    <input type="date" id="dedline" name="dedline" class="form-control "
                                         placeholder="Select a date" id="datepicker-icon">
                                     <span class="input-icon-addon">
                                         <!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
@@ -293,7 +293,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Catatan</label>
-                            <textarea class="form-control" name="catatan" data-bs-toggle="autosize" placeholder="Tinggalkan catatan..."
+                            <textarea class="form-control" id="catatan" name="catatan" data-bs-toggle="autosize" placeholder="Tinggalkan catatan..."
                                 style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
                         </div>
                         <div class="row mt-2">
@@ -324,7 +324,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Apakah anda yakin?',
-                    text: "Ingin menghapus data ini!",
+                    text: "Ingin menghapus tugas ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -363,28 +363,64 @@
             });
 
             $("#form_departemen").submit(function() {
-                var kode_dept = $("#kode_dept").val();
-                var nama_dept = $("#nama_dept").val();
-                if (kode_dept == "") {
+                var mata_pelajaran = $("#mata_pelajaran").val();
+                var judul_tugas = $("#judul_tugas").val();
+                var file_tugas =$("#file_tugas").val();
+                var dedline = $("#dedline").val();
+                var catatan = $("#catatan").val();
+                if (mata_pelajaran == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'Mata Pelajaran harus di pilih!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#nik").focus()
+                        $("#mata_pelajaran").focus()
                     });;
                     return false;
-                } else if (nama_dept == "") {
+                } else if (judul_tugas == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Departemen Harus Diisi',
+                        title: 'Judul Tugas harus di isi!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#kode_dept").focus()
+                        $("#judul_tugas").focus()
+                    });;
+                    return false;
+                }else if (file_tugas == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'File Tugas tidak boleh kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#file_tugas").focus()
+                    });;
+                    return false;
+                }else if (dedline == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Dedline harus di isi!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#dedline").focus()
+                    });;
+                    return false;
+                }else if (catatan == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Buat catatan untuk melanjutkan!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#catatan").focus()
                     });;
                     return false;
                 }
