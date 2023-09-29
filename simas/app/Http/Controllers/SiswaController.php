@@ -71,7 +71,7 @@ class SiswaController extends Controller
     {
         $surat = DB::table('surat_izins')->where('id_user', Auth::user()->id)->get();
         $nama = Auth::user()->name;
-        // dd($nama);
+        // dd($namasaya);
         return view('siswa.surat_izin.index', compact('surat', 'nama'));
     }
 
