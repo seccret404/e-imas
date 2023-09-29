@@ -170,7 +170,7 @@
                         <div class="form-gorup">
                             <div class="form-label">Mata Pelajaran</div>
 
-                             <select name="nama_pelajaran" id="kode_dept" class="form-select tomselected ">
+                             <select name="nama_pelajaran" id="mata_pelajaran" class="form-select tomselected ">
                                 <option value="">masukkan pelajaran</option>
                                  @foreach ($pelajaran as $item)
                                 <option {{Request('nama_pelajaran')== $item->nama_pelajaran ? 'selected' : ''}}
@@ -195,7 +195,7 @@
                                     <path d="M17 10.5a1.5 1.5 0 0 0 -3 0v3a1.5 1.5 0 0 0 3 0"></path>
                                  </svg>
                             </span>
-                            <input type="text" value="" id="nama_dept" name="judul" class="form-control"
+                            <input type="text" value="" id="judul" name="judul" class="form-control"
                                 placeholder="-----">
                         </div>
                     </div>
@@ -214,7 +214,7 @@
                                     <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path>
                                  </svg>
                             </span>
-                            <input type="text" value="" id="nama_dept" name="pertanyaan" class="form-control"
+                            <input type="text" value="" id="pertanyaan" name="pertanyaan" class="form-control"
                                 placeholder="-----">
                         </div>
                     </div>
@@ -223,7 +223,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label class="form-label">Deskripsi <span class="form-label-description">56/100</span></label>
-                            <textarea class="form-control" name="deskripsi" rows="6" placeholder="Content.." style="height: 157px;">
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="6" placeholder="Content.." style="height: 157px;">
                                 </textarea>
                           </div>
                     </div>
@@ -232,7 +232,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <div class="form-label">Gambar</div>
-                            <input type="file" class="form-control" name="gambar">
+                            <input type="file" class="form-control" id="gambar" name="gambar">
                           </div>
                     </div>
                 </div>
@@ -264,7 +264,7 @@ $(function () {
         e.preventDefault();
         Swal.fire({
                  title: 'Apakah anda yakin?',
-                 text: "Ingin menghapus data ini!",
+                 text: "Ingin menghapus pertanyaan ini!",
                  icon: 'warning',
                  showCancelButton: true,
                  confirmButtonColor: '#3085d6',
@@ -276,7 +276,7 @@ $(function () {
                   Swal.fire(
 
                    'Deleted!',
-                   'Your file has been deleted.',
+                   'Your data has been deleted.',
                     'success'
                  )
                  }
@@ -303,28 +303,42 @@ $(function () {
     });
 
     $("#form_departemen").submit(function () {
-        var kode_dept = $("#kode_dept").val();
-        var nama_dept = $("#nama_dept").val();
-        if (kode_dept == "") {
+        var mata_pelajaran = $("#mata_pelajaran").val();
+        var judul = $("judul").val();
+        var pertanyaan = $("#pertanyaan").val();
+        var deskripsi = $("#deskripsi").val();
+        var gambar = $("#gambar").val();
+        if (mata_pelajaran == "") {
             Swal.fire({
                 position: 'top-center',
                 icon: 'warning',
-                title: 'Lengkapi Data dengan benar!',
+                title: 'Pilih Matapelajaran!',
                 showConfirmButton: true,
                 timer: 2000
             }).then((result) => {
-                $("#nik").focus()
+                $("#mata_pelajaran").focus()
             });;
             return false;
-        } else if (nama_dept == "") {
+        }else if (pertanyaan == "") {
             Swal.fire({
                 position: 'top-center',
                 icon: 'warning',
-                title: 'Lengkapi Data dengan benar!',
+                title: 'Buat pertanyaan!',
                 showConfirmButton: true,
                 timer: 2000
             }).then((result) => {
-                $("#kode_dept").focus()
+                $("#pertanyaan").focus()
+            });;
+            return false;
+        }else if (gambar == "") {
+            Swal.fire({
+                position: 'top-center',
+                icon: 'warning',
+                title: 'Pilih gambar!',
+                showConfirmButton: true,
+                timer: 2000
+            }).then((result) => {
+                $("#gambar").focus()
             });;
             return false;
         }

@@ -269,7 +269,7 @@
                                                 <path d="M17 4l2.75 2"></path>
                                             </svg>
                                         </span>
-                                        <input type="time" value="" id="nama_dept" name="jam_selesai"
+                                        <input type="time" value="" id="selesai" name="jam_selesai"
                                             class="form-control" placeholder="Nama Mata Pelajaran">
                                     </div>
                                 </div>
@@ -384,29 +384,41 @@
 
             });
 
-            $("#form_departemen").submit(function() {
-                var kode_dept = $("#kode_dept").val();
+             $("#form_departemen").submit(function() {
+                var nama_pelajaran = $("#nama_pelajaran").val();
                 var nama_dept = $("#nama_dept").val();
-                if (kode_dept == "") {
+                var selesai = $("#selesai").val();
+                if (nama_pelajaran == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'Mata pelajaran tidak boleh kosong!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#nik").focus()
+                        $("#nama_pelajaran").focus()
                     });;
                     return false;
                 } else if (nama_dept == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Departemen Harus Diisi',
+                        title: 'Ada kolom yang kosong!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
                         $("#kode_dept").focus()
+                    });;
+                    return false;
+                } else if (selesai == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada kolom yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#selesai").focus()
                     });;
                     return false;
                 }

@@ -147,7 +147,7 @@
                                         <path d="M12 2l.24 .004a7 7 0 0 1 6.76 6.996l-.003 .193l-.007 .192l-.018 .245l-.026 .242l-.024 .178a6.985 6.985 0 0 1 -.317 1.268l-.116 .308l-.153 .348a7.001 7.001 0 0 1 -12.688 -.028l-.13 -.297l-.052 -.133l-.08 -.217l-.095 -.294a6.96 6.96 0 0 1 -.093 -.344l-.06 -.271l-.049 -.271l-.02 -.139l-.039 -.323l-.024 -.365l-.006 -.292a7 7 0 0 1 6.76 -6.996l.24 -.004z" stroke-width="0" fill="currentColor"></path>
                                      </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_prestasi" class="form-control"
+                                <input type="text" value="" id="nama_prestasi" name="nama_prestasi" class="form-control"
                                     placeholder="Nama Prestasi">
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                                         <path d="M12 12l0 9"></path>
                                      </svg>
                                 </span>
-                                <input type="file" value="" id="nama_dept" name="file" required class="form-control"
+                                <input type="file" value="" id="file_prestasi" name="file" required class="form-control"
                                     placeholder="Nama Prestasi">
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label class="form-label required">Catatan Prestasi</label>
-                                <textarea class="form-control" data-bs-toggle="autosize" name="catatan" placeholder="Buat Catatan…" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
+                                <textarea class="form-control" data-bs-toggle="autosize" id="catatan" name="catatan" placeholder="Buat Catatan…" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
                               </div>
                         </div>
                     </div>
@@ -209,7 +209,7 @@
             e.preventDefault();
             Swal.fire({
                      title: 'Apakah anda yakin?',
-                     text: "Ingin menghapus data ini!",
+                     text: "Ingin menghapus prestasi ini!",
                      icon: 'warning',
                      showCancelButton: true,
                      confirmButtonColor: '#3085d6',
@@ -221,7 +221,7 @@
                       Swal.fire(
 
                        'Deleted!',
-                       'Your file has been deleted.',
+                       'Your data has been deleted.',
                         'success'
                      )
                      }
@@ -248,20 +248,10 @@
         });
 
         $("#form_departemen").submit(function () {
-            var kode_dept = $("#kode_dept").val();
-            var nama_dept = $("#nama_dept").val();
-            if (kode_dept == "") {
-                Swal.fire({
-                    position: 'top-center',
-                    icon: 'warning',
-                    title: 'Kode Departemen Harus Diisi',
-                    showConfirmButton: true,
-                    timer: 2000
-                }).then((result) => {
-                    $("#nik").focus()
-                });;
-                return false;
-            } else if (nama_dept == "") {
+            var nama_prestasi = $("#nama_prestasi").val();
+            var catatan = $("#catatan").val();
+        
+            if (nama_prestasi == "") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
@@ -269,7 +259,18 @@
                     showConfirmButton: true,
                     timer: 2000
                 }).then((result) => {
-                    $("#kode_dept").focus()
+                    $("#nama_prestasi").focus()
+                });;
+                return false;
+            } else if (catatan == "") {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'warning',
+                    title: 'Catatan Prestasi Harus Diisi',
+                    showConfirmButton: true,
+                    timer: 2000
+                }).then((result) => {
+                    $("#catatan").focus()
                 });;
                 return false;
             }

@@ -158,7 +158,7 @@
                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                     </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_ruangan" class="form-control"
+                                <input type="text" value="" id="kode_dept" name="nama_ruangan" class="form-control"
                                     placeholder="Nama Ruangan">
                             </div>
                         </div>
@@ -243,7 +243,7 @@
             e.preventDefault();
             Swal.fire({
                 title: 'Apakah anda yakin?',
-                text: "Ingin menghapus data ini!",
+                text: "Ingin menghapus data Ruangan ini!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -288,7 +288,7 @@
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
-                    title: 'Kode Departemen Harus Diisi',
+                    title: 'Nama Ruangan harus di isi',
                     showConfirmButton: true,
                     timer: 2000
                 }).then((result) => {
@@ -299,7 +299,7 @@
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
-                    title: 'Nama Departemen Harus Diisi',
+                    title: 'Kode Ruangan Harus Diisi',
                     showConfirmButton: true,
                     timer: 2000
                 }).then((result) => {
