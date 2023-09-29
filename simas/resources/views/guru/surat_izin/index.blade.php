@@ -183,7 +183,7 @@
                                             <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                         </svg>
                                     </span>
-                                    <input type="text" value="{{ $nama }}" id="nama_dept" name="nama"
+                                    <input type="text" value="{{ $nama }}" id="nama_guru" name="nama"
                                         class="form-control">
                                 </div>
                             </div>
@@ -230,7 +230,7 @@
                                             <path d="M9 13h6"></path>
                                         </svg>
                                     </span>
-                                    <textarea id="nama_dept" name="keterangan" class="form-control" placeholder="Keterangan Surat"
+                                    <textarea id="kode_dept" name="keterangan" class="form-control" placeholder="Keterangan Surat"
                                         style="resize: vertical;"></textarea>
                                 </div>
                             </div>
@@ -255,8 +255,8 @@
                                             <path d="M9 13h6"></path>
                                         </svg>
                                     </span>
-                                    <input type="file" id="nama_dept" name="tambahan" class="form-control"
-                                        placeholder="Keterangan Tambahan"></input>
+                                    <input type="file" id="kode_dept" name="tambahan" class="form-control"
+                                        placeholder="Keterangan Tambahan">
                                 </div>
                             </div>
                         </div>
@@ -280,7 +280,7 @@
                                             <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                         </svg>
                                     </span>
-                                    <input type="date" value="" id="nama_dept" name="mulai"
+                                    <input type="date" value="" id="tanggal_mulai" name="mulai"
                                         class="form-control" placeholder="BATAM....">
                                 </div>
                             </div>
@@ -305,7 +305,7 @@
                                             <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                         </svg>
                                     </span>
-                                    <input type="date" value="" id="nama_dept" name="selesai"
+                                    <input type="date" value="" id="tanggal_selesai" name="selesai"
                                         class="form-control" placeholder="BATAM....">
                                 </div>
                             </div>
@@ -343,7 +343,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Apakah anda yakin?',
-                    text: "Ingin menghapus data ini!",
+                    text: "Ingin menghapus surat izin ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -355,9 +355,10 @@
                         Swal.fire(
 
                             'Deleted!',
-                            'Your file has been deleted.',
-                            'success'
+                            'Your data has been deleted.',
+                            'success',
                         )
+                        
                     }
                 })
             });
@@ -384,29 +385,55 @@
             $("#form_departemen").submit(function() {
                 var kode_dept = $("#kode_dept").val();
                 var nama_dept = $("#nama_dept").val();
-                if (kode_dept == "") {
+                var tanggal_mulai = $("#tanggal_mulai").val();
+                var tanggal_selesai = $("#tanggal_selesai").val();
+
+                if (nama_guru == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'harus di isi',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#nik").focus()
+                        $("#nama_guru").focus()
                     });;
                     return false;
-                } else if (nama_dept == "") {
+                } else if (kode_dept == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Departemen Harus Diisi',
+                        title: 'Keterangan surat harus di isi!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
                         $("#kode_dept").focus()
                     });;
                     return false;
+                }else if (tanggal_mulai == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Tanggal mulai harus di isi!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#tanggal_mulai").focus()
+                    });;
+                    return false;
+                }else if (tanggal_selesai == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Tanggal selesai harus di isi!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#tanggal_selesai").focus()
+                    });;
+                    return false;
                 }
+                
             });
         })
     </script>

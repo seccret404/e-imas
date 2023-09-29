@@ -168,7 +168,7 @@
                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                     </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="nama_pelajaran" class="form-control"
+                                <input type="text" value="" id="mata_pelajaran" name="nama_pelajaran" class="form-control"
                                     placeholder="Nama Mata Pelajaran">
                             </div>
                         </div>
@@ -177,7 +177,7 @@
                         <div class="col-12">
                             <div class="form-gorup">
                                 <div class="form-label">Kode Guru</div>
-                                <select name="kode_guru" id="kode_dept" class="form-select tomselected ">
+                                <select name="kode_guru" id="kode_guru" class="form-select tomselected ">
                                     <option value="">masukkan kode</option>
                                     @foreach ($guru as $item)
                                     <option {{Request('kode_guru')== $item->kode_guru ? 'selected' : ''}}
@@ -265,7 +265,7 @@
             e.preventDefault();
             Swal.fire({
                 title: 'Apakah anda yakin?',
-                text: "Ingin menghapus data ini!",
+                text: "Ingin menghapus Mata Pelajaran ini!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -304,28 +304,28 @@
         });
 
         $("#form_departemen").submit(function () {
-            var kode_dept = $("#kode_dept").val();
-            var nama_dept = $("#nama_dept").val();
-            if (kode_dept == "") {
+            var mata_pelajaran = $("#mata_pelajaran").val();
+            var kode_guru = $("#kode_guru").val();
+            if (mata_pelajaran == "") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
-                    title: 'Kode Departemen Harus Diisi',
+                    title: 'Mata Pelajaran tidak boleh kosong !',
                     showConfirmButton: true,
                     timer: 2000
                 }).then((result) => {
-                    $("#nik").focus()
+                    $("#mata_pelajaran").focus()
                 });;
                 return false;
-            } else if (nama_dept == "") {
+            } else if (kode_guru == "") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
-                    title: 'Nama Departemen Harus Diisi',
+                    title: 'Kode Guru harus di isi !',
                     showConfirmButton: true,
                     timer: 2000
                 }).then((result) => {
-                    $("#kode_dept").focus()
+                    $("#kode_guru").focus()
                 });;
                 return false;
             }

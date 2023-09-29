@@ -220,7 +220,7 @@
                                             <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                         </svg>
                                     </span>
-                                    <input type="text" value="" id="nama_dept" name="nama"
+                                    <input type="text" value="" id="nama_guru" name="nama"
                                         class="form-control" placeholder="Nama Guru">
                                 </div>
                             </div>
@@ -241,7 +241,7 @@
                                                 stroke-width="0" fill="currentColor"></path>
                                         </svg>
                                     </span>
-                                    <input type="text" value="" id="nama_dept" name="tempat_lahir"
+                                    <input type="text" value="" id="tempat_lahir" name="tempat_lahir"
                                         class="form-control" placeholder="Tempat Lahir">
                                 </div>
                             </div>
@@ -405,6 +405,7 @@
                                                 <path d="M19 16v6"></path>
                                                 <path d="M3 7l9 6l9 -6"></path>
                                             </svg>
+                                        </svg>
                                     </span>
                                     <input type="email" value="" id="nama_dept" name="email"
                                         class="form-control" placeholder="email">
@@ -435,7 +436,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <div class="form-label">Unggah Foto</div>
-                                    <input type="file" class="form-control" name="profil">
+                                    <input type="file" id="unggah" class="form-control" name="profil">
                                 </div>
                             </div>
                         </div>
@@ -473,7 +474,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Apakah anda yakin?',
-                    text: "Ingin menghapus data ini!",
+                    text: "Ingin menghapus data Guru ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -485,7 +486,7 @@
                         Swal.fire(
 
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Data Guru berhasil di hapus.',
                             'success'
                         )
                     }
@@ -512,31 +513,56 @@
             });
 
             $("#form_departemen").submit(function() {
-                var kode_dept = $("#kode_dept").val();
+                var nama_guru = $("#nama_guru").val();
+                var tempat_lahir = $("#tempat_lahir").val();
                 var nama_dept = $("#nama_dept").val();
-                if (kode_dept == "") {
+                var unggah = $("#unggah").val();
+                if (nama_guru == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'Mohon isi Nama Guru',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#nik").focus()
+                        $("#nama_guru").focus()
+                    });;
+                    return false;
+                } else if (tempat_lahir == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Tempat lahir tidak boleh kosong',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#tempat_").focus()
                     });;
                     return false;
                 } else if (nama_dept == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Departemen Harus Diisi',
+                        title: 'Ada kolom yang kosong!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#kode_dept").focus()
+                        $("#nama_dept").focus()
                     });;
                     return false;
-                }
+                } 
+                else if (unggah == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada kolom yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#unggah").focus()
+                    });;
+                    return false;
+                } 
             });
         })
     </script>

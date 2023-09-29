@@ -405,7 +405,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Apakah anda yakin?',
-                    text: "Ingin menghapus data ini!",
+                    text: "Ingin menghapus pengumuman ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

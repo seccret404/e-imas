@@ -230,7 +230,7 @@
                                             <path d="M9 13h6"></path>
                                         </svg>
                                     </span>
-                                    <textarea id="nama_dept" name="keterangan" class="form-control" placeholder="Keterangan Surat"
+                                    <textarea id="keterangan_surat" name="keterangan" class="form-control" placeholder="Keterangan Surat"
                                         style="resize: vertical;"></textarea>
                                 </div>
                             </div>
@@ -255,9 +255,8 @@
                                             <path d="M9 13h6"></path>
                                         </svg>
                                     </span>
-                                    <input type="file" id="nama_dept" name="tambahan" class="form-control"
-                                        placeholder="Keterangan Tambahan"></input>
-                                </div>
+                                    <input type="file" id="keterangan_tambahan" name="tambahan" class="form-control"
+                                        placeholder="Keterangan Tambahan">
                             </div>
                         </div>
                         <div class="row">
@@ -280,7 +279,7 @@
                                             <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                         </svg>
                                     </span>
-                                    <input type="date" value="" id="nama_dept" name="mulai"
+                                    <input type="date" value="" id="mulai" name="mulai"
                                         class="form-control" placeholder="BATAM....">
                                 </div>
                             </div>
@@ -305,7 +304,7 @@
                                             <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                         </svg>
                                     </span>
-                                    <input type="date" value="" id="nama_dept" name="selesai"
+                                    <input type="date" value="" id="selesai" name="selesai"
                                         class="form-control" placeholder="BATAM....">
                                 </div>
                             </div>
@@ -344,7 +343,7 @@ $(document).ready(function () {
                 e.preventDefault();
                 Swal.fire({
                     title: 'Apakah anda yakin?',
-                    text: "Ingin menghapus data ini!",
+                    text: "Ingin menghapus surat izin ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -356,7 +355,7 @@ $(document).ready(function () {
                         Swal.fire(
 
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Your data has been deleted.',
                             'success'
                         )
                     }
@@ -383,28 +382,53 @@ $(document).ready(function () {
             });
 
             $("#form_departemen").submit(function() {
-                var kode_dept = $("#kode_dept").val();
-                var nama_dept = $("#nama_dept").val();
-                if (kode_dept == "") {
+                var keterangan_surat = $("#keterangan_surat").val();
+                var keterangan_tambahan = $("#keterangan_tambahan").val();
+                var mulai = $("#mulai").val();
+                var selesai = $("#selesai").val();
+
+                if (keterangan_surat == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'Keterangan surat Harus Diisi',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#nik").focus()
+                        $("#keterangan_surat").focus()
                     });;
                     return false;
-                } else if (nama_dept == "") {
+                } else if (keterangan_tambahan == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Departemen Harus Diisi',
+                        title: 'Keterangan Tambahan Harus Ada',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
-                        $("#kode_dept").focus()
+                        $("#keterangan_tambahan").focus()
+                    });;
+                    return false;
+                }else if (mulai == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Tanggal Mulai Harus Diisi',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#mulai").focus()
+                    });;
+                    return false;
+                }else if (selesai == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Tanggal Selesai Harus Diisi',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#selesai").focus()
                     });;
                     return false;
                 }

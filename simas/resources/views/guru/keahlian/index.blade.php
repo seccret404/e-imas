@@ -174,7 +174,7 @@
                                                 stroke-width="0" fill="currentColor"></path>
                                         </svg>
                                     </span>
-                                    <input type="text" value="" id="nama_dept" name="nama_keahlian"
+                                    <input type="text" value="" id="nama_keahlian" name="nama_keahlian"
                                         class="form-control" placeholder="Nama Keahlian">
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label required">Catatan Keahlian</label>
-                                    <textarea class="form-control" data-bs-toggle="autosize" name="catatan" placeholder="Buat Catatan…"
+                                    <textarea class="form-control" id="catatan_keahlian" data-bs-toggle="autosize" name="catatan" placeholder="Buat Catatan…"
                                         style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
                                 </div>
                             </div>
@@ -241,7 +241,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: 'Apakah anda yakin?',
-                    text: "Ingin menghapus data ini!",
+                    text: "Ingin menghapus data keahlian ini!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -253,7 +253,7 @@
                         Swal.fire(
 
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Your data has been deleted.',
                             'success'
                         )
                     }
@@ -280,24 +280,24 @@
             });
 
             $("#form_departemen").submit(function() {
-                var kode_dept = $("#kode_dept").val();
-                var nama_dept = $("#nama_dept").val();
-                if (kode_dept == "") {
+                var nama_keahlian = $("#nama_keahlian").val();
+                var catatan_keahlian = $("#catatan_keahlian").val();
+                if (nama_keahlian == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Kode Departemen Harus Diisi',
+                        title: 'Isi Nama Keahlian!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {
                         $("#nik").focus()
                     });;
                     return false;
-                } else if (nama_dept == "") {
+                } else if (catatan_keahlian == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
-                        title: 'Nama Keahlian Harus Diisi',
+                        title: 'Isi Catatan Keahlian!',
                         showConfirmButton: true,
                         timer: 2000
                     }).then((result) => {

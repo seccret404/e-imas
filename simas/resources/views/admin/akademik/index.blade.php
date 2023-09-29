@@ -152,9 +152,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-3">
@@ -201,7 +198,7 @@ $(function () {
         e.preventDefault();
         Swal.fire({
                  title: 'Apakah anda yakin?',
-                 text: "Ingin menghapus data ini!",
+                 text: "Ingin menghapus data Tahun Akademik ini!",
                  icon: 'warning',
                  showCancelButton: true,
                  confirmButtonColor: '#3085d6',
@@ -246,7 +243,7 @@ $(function () {
             Swal.fire({
                 position: 'top-center',
                 icon: 'warning',
-                title: 'Tidak boleh data kosong!',
+                title: 'Tahun Akademik harus di isi!',
                 showConfirmButton: true,
                 timer: 2000
             }).then((result) => {
@@ -257,7 +254,7 @@ $(function () {
             Swal.fire({
                 position: 'top-center',
                 icon: 'warning',
-                title: 'Tidak boleh data kosong!',
+                title: 'Tahun Akademik harus di isi!',
                 showConfirmButton: true,
                 timer: 2000
             }).then((result) => {

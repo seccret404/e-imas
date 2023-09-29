@@ -107,7 +107,7 @@ class SiswaController extends Controller
 
         $simpan = DB::table('surat_izins')->insert($data);
         if ($simpan) {
-            return Redirect::back()->with(['success' => 'Data berhasil tambah']);
+            return Redirect::back()->with(['success' => 'Surat Izin berhasil tambah']);
         } else {
             return Redirect::back()->with(['error' => 'Data gagal tambah']);
         }
@@ -157,7 +157,7 @@ class SiswaController extends Controller
         $surat->save();
 
         if ($surat) {
-            return redirect('/surat')->with(['success' => "Data Siswa Berhasil Di Update!"]);
+            return redirect('/surat')->with(['success' => "Surat Izin Berhasil Di Update!"]);
         } else {
             return redirect('/surat')->with(['error' => "Data Gagal Di Hapus"]);
         }
@@ -305,64 +305,64 @@ class SiswaController extends Controller
     }
 
     public function store(Request $request)
-{
-    if (Auth::check()) {
-        $id = Auth::user()->id;
-        $id_user = Auth::user()->id_user;
-        $tgl_presensi = date("Y-m-d");
-        $jam = date("H:i:s");
-        $latitudekantor = 2.965918;
-        $longitudekantor = 99.068474;
-        $latitudeuser = $request->input('lokasiin');
-        $longitudeuser = $request->input('lokasion');
-        $lokasi = $latitudeuser . ',' . $longitudeuser;
-        $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
-        $radius = round($jarak["meters"]);
+    {
+        if (Auth::check()) {
+            $id = Auth::user()->id;
+            $id_user = Auth::user()->id_user;
+            $tgl_presensi = date("Y-m-d");
+            $jam = date("H:i:s");
+            $latitudekantor = 2.965918;
+            $longitudekantor = 99.068474;
+            $latitudeuser = $request->input('lokasiin');
+            $longitudeuser = $request->input('lokasion');
+            $lokasi = $latitudeuser . ',' . $longitudeuser;
+            $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
+            $radius = round($jarak["meters"]);
 
-        $cek = DB::table('presensisiswa')->where('tgl_presensi', $tgl_presensi)->where('nisn', $id_user)->count();
-        if ($radius > 1000) {
-            return Redirect::back()->with(['warning' => "Anda Berada Diluar Radius Sekolah"]);
-        } else {
-            if ($cek > 0) {
-                return redirect('/dashboard/siswa')->with(['success' => "Telah Melakukan Absen"]);
+            $cek = DB::table('presensisiswa')->where('tgl_presensi', $tgl_presensi)->where('nisn', $id_user)->count();
+            if ($radius > 1000) {
+                return Redirect::back()->with(['warning' => "Anda Berada Diluar Radius Sekolah"]);
             } else {
-                // Handle image upload
-                if ($request->has('captured_image')) {
-                    $imageDataUri = $request->input('captured_image');
-                    $imagePath = 'public/absen/siswa/' . uniqid() . '.jpg';
-                    $image = Image::make($imageDataUri)->encode('jpg', 80);
-                    Storage::disk('public')->put($imagePath, $image);
-
-                    // Save the image path to the 'gambar' column
-                    $gambar = $imagePath;
+                if ($cek > 0) {
+                    return redirect('/dashboard/siswa')->with(['success' => "Telah Melakukan Absen"]);
                 } else {
-                    // If the image is not captured, you can set a default image path or handle it accordingly
-                    $gambar = 'path/to/default/image.jpg';
-                }
+                    // Handle image upload
+                    if ($request->has('captured_image')) {
+                        $imageDataUri = $request->input('captured_image');
+                        $imagePath = 'public/absen/siswa/' . uniqid() . '.jpg';
+                        $image = Image::make($imageDataUri)->encode('jpg', 80);
+                        Storage::disk('public')->put($imagePath, $image);
+
+                        // Save the image path to the 'gambar' column
+                        $gambar = $imagePath;
+                    } else {
+                        // If the image is not captured, you can set a default image path or handle it accordingly
+                        $gambar = 'path/to/default/image.jpg';
+                    }
 
 
 
-                $data = [
-                    'id_siswa' => $id,
-                    'nisn' => $id_user,
-                    'tgl_presensi' => $tgl_presensi,
-                    'jam_masuk' => $jam,
-                    'jam_keluar' => Null,
-                    'gambar' => $gambar, // Save the image path to the 'gambar' column
-                    'location_masuk' => $lokasi,
-                    'lokasi_keluar' => Null
-                ];
+                    $data = [
+                        'id_siswa' => $id,
+                        'nisn' => $id_user,
+                        'tgl_presensi' => $tgl_presensi,
+                        'jam_masuk' => $jam,
+                        'jam_keluar' => Null,
+                        'gambar' => $gambar, // Save the image path to the 'gambar' column
+                        'location_masuk' => $lokasi,
+                        'lokasi_keluar' => Null
+                    ];
 
-                $simpan = DB::table('presensisiswa')->insert($data);
-                if ($simpan) {
-                    return redirect('/detail-absen')->with(['success' => "Absen Selesai Selamat Belajar"]);
-                } else {
-                    return redirect('/detail-absen')->with(['error' => "Absen Gagal"]);
+                    $simpan = DB::table('presensisiswa')->insert($data);
+                    if ($simpan) {
+                        return redirect('/detail-absen')->with(['success' => "Absen Selesai Selamat Belajar"]);
+                    } else {
+                        return redirect('/detail-absen')->with(['error' => "Absen Gagal"]);
+                    }
                 }
             }
         }
     }
-}
 
 
 
@@ -394,7 +394,7 @@ class SiswaController extends Controller
         $simpan = DB::table('prestasi')->insert($data);
 
         if ($simpan) {
-            return Redirect::back()->with(['success' => 'Data berhasil Tambah']);
+            return Redirect::back()->with(['success' => 'Prestasi berhasil Tambah']);
         } else {
             return Redirect::back()->with(['error' => 'Data gagal di proses']);
         }
@@ -443,9 +443,9 @@ class SiswaController extends Controller
 
         $simpan = DB::table('hasiltugas')->insert($data);
         if ($simpan) {
-            return redirect('/tugas-siswa')->with(['success' => 'Data berhasil Tambah']);
+            return redirect('/tugas-siswa')->with(['success' => 'Tugas Telah Terkirim']);
         } else {
-            return redirect('/tugas-siswa')->with(['error' => 'Data gagal di proses']);
+            return redirect('/tugas-siswa')->with(['error' => 'Tugas Gagal Di Kirim']);
         }
     }
 
@@ -616,9 +616,9 @@ class SiswaController extends Controller
 
         $simpan = DB::table('hasilujian')->insert($data);
         if ($simpan) {
-            return redirect('/ujian-siswa')->with(['success' => 'Data berhasil Tambah']);
+            return redirect('/ujian-siswa')->with(['success' => 'Ujian Terkirim']);
         } else {
-            return redirect('/ujian-siswa')->with(['error' => 'Data gagal di proses']);
+            return redirect('/ujian-siswa')->with(['error' => 'Ujian Gagal Terkirim']);
         }
     }
 

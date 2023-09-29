@@ -161,7 +161,7 @@ class GuruController extends Controller
         $surat->save();
 
         if ($surat) {
-            return redirect('/suratguru')->with(['success' => "Data Siswa Berhasil Di Update!"]);
+            return redirect('/suratguru')->with(['success' => "Surat Izin Berhasil Di Update!"]);
         } else {
             return redirect('/suratguru')->with(['error' => "Data Gagal Di Hapus"]);
         }
@@ -231,7 +231,7 @@ class GuruController extends Controller
         $delete = DB::table('tugas')->where('id_tugas', $id)->delete();
 
         if ($delete) {
-            return Redirect::back()->with(['success' => 'Data berhasil di hapus ']);
+            return Redirect::back()->with(['success' => 'Tugas berhasil di hapus ']);
         } else {
             return Redirect::back()->with(['error' => 'Data gagal dihapus']);
         }
@@ -422,7 +422,7 @@ class GuruController extends Controller
         $ujian->save();
 
         if ($ujian) {
-            return redirect('/ujianguru')->with(['success' => "Data Siswa Berhasil Di Update!"]);
+            return redirect('/ujianguru')->with(['success' => "Data Ujian Berhasil Di Update!"]);
         } else {
             return redirect('/ujianguru')->with(['error' => "Data Gagal Di Hapus"]);
         }
@@ -433,7 +433,7 @@ class GuruController extends Controller
         $delete = DB::table('ujian')->where('id', $id)->delete();
 
         if ($delete) {
-            return Redirect::back()->with(['success' => 'Data berhasil di hapus ']);
+            return Redirect::back()->with(['success' => 'Data Ujian berhasil di hapus ']);
         } else {
             return Redirect::back()->with(['error' => 'Data gagal dihapus']);
         }
