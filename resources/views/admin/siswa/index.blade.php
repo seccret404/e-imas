@@ -400,7 +400,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <div class="form-label">Unggah Foto</div>
-                                <input type="file" class="form-control" name="profil">
+                                <input type="file" id="unggah" class="form-control" name="profil">
                               </div>
                         </div>
                     </div>
@@ -476,9 +476,10 @@
         });
 
         $("#form_departemen").submit(function () {
-            var kode_dept = $("#kode_dept").val();
             var nama_dept = $("#nama_dept").val();
-            if (kode_dept == "") {
+            var kode_dept = $("#kode_dept").val();
+            var unggah = $("#unggah").val();
+            if (nama_dept == "") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
@@ -487,10 +488,10 @@
                     showConfirmButton: true,
                     timer: 4000
                 }).then((result) => {
-                    $("#nik").focus()
+                    $("#nama_dept").focus()
                 });;
                 return false;
-            } else if (nama_dept == "") {
+            } else if (kode_dept == "") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
@@ -500,6 +501,19 @@
                     timer: 4000
                 }).then((result) => {
                     $("#kode_dept").focus()
+                });;
+                return false;
+            }
+            else if (unggah == "") {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'warning',
+                    title: 'Ada kolom yang kosong !',
+                          text:"semua kolom data Siswa wajib di isi",
+                    showConfirmButton: true,
+                    timer: 4000
+                }).then((result) => {
+                    $("#unggah").focus()
                 });;
                 return false;
             }

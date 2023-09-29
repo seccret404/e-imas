@@ -210,7 +210,7 @@
                             <div class="mb-3">
                                 <div class="form-label">Gambar</div>
                                 <input type="text" name="id_q" hidden value="{{$forum->id_q}}">
-                                <input type="file" class="form-control" name="gambar">
+                                <input type="file" class="form-control" id="gambar" name="gambar">
                             </div>
                         </div>
                     </div>
@@ -281,31 +281,19 @@
         });
 
         $("#form_departemen").submit(function () {
-            var kode_dept = $("#kode_dept").val();
-            var nama_dept = $("#nama_dept").val();
-            if (kode_dept == "") {
+            var gambar = $("#gambar").val();
+            if (gambar == "") {
                 Swal.fire({
                     position: 'top-center',
                     icon: 'warning',
-                    title: 'Kode Departemen Harus Diisi',
+                    title: 'Pilih File',
                     showConfirmButton: true,
                     timer: 2000
                 }).then((result) => {
-                    $("#nik").focus()
+                    $("#gambar").focus()
                 });;
                 return false;
-            } else if (nama_dept == "") {
-                Swal.fire({
-                    position: 'top-center',
-                    icon: 'warning',
-                    title: 'Nama Departemen Harus Diisi',
-                    showConfirmButton: true,
-                    timer: 2000
-                }).then((result) => {
-                    $("#kode_dept").focus()
-                });;
-                return false;
-            }
+            } 
         });
     })
 
