@@ -145,11 +145,6 @@ class DashboasrdController extends Controller
         Guru::where('id', $id)->update(['status' => "aktif"]);
         return redirect('/guru')->with(['success', "Guru Berhasil Di Aktifkan Kembali!!"]);
     }
-    public function finish($id_pesanan)
-    {
-        Pemesanan::where('id_pesanan', $id_pesanan)->update(['status' => 4]);
-        return redirect()->route('pemesanan');
-    }
     public function addguru(Request $request)
     {
         $nama = $request->nama;
@@ -167,20 +162,20 @@ class DashboasrdController extends Controller
         $file->move($tujuanFile, $namafile);
 
 
-        $extensi = "@guru.com";
-        $j = "Null";
-        $k = "Null";
-        $buatUsername = $kode_guru . $extensi;
-        $role = "guru";
-        $tambahuser = User::create([
-            'name' => $request->input('nama'),
-            'jurusan' => $j,
-            'kelas' => $k,
-            'id_user' => $npdn,
-            'email' => $email,
-            'password' => Hash::make($request->input('no_hp')),
-            'role' => $role
-        ]);
+        // $extensi = "@guru.com";
+        // $j = "Null";
+        // $k = "Null";
+        // $buatUsername = $kode_guru . $extensi;
+        // $role = "guru";
+        // $tambahuser = User::create([
+        //     'name' => $request->input('nama'),
+        //     'jurusan' => $j,
+        //     'kelas' => $k,
+        //     'id_user' => $npdn,
+        //     'email' => $email,
+        //     'password' => Hash::make($request->input('no_hp')),
+        //     'role' => $role
+        // ]);
 
         $data = [
             'nama' => $nama,
@@ -195,6 +190,11 @@ class DashboasrdController extends Controller
             'profil' => $namafile
         ];
 
+        $existingEmail = DB::table('guru')->where('email', $email)->first();
+
+        if ($existingEmail) {
+            return redirect()->back()->with('gagal', 'Email sudah digunakan');
+        }
         $simpan = DB::table('guru')->insert($data);
         if ($simpan) {
             return Redirect::back()->with(['success' => 'Data berhasil tambah']);
@@ -202,6 +202,8 @@ class DashboasrdController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal tambah']);
         }
     }
+
+
     public function siswa()
     {
         $siswa = DB::table('siswa')
@@ -237,15 +239,15 @@ class DashboasrdController extends Controller
         $role = "siswa";
 
 
-        $pengguna = User::create([
-            'name' => $request->input('nama'),
-            'id_user' => $nisn,
-            'jurusan' => $jurusan,
-            'kelas' => $kelas,
-            'email' => $email,
-            'password' => Hash::make($request->input('nisn')),
-            'role' => $role,
-        ]);
+        // $pengguna = User::create([
+        //     'name' => $request->input('nama'),
+        //     'id_user' => $nisn,
+        //     'jurusan' => $jurusan,
+        //     'kelas' => $kelas,
+        //     'email' => $email,
+        //     'password' => Hash::make($request->input('nisn')),
+        //     'role' => $role,
+        // ]);
 
         $data = [
             'nama' => $nama,
@@ -263,6 +265,11 @@ class DashboasrdController extends Controller
             'nama_ibu_kandung' => $wali,
             'profil' => $namafile
         ];
+        $existingEmail = DB::table('siswa')->where('email', $email)->first();
+
+        if ($existingEmail) {
+            return redirect()->back()->with('gagal', 'Email sudah digunakan');
+        }
 
         $simpan = DB::table('siswa')->insert($data);
         if ($simpan) {
