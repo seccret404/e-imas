@@ -571,7 +571,7 @@
             Swal.fire({
                 icon: 'error',
                 title: error,
-                text: 'ganti dengan email lain'
+                text: 'ganti dengan email lain!'
             });
 }
         })
