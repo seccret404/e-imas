@@ -167,6 +167,7 @@ class DashboasrdController extends Controller
         // $k = "Null";
         // $buatUsername = $kode_guru . $extensi;
         // $role = "guru";
+        
         // $tambahuser = User::create([
         //     'name' => $request->input('nama'),
         //     'jurusan' => $j,
