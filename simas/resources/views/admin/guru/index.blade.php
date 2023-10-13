@@ -566,14 +566,19 @@
                 } 
             });
 
-            var error = "{{ session('gagal') }}";
+
+        var error = "{{ session('exemail') }}";
         if (error) {
             Swal.fire({
                 icon: 'error',
-                title: error,
-                text: 'ganti dengan email lain!'
+                title: 'error',
+                text: error
             });
 }
+
+
         })
+
+
     </script>
 @endpush
