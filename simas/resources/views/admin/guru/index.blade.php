@@ -25,6 +25,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
+        
             <div class="row">
                 <div class="col-12">
                     <div class="card card-sm">
@@ -564,6 +565,15 @@
                     return false;
                 } 
             });
+
+            var error = "{{ session('gagal') }}";
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: error,
+                text: 'ganti dengan email lain!'
+            });
+}
         })
     </script>
 @endpush
