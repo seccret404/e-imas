@@ -145,6 +145,7 @@ class DashboasrdController extends Controller
         Guru::where('id', $id)->update(['status' => "aktif"]);
         return redirect('/guru')->with(['success', "Guru Berhasil Di Aktifkan Kembali!!"]);
     }
+
     public function addguru(Request $request)
     {
         $nama = $request->nama;
@@ -162,21 +163,32 @@ class DashboasrdController extends Controller
         $file->move($tujuanFile, $namafile);
 
 
-        // $extensi = "@guru.com";
-        // $j = "Null";
-        // $k = "Null";
-        // $buatUsername = $kode_guru . $extensi;
-        // $role = "guru";
-        // $tambahuser = User::create([
-        //     'name' => $request->input('nama'),
-        //     'jurusan' => $j,
-        //     'kelas' => $k,
-        //     'id_user' => $npdn,
-        //     'email' => $email,
-        //     'password' => Hash::make($request->input('no_hp')),
-        //     'role' => $role
-        // ]);
+        $extensi = "@guru.com";
+        $j = "Null";
+        $k = "Null";
+        $buatUsername = $kode_guru . $extensi;
+        $role = "guru";
 
+        $exgmail = DB::table('users')->where('email', $email)->first();
+        $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
+
+
+        if ($exgmail && $exnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
+        }
+        $tambahuser = User::create([
+            'name' => $request->input('nama'),
+            'jurusan' => $j,
+            'kelas' => $k,
+            'id_user' => $npdn,
+            'email' => $email,
+            'password' => Hash::make($request->input('no_hp')),
+            'role' => $role
+        ]);
+
+        if ($exgmail && $exnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
+        }
         $data = [
             'nama' => $nama,
             'npdn' => $npdn,
@@ -189,12 +201,6 @@ class DashboasrdController extends Controller
             'tanggal_lahir' => $tanggal,
             'profil' => $namafile
         ];
-
-        $existingEmail = DB::table('guru')->where('email', $email)->first();
-
-        if ($existingEmail) {
-            return redirect()->back()->with('gagal', 'Email sudah digunakan');
-        }
         $simpan = DB::table('guru')->insert($data);
         if ($simpan) {
             return Redirect::back()->with(['success' => 'Data berhasil tambah']);
@@ -202,6 +208,9 @@ class DashboasrdController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal tambah']);
         }
     }
+
+
+
 
 
     public function siswa()
@@ -238,17 +247,23 @@ class DashboasrdController extends Controller
         $buatUsername = $nisn . $extensi;
         $role = "siswa";
 
-
-        // $pengguna = User::create([
-        //     'name' => $request->input('nama'),
-        //     'id_user' => $nisn,
-        //     'jurusan' => $jurusan,
-        //     'kelas' => $kelas,
-        //     'email' => $email,
-        //     'password' => Hash::make($request->input('nisn')),
-        //     'role' => $role,
-        // ]);
-
+        $exgmail = DB::table('users')->where('email', $email)->first();
+        $exnisn = DB::table('siswa')->where('nisn', $nisn)->first();
+        if ($exgmail && $exnisn) {
+            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
+        }
+        $pengguna = User::create([
+            'name' => $request->input('nama'),
+            'id_user' => $nisn,
+            'jurusan' => $jurusan,
+            'kelas' => $kelas,
+            'email' => $email,
+            'password' => Hash::make($request->input('nisn')),
+            'role' => $role,
+        ]);
+        if ($exgmail && $exnisn) {
+            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
+        }
         $data = [
             'nama' => $nama,
             'nisn' => $nisn,
@@ -265,11 +280,6 @@ class DashboasrdController extends Controller
             'nama_ibu_kandung' => $wali,
             'profil' => $namafile
         ];
-        $existingEmail = DB::table('siswa')->where('email', $email)->first();
-
-        if ($existingEmail) {
-            return redirect()->back()->with('gagal', 'Email sudah digunakan');
-        }
 
         $simpan = DB::table('siswa')->insert($data);
         if ($simpan) {
@@ -569,13 +579,22 @@ class DashboasrdController extends Controller
         return view('admin.guru.edit', compact('guru'));
     }
 
+
     public function editprosg(Request $request, $id)
     {
         $guru = Guru::find($id);
+
+        $existingnpdn = DB::table('guru')->where('npdn', $request->npdn)->where('id', '!=', $id)->first();
+
+        if ($existingnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['existingnpdn' => 'NPDN sudah digunakan. Silakan coba dengan NPDN yang berbeda.']);
+        }
+
         $guru->update($request->all());
 
         return redirect('/guru')->with(['success' => "Data Guru Berhasil Di Update"]);
     }
+
 
     public function deleteg($id)
     {
@@ -609,6 +628,13 @@ class DashboasrdController extends Controller
     public function editpross(Request $request, $id)
     {
         $siswa = Siswa::find($id);
+
+        $existingnisn = DB::table('siswa')->where('nisn', $request->nisn)->where('id', '!=', $id)->first();
+
+        if ($existingnisn) {
+            return redirect()->back()->withInput($request->input())->with(['existingnisn' => 'NISN sudah digunakan. Silakan coba dengan NISN yang berbeda.']);
+        }
+
         $siswa->update($request->all());
 
         return redirect('/siswa')->with(['success' => "Data Siswa Berhasil Di Update!"]);

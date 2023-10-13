@@ -117,4 +117,23 @@
 @endsection
 
 @push('myscript')
+<script>
+            $("#form_departemen").submit(function() {
+                var nama_dept = $("#nama_dept").val();
+                if (nama_dept == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#nama_dept").focus()
+                    });;
+                    return false;
+                } 
+            });
+
+
+</script>
 @endpush

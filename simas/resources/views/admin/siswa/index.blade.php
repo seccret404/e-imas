@@ -532,12 +532,12 @@
             }
         });
         
-            var error = "{{ session('gagal') }}";
+            var error = "{{ session('exesiswa') }}";
         if (error) {
             Swal.fire({
                 icon: 'error',
-                title: error,
-                text: 'ganti dengan email lain!'
+                title: 'error',
+                text: error
             });
 }
     })
