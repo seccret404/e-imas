@@ -162,31 +162,6 @@ class DashboasrdController extends Controller
         $tujuanFile = 'asset/guru';
         $file->move($tujuanFile, $namafile);
 
-
-<<<<<<< HEAD
-        // $extensi = "@guru.com";
-        // $j = "Null";
-        // $k = "Null";
-        // $buatUsername = $kode_guru . $extensi;
-        // $role = "guru";
-        
-        // $tambahuser = User::create([
-        //     'name' => $request->input('nama'),
-        //     'jurusan' => $j,
-        //     'kelas' => $k,
-        //     'id_user' => $npdn,
-        //     'email' => $email,
-        //     'password' => Hash::make($request->input('no_hp')),
-        //     'role' => $role
-        // ]);
-=======
-        $extensi = "@guru.com";
-        $j = "Null";
-        $k = "Null";
-        $buatUsername = $kode_guru . $extensi;
-        $role = "guru";
->>>>>>> 747ec207da732d77861a470bda4589cf3ea833ee
-
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 
