@@ -25,6 +25,7 @@
     </div>
     <div class="page-body">
         <div class="container-xl">
+        
             <div class="row">
                 <div class="col-12">
                     <div class="card card-sm mb-5">
@@ -689,6 +690,20 @@
                     return false;
                 }
             });
+
+
+        var error = "{{ session('exemail') }}";
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: error
+            });
+}
+
+
         })
+
+
     </script>
 @endpush

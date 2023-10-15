@@ -299,7 +299,7 @@
                                         <path d="M15 6h6m-3 -3v6"></path>
                                      </svg>
                                 </span>
-                                <input type="text" value="" id="nama_dept" name="no_hp_wali" class="form-control"
+                                <input type="text" value="" id="hp_wali" name="no_hp_wali" class="form-control"
                                     placeholder="">
                             </div>
                         </div>
@@ -478,6 +478,7 @@
         $("#form_departemen").submit(function () {
             var nama_dept = $("#nama_dept").val();
             var kode_dept = $("#kode_dept").val();
+            var hp_wali = $("#hp_wali").val();
             var unggah = $("#unggah").val();
             if (nama_dept == "") {
                 Swal.fire({
@@ -503,6 +504,18 @@
                     $("#kode_dept").focus()
                 });;
                 return false;
+            }else if (hp_wali == "") {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'warning',
+                    title: 'Ada kolom yang kosong !',
+                          text:"semua kolom data Siswa wajib di isi",
+                    showConfirmButton: true,
+                    timer: 4000
+                }).then((result) => {
+                    $("#hp_wali").focus()
+                });;
+                return false;
             }
             else if (unggah == "") {
                 Swal.fire({
@@ -518,6 +531,15 @@
                 return false;
             }
         });
+        
+            var error = "{{ session('exesiswa') }}";
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: error
+            });
+}
     })
 
 </script>

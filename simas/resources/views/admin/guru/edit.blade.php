@@ -43,7 +43,7 @@
                                                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                                 </svg>
                                             </span>
-                                            <input type="text" value="{{ $guru->nama }}" id="nama_dept" name="nama"
+                                            <input type="text" value="{{ $guru->nama }}" id="nama_guru" name="nama"
                                                 class="form-control" placeholder="Nama Guru">
                                         </div>
                                     </div>
@@ -75,7 +75,7 @@
                                                     <path d="M10 11v-2a2 2 0 1 1 4 0v2"></path>
                                                 </svg>
                                             </span>
-                                            <input type="text" value="{{ $guru->npdn }}" id="nama_dept" name="npdn"
+                                            <input type="text" value="{{ $guru->npdn }}" id="npdn" name="npdn"
                                                 class="form-control" placeholder="NPDN">
                                         </div>
                                     </div>
@@ -110,7 +110,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="input-icon mb-3">
@@ -133,7 +132,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="input-icon mb-3">
@@ -155,7 +153,7 @@
                                                     <path d="M4 16h3"></path>
                                                 </svg>
                                             </span>
-                                            <input type="text" value="{{ $guru->no_hp }}" id="nama_dept"
+                                            <input type="text" value="{{ $guru->no_hp }}" id="no_hp"
                                                 name="no_hp" class="form-control" placeholder="no telepon">
                                         </div>
                                     </div>
@@ -198,4 +196,70 @@
 @endsection
 
 @push('myscript')
+<script>
+            $("#form_departemen").submit(function() {
+                var nama_guru = $("#nama_guru").val();
+                var npdn = $("#npdn").val();
+                var nama_dept = $("#nama_dept").val();
+                var kode_dept = $("#kode_dept").val();
+                var no_hp = $("#no_hp").val();
+                if (nama_guru == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Mohon isi Nama Guru',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#nama_guru").focus()
+                    });;
+                    return false;
+                } else if (npdn == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'npdn tidak boleh kosong',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#npdn").focus()
+                    });;
+                    return false;
+                } else if (nama_dept == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#nama_dept").focus()
+                    });;
+                    return false;
+                } 
+                else if (no_hp == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#no_hp").focus()
+                    });;
+                    return false;
+                } 
+
+
+            });
+var error = "{{ session('existingnpdn') }}";
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: error
+            });
+}
+
+</script>
 @endpush

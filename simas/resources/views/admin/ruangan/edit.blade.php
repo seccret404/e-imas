@@ -60,7 +60,7 @@
                                                     stroke-width="0" fill="currentColor"></path>
                                             </svg>
                                         </span>
-                                        <input type="text" value="{{$ruangan->kode_ruangan}}" id="nama_dept" name="kode_ruangan" class="form-control"
+                                        <input type="text" value="{{$ruangan->kode_ruangan}}" id="kode_ruangan" name="kode_ruangan" class="form-control"
                                             placeholder="Kode Ruangan">
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label class="form-label">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" data-bs-toggle="autosize" placeholder="Tambah keterangan" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;">{{$ruangan->keterangan}}</textarea>
+                                    <textarea class="form-control" id="keterangan" data-bs-toggle="autosize" placeholder="Tambah keterangan" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;">{{$ruangan->keterangan}}</textarea>
                                   </div>
                             </div>
                           </div>
@@ -129,4 +129,49 @@
 @endsection
 
 @push('myscript')
+<script>
+            $("#form_departemen").submit(function() {
+                var nama_dept = $("#nama_dept").val();
+                var kode_ruangan = $("#kode_ruangan").val();
+                var keterangan = $("#keterangan").val();
+
+                if (nama_dept == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#nama_dept").focus()
+                    });;
+                    return false;
+                } 
+                else if (kode_ruangan == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#kode_ruangan").focus()
+                    });;
+                    return false;
+                }  else if (keterangan == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#keterangan").focus()
+                    });;
+                    return false;
+                } 
+            });
+
+
+</script>
 @endpush

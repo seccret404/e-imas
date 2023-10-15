@@ -149,11 +149,7 @@ class DashboasrdController extends Controller
         Guru::where('id', $id)->update(['status' => "aktif"]);
         return redirect('/guru')->with(['success', "Guru Berhasil Di Aktifkan Kembali!!"]);
     }
-    public function finish($id_pesanan)
-    {
-        Pemesanan::where('id_pesanan', $id_pesanan)->update(['status' => 4]);
-        return redirect()->route('pemesanan');
-    }
+
     public function addguru(Request $request)
     {
         $nama = $request->nama;
@@ -170,12 +166,13 @@ class DashboasrdController extends Controller
         $tujuanFile = 'asset/guru';
         $file->move($tujuanFile, $namafile);
 
+        $exgmail = DB::table('users')->where('email', $email)->first();
+        $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 
-        $extensi = "@guru.com";
-        $j = "Null";
-        $k = "Null";
-        $buatUsername = $kode_guru . $extensi;
-        $role = "guru";
+
+        if ($exgmail && $exnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
+        }
         $tambahuser = User::create([
             'name' => $request->input('nama'),
             'jurusan' => $j,
@@ -186,6 +183,9 @@ class DashboasrdController extends Controller
             'role' => $role
         ]);
 
+        if ($exgmail && $exnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
+        }
         $data = [
             'nama' => $nama,
             'npdn' => $npdn,
@@ -198,7 +198,6 @@ class DashboasrdController extends Controller
             'tanggal_lahir' => $tanggal,
             'profil' => $namafile
         ];
-
         $simpan = DB::table('guru')->insert($data);
         if ($simpan) {
             return Redirect::back()->with(['success' => 'Data berhasil tambah']);
@@ -206,6 +205,11 @@ class DashboasrdController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal tambah']);
         }
     }
+
+
+
+
+
     public function siswa()
     {
         $siswa = DB::table('siswa')
@@ -240,7 +244,11 @@ class DashboasrdController extends Controller
         $buatUsername = $nisn . $extensi;
         $role = "siswa";
 
-
+        $exgmail = DB::table('users')->where('email', $email)->first();
+        $exnisn = DB::table('siswa')->where('nisn', $nisn)->first();
+        if ($exgmail && $exnisn) {
+            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
+        }
         $pengguna = User::create([
             'name' => $request->input('nama'),
             'id_user' => $nisn,
@@ -250,7 +258,9 @@ class DashboasrdController extends Controller
             'password' => Hash::make($request->input('nisn')),
             'role' => $role,
         ]);
-
+        if ($exgmail && $exnisn) {
+            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
+        }
         $data = [
             'nama' => $nama,
             'nisn' => $nisn,
@@ -579,6 +589,7 @@ class DashboasrdController extends Controller
         return view('admin.guru.edit', compact('guru'));
     }
 
+
     public function editprosg(Request $request, $id)
     {
         $request->validate([
@@ -592,6 +603,14 @@ class DashboasrdController extends Controller
         ]);
 
         $guru = Guru::find($id);
+
+        $existingnpdn = DB::table('guru')->where('npdn', $request->npdn)->where('id', '!=', $id)->first();
+
+        if ($existingnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['existingnpdn' => 'NPDN sudah digunakan. Silakan coba dengan NPDN yang berbeda.']);
+        }
+
+        $guru->update($request->all());
 
         $namafile = $guru->profil;
 
@@ -619,6 +638,7 @@ class DashboasrdController extends Controller
             return redirect('/guru')->with(['error' => "Data Gagal Di Update"]);
         }
     }
+
 
     public function deleteg($id)
     {
@@ -661,6 +681,14 @@ class DashboasrdController extends Controller
         ]);
 
         $siswa = Siswa::find($id);
+
+        $existingnisn = DB::table('siswa')->where('nisn', $request->nisn)->where('id', '!=', $id)->first();
+
+        if ($existingnisn) {
+            return redirect()->back()->withInput($request->input())->with(['existingnisn' => 'NISN sudah digunakan. Silakan coba dengan NISN yang berbeda.']);
+        }
+
+        $siswa->update($request->all());
 
         $namafile = $siswa->profil;
 

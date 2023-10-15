@@ -71,7 +71,7 @@
                                                         stroke-width="0" fill="currentColor"></path>
                                                 </svg>
                                             </span>
-                                            <input type="text" value="{{ $siswa->nisn }}" id="nama_dept" name="nisn"
+                                            <input type="text" value="{{ $siswa->nisn }}" id="nisn" name="nisn"
                                                 class="form-control" placeholder="NISN">
                                         </div>
                                     </div>
@@ -164,4 +164,45 @@
 @endsection
 
 @push('myscript')
+<script>
+            $("#form_departemen").submit(function() {
+                var nama_dept = $("#nama_dept").val();
+                var nisn = $("#nisn").val();
+                if (nama_dept == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#nama_dept").focus()
+                    });;
+                    return false;
+                } 
+                else if (nisn == "") {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Ada data yang kosong!',
+                        showConfirmButton: true,
+                        timer: 2000
+                    }).then((result) => {
+                        $("#nisn").focus()
+                    });;
+                    return false;
+                } 
+            });
+
+            var error = "{{ session('existingnisn') }}";
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: error
+            });
+}
+</script>
+
+
 @endpush
