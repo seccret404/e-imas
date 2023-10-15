@@ -49,6 +49,7 @@
                                         <th>Nama Guru</th>
                                         <th>Jenis Surat</th>
                                         <th>Keterangan Surat</th>
+                                        <th>Keterangan Tambahan</th>
                                         <th>Tanggal Mulai</th>
                                         <th>Tanggal berakhir</th>
                                         <th>Status</th>
@@ -60,7 +61,11 @@
                                             <td>{{$item->nama_request}}</td>
                                             <td>{{$item->jenis_surat}}</td>
                                             <td>{{$item->keterangan_surat}}</td>
-                                            <td>{{$item->keterangan_tambahan}}</td>
+                                            <td><a href="{{ url('asset/surat/' . $item->keterangan_tambahan) }}"
+                                                target="_blank"
+                                                alt="{{ $item->keterangan_tambahan }}">{{$item->keterangan_tambahan}}
+                                            </a>
+                                                </td>
                                             <td>{{$item->waktu_mulai}}</td>
                                             <td>{{$item->waktu_berakhir}}</td>
                                             <td>

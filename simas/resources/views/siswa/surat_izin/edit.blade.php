@@ -23,10 +23,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Surat Izin</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <a href="/surat"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ url('/surat/edit/' . $surat->id) }}" method="POST" id="form_departemen">
+                            <form action="{{ url('/surat/edit/' . $surat->id) }}" method="POST" id="form_departemen" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">

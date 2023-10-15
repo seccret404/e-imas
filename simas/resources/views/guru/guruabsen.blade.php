@@ -123,7 +123,7 @@ crossorigin=""/>
     // 2.965918, 99.068474
     // 2.324110, 99.047969
 
-    var circle = L.circle([2.324110, 99.047969 ], {
+    var circle = L.circle([2.383129, 99.148454 ], {
     color: 'red',
     fillColor: '#f04',
     fillOpacity: 0.5,

@@ -81,7 +81,7 @@
                                                     <td>{{ $item->dedline }}</td>
                                                     <td>{{ $item->jurusan }}</td>
                                                     <td>{{ $item->kelas }}</td>
-                                                    <td><a href="{{ url('asset/tugas/' . $item->file) }}"
+                                                    <td><a href="{{ url('asset/ujian/' . $item->file) }}"
                                                             alt="{{ $item->file }}">Lihat File</a></td>
                                                     <td>{{ $item->tahun_akademik }}</td>
                                                     <td>{{ $item->catatan }}</td>
@@ -99,7 +99,8 @@
                                                                 </path>
                                                                 <path d="M13.5 6.5l4 4"></path>
                                                                 <path d="M16 18h4m-2 -2v4"></path>
-                                                            </svg> </a>
+                                                            </svg> 
+                                                        </a>
 
                                                         <form method="POST" action="/ujianguru/{{ $item->id }}/delete"
                                                             class="mt-2">
