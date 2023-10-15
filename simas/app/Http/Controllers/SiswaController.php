@@ -8,13 +8,15 @@ use App\Models\Surat;
 use App\Models\Tugas;
 use App\Models\Ujian;
 use App\Models\Jadwal;
+use App\Models\Prestasi;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class SiswaController extends Controller
 {
@@ -311,8 +313,8 @@ class SiswaController extends Controller
             $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
-            $latitudekantor = 2.965918;
-            $longitudekantor = 99.068474;
+            $latitudekantor = 2.383129;
+            $longitudekantor = 99.148454;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;
@@ -399,6 +401,45 @@ class SiswaController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal di proses']);
         }
     }
+
+    public function editprestasi($id)
+    {
+        $prestasiId = Prestasi::find($id);
+        $prestasi = DB::table('prestasi')->where('id', $id)->first();
+        return view('siswa.prestasi.edit', compact('prestasi', 'prestasiId'));
+    }
+
+    public function editprestasipros(Request $request, $id)
+    {
+        $request->validate([
+            'nama_prestasi' => 'required|min:2',
+            'catatan' => 'required|min:5',
+            'file' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $prestasi = Prestasi::find($id);
+
+        $prestasi->nama_prestasi = $request->nama_prestasi;
+        $prestasi->catatan = $request->catatan;
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/prestasi';
+            $file->move($tujuanFile, $namafile);
+            $prestasi->file = $namafile;
+        }
+
+        $prestasi->save();
+
+        if ($prestasi) {
+            return redirect('/prestasi')->with(['success' => "Data Prestasi Berhasil Diupdate!"]);
+        } else {
+            return redirect('/prestasi')->with(['error' => "Data Gagal Di Edit"]);
+        }
+    }
+
+
     public function deletepres($id)
     {
 

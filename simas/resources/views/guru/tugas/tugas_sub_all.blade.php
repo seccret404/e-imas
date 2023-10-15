@@ -91,8 +91,6 @@
                                                     <td><a href="{{ url('asset/hasil/' . $item->file_hasil_tugas) }}"
                                                             target="_blank"
                                                             alt="{{ $item->file_hasil_tugas }}">{{ $item->file_hasil_tugas }}
-                                                            {{-- <img
-                                                                src="{{ url('asset/hasil/' . $item->file_hasil_tugas) }}" alt="{{ $item->file_hasil_tugas }}"> --}}
                                                         </a></td>
                                                     <td>
                                                         @if ($item->nilai == 0)

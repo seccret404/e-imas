@@ -1,14 +1,14 @@
-@extends('layout.guru.dash')
+@extends('layout.siswa.dash')
 @section('content')
     <div class="page-header d-print-none">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                        Guru
+                        Siswa
                     </div>
                     <h2 class="page-title">
-                        Keahlian
+                        Prestasi
 
                     </h2>
                 </div>
@@ -22,18 +22,17 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Edit Keahlian</h5>
-                            <a href="/keahlian"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
-
+                            <h5 class="modal-title">Edit Prestasi</h5>
+                            <a href="/prestasi"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ url('/keahlian/edit/' . $keahlian->id) }}" method="POST" id="form_departemen" enctype="multipart/form-data">
+                            <form action="{{ url('/prestasi/edit/' . $prestasi->id) }}" method="POST" id="form_departemen"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-12"> <label class="form-label required">Nama Keahlian</label>
+                                    <div class="col-12"> <label class="form-label required">Nama Prestasi</label>
                                         <div class="input-icon mb-3">
-
-
                                             <span class="input-icon-addon">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -53,15 +52,20 @@
                                                         stroke-width="0" fill="currentColor"></path>
                                                 </svg>
                                             </span>
-                                            <input type="text" value="{{ $keahlian->nama_keahlian }}" id="nama_dept"
-                                                name="nama_keahlian" class="form-control" placeholder="Nama Keahlian">
+                                            <input type="text" value="{{ $prestasi->nama_prestasi }}" id="nama_prestasi"
+                                                name="nama_prestasi" class="form-control" placeholder="Nama Prestasi">
                                         </div>
+                                        @error('nama_prestasi')
+                                            <div class="alert alert-danger">Nama Prestasi tidak valid</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
 
-                                        <label class="form-label required">File Keahlian</label>
+                                        <label class="form-label required">File Prestasi</label>
+                                        <p>File Before : <a href="{{ url('asset/prestasi/' . $prestasi->file) }}"
+                                                alt="{{ $prestasi->file }}">{{ $prestasi->file }}</a></p>
                                         <div class="input-icon mb-3">
                                             <span class="input-icon-addon">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/user -->
@@ -78,8 +82,8 @@
                                                     <path d="M12 12l0 9"></path>
                                                 </svg>
                                             </span>
-                                            <input type="file" id="nama_dept" name="file"
-                                                class="form-control" placeholder="Nama Keahlian">
+                                            <input type="file" value="" id="file_prestasi" name="file"
+                                                class="form-control" placeholder="Nama Prestasi">
                                         </div>
                                     </div>
                                 </div>
@@ -87,13 +91,15 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            <label class="form-label required">Catatan Keahlian</label>
-                                            <textarea class="form-control" data-bs-toggle="autosize" name="catatan" placeholder="Buat Catatan…"
-                                                style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;">{{ $keahlian->catatan }}</textarea>
+                                            <label class="form-label required">Catatan Prestasi</label>
+                                            <textarea class="form-control" data-bs-toggle="autosize" id="catatan" name="catatan" placeholder="Buat Catatan…"
+                                                style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;">{{ $prestasi->catatan }}</textarea>
                                         </div>
+                                        @error('catatan')
+                                            <div class="alert alert-danger">Catatan tidak valid</div>
+                                        @enderror
                                     </div>
                                 </div>
-
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <div class="form-group">

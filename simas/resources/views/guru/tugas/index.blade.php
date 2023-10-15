@@ -111,8 +111,24 @@
                                                     <td><a href="{{ url('asset/tugas/' . $item->file) }}"
                                                             alt="{{ $item->file }}">Lihat File</a></td>
                                                     <td>
+                                                        <a href="/tugasguru/edit/{{ $item->id_tugas }}"
+                                                            class=" btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="icon icon-tabler icon-tabler-pencil-plus"
+                                                                width="24" height="24" viewBox="0 0 24 24"
+                                                                stroke-width="2" stroke="currentColor" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                </path>
+                                                                <path
+                                                                    d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
+                                                                </path>
+                                                                <path d="M13.5 6.5l4 4"></path>
+                                                                <path d="M16 18h4m-2 -2v4"></path>
+                                                            </svg>
+                                                        </a>
 
-                                                        <form method="POST" action="/tugasguru/{{ $item->id_tugas }}/delete"
+                                                        <form method="POST"
+                                                            action="/tugasguru/{{ $item->id_tugas }}/delete"
                                                             class="mt-2">
                                                             @csrf
 
@@ -236,7 +252,7 @@
                                 <div class="form-label">Dedline</div>
                                 <div class="input-icon mb-2">
                                     <input type="date" id="dedline" name="dedline" class="form-control "
-                                        placeholder="Select a date" id="datepicker-icon">
+                                        placeholder="Select a date" id="datepicker-icon" min="{{ date('Y-m-d') }}">
                                     <span class="input-icon-addon">
                                         <!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
                                     </span>
@@ -293,7 +309,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Catatan</label>
-                            <textarea class="form-control" id="catatan" name="catatan" data-bs-toggle="autosize" placeholder="Tinggalkan catatan..."
+                            <textarea class="form-control" id="catatan" name="catatan" data-bs-toggle="autosize"
+                                placeholder="Tinggalkan catatan..."
                                 style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
                         </div>
                         <div class="row mt-2">
@@ -365,7 +382,7 @@
             $("#form_departemen").submit(function() {
                 var mata_pelajaran = $("#mata_pelajaran").val();
                 var judul_tugas = $("#judul_tugas").val();
-                var file_tugas =$("#file_tugas").val();
+                var file_tugas = $("#file_tugas").val();
                 var dedline = $("#dedline").val();
                 var catatan = $("#catatan").val();
                 if (mata_pelajaran == "") {
@@ -390,7 +407,7 @@
                         $("#judul_tugas").focus()
                     });;
                     return false;
-                }else if (file_tugas == "") {
+                } else if (file_tugas == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -401,7 +418,7 @@
                         $("#file_tugas").focus()
                     });;
                     return false;
-                }else if (dedline == "") {
+                } else if (dedline == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -412,7 +429,7 @@
                         $("#dedline").focus()
                     });;
                     return false;
-                }else if (catatan == "") {
+                } else if (catatan == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',

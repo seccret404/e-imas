@@ -23,7 +23,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Berikan Nilai</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <a href={{ url('tugasguruall/' . $nilai->id_tugas) }} ><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
                             <form action="{{ '/tugasgurunilai/edit/' . $nilai->id_hasil }}" enctype="multipart/form-data"

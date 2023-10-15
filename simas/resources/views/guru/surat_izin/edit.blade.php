@@ -23,10 +23,11 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Surat Izin</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <a href="/suratguru"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ url('/suratguru/edit/' . $surat->id) }}" method="POST" id="form_departemen">
+                            <form action="{{ url('/suratguru/edit/' . $surat->id) }}" method="POST" id="form_departemen" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
@@ -95,9 +96,12 @@
                                                         <path d="M9 13h6"></path>
                                                     </svg>
                                                 </span>
-                                                <textarea id="nama_dept" name="keterangan" class="form-control" style="resize: vertical;">{{ $surat->keterangan_surat }}</textarea>
+                                                <textarea id="nama_dept" name="keterangan" class="form-control" style="resize: vertical;" required>{{ $surat->keterangan_surat }}</textarea>
                                             </div>
                                         </div>
+                                        @error('keterangan')
+                                            <div class="alert alert-danger">Masukkan keterangan yang valid</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="row">
@@ -131,7 +135,6 @@
                                         <div class="form-label">Tanggal Mulai</div>
                                         <div class="input-icon mb-3">
                                             <span class="input-icon-addon">
-                                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                     class="icon icon-tabler icon-tabler-calendar-due" width="24"
                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
@@ -148,10 +151,12 @@
                                                 </svg>
                                             </span>
                                             <input type="date" value="{{ $surat->waktu_mulai }}" id="nama_dept"
-                                                name="mulai" class="form-control" placeholder="BATAM....">
+                                                name="mulai" class="form-control" placeholder=""
+                                                min="{{ date('Y-m-d') }}">
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-label">Tanggal Selesai</div>
@@ -174,7 +179,8 @@
                                                 </svg>
                                             </span>
                                             <input type="date" value="{{ $surat->waktu_berakhir }}" id="nama_dept"
-                                                name="selesai" class="form-control" placeholder="BATAM....">
+                                                name="selesai" class="form-control" placeholder=""
+                                                min="{{ date('Y-m-d') }}">
                                         </div>
                                     </div>
                                 </div>

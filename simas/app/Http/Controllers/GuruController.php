@@ -126,22 +126,18 @@ class GuruController extends Controller
 
     public function editsuratpros(Request $request, $id)
     {
-        // Validasi inputan jika diperlukan
         $request->validate([
             'nama' => 'required',
             'jenis' => 'required',
-            'keterangan' => 'required',
+            'keterangan' => 'required|min:5',
             'mulai' => 'required',
             'selesai' => 'required',
         ]);
 
-        // Ambil data surat berdasarkan ID
         $surat = Surat::find($id);
 
-        // Simpan gambar lama
         $namafile = $surat->keterangan_tambahan;
 
-        // Update data surat dengan nilai inputan
         $surat->nama_request = $request->nama;
         $surat->jenis_surat = $request->jenis;
         $surat->keterangan_surat = $request->keterangan;
@@ -156,8 +152,6 @@ class GuruController extends Controller
 
         $surat->keterangan_tambahan = $namafile;
 
-
-        // Simpan perubahan
         $surat->save();
 
         if ($surat) {
@@ -186,9 +180,10 @@ class GuruController extends Controller
             ->join('users', 'users.id_user', '=', 'guru.npdn')
             ->where('users.id', $id_guru)
             ->select('matapelajran.nama_pelajaran')
+            ->distinct()
             ->get();
         $tugas = DB::table('tugas')->where('id_guru', $id_guru)->get();
-        // dd($mapel);
+        // dd($tugas);
         return view('guru.tugas.index', compact('mapel', 'tugas'));
     }
     public function addtugas(Request $request)
@@ -223,6 +218,62 @@ class GuruController extends Controller
             return Redirect::back()->with(['success' => 'Data berhasil Tambah']);
         } else {
             return Redirect::back()->with(['error' => 'Data gagal di proses']);
+        }
+    }
+
+    public function edittugas($id)
+    {
+        $id_guru = Auth::user()->id;
+        $tugas = Tugas::find($id);
+        $tahun = DB::table('akademik')->get();
+        $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->join('users', 'users.id_user', '=', 'guru.npdn')
+            ->where('users.id', $id_guru)
+            ->select('matapelajran.nama_pelajaran')
+            ->distinct()
+            ->get();
+
+        return view('guru.tugas.edit', compact('tugas', 'tahun', 'mapel'));
+    }
+
+    public function edittugaspros(Request $request, $id)
+    {
+        $request->validate([
+            'nama_pelajaran' => 'required',
+            'judul' => 'required',
+            'file' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'dedline' => 'required',
+            'jurusan' => 'required',
+            'kelas' => 'required',
+            'catatan' => 'required',
+        ]);
+
+        $tugas = Tugas::find($id);
+
+        $namafile = $tugas->file;
+
+        $tugas->nama_pelajaran = $request->nama_pelajaran;
+        $tugas->judul = $request->judul;
+        $tugas->dedline = $request->dedline;
+        $tugas->jurusan = $request->jurusan;
+        $tugas->kelas = $request->kelas;
+        $tugas->catatan = $request->catatan;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/tugas';
+            $file->move($tujuanFile, $namafile);
+        }
+
+        $tugas->file = $namafile;
+
+        $tugas->save();
+
+        if ($tugas) {
+            return redirect('/tugasguru')->with(['success' => "Data Tugas Berhasil Diupdate!"]);
+        } else {
+            return redirect('/tugasguru')->with(['error' => "Data Gagal Di Edit"]);
         }
     }
 
@@ -327,6 +378,7 @@ class GuruController extends Controller
             ->join('users', 'users.id_user', '=', 'guru.npdn')
             ->where('users.id', $id_guru)
             ->select('matapelajran.*')
+            ->distinct()
             ->get();
         // $mapel = DB::table('matapelajran')->get();
         // dd($id_guru);
@@ -383,7 +435,6 @@ class GuruController extends Controller
 
     public function editujianpros(Request $request, $id)
     {
-        // Validasi inputan jika diperlukan
         $request->validate([
             'judul' => 'required',
             'jenis' => 'required',
@@ -394,13 +445,10 @@ class GuruController extends Controller
             'tahun_akademik' => 'required',
         ]);
 
-        // Ambil data surat berdasarkan ID
         $ujian = Ujian::find($id);
 
-        // Simpan gambar lama
         $namafile = $ujian->file;
 
-        // Update data surat dengan nilai inputan
         $ujian->judul = $request->judul;
         $ujian->jenis_ujian = $request->jenis;
         $ujian->dedline = $request->dedline;
@@ -417,8 +465,6 @@ class GuruController extends Controller
 
         $ujian->file = $namafile;
 
-
-        // Simpan perubahan
         $ujian->save();
 
         if ($ujian) {
@@ -543,8 +589,8 @@ class GuruController extends Controller
             $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
-            $latitudekantor = 2.324110;
-            $longitudekantor = 99.047969;
+            $latitudekantor = 2.383129;
+            $longitudekantor = 99.148454;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;

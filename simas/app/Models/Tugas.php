@@ -10,13 +10,13 @@ class Tugas extends Model
     use HasFactory;
     protected $table = 'tugas';
     protected $fillable = [
-        'id_tugas',
         'nama_pelajaran',
         'judul',
         'jurusan',
         'kelas',
         'catatan',
         'file',
+        'dedline',
     ];
 
     protected $primaryKey = 'id_tugas';

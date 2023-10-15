@@ -6,12 +6,15 @@ use Carbon\Carbon;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Siswa;
+use App\Models\Jadwal;
 use App\Models\Ruangan;
 use App\Models\Pelajaran;
 use App\Models\KeahlianGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
 class DashboasrdController extends Controller
@@ -131,9 +134,10 @@ class DashboasrdController extends Controller
     {
 
         // $guru =  DB::table('guru')->where('status', "aktif")->get();
-        $guru =  DB::table('guru')->get();
+        $guruAktif =  DB::table('guru')->where('status', "aktif")->get();
+        $guruTidakAktif =  DB::table('guru')->where('status', "non-aktif")->get();
 
-        return view('admin.guru.index', compact('guru'));
+        return view('admin.guru.index', compact('guruAktif', 'guruTidakAktif'));
     }
     public function updateStatus($id)
     {
@@ -316,7 +320,7 @@ class DashboasrdController extends Controller
     {
         $akademik = DB::table('akademik')->get();
 
-        $guru = DB::table('guru')->get();
+        $guru = DB::table('guru')->where('status', 'aktif')->get();
 
         $mapel = DB::table('matapelajran')->get();
         return view('admin.pelajaran.matapelajaran', compact('akademik', 'guru', 'mapel'));
@@ -352,6 +356,8 @@ class DashboasrdController extends Controller
         $guru = DB::table('guru')->get();
         $room = DB::table('ruangan')->get();
         $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
             ->where('kelas', 10)
             ->where('jurusan', 'IPA')
             ->get();
@@ -372,9 +378,12 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
             ->where('kelas', 11)
             ->where('jurusan', "IPA")
             ->get();
+
         $jadwal = DB::table('jadwal')
             ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
             ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
@@ -391,6 +400,8 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
             ->where('kelas', 12)
             ->where('jurusan', "IPA")
             ->get();
@@ -409,6 +420,8 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
             ->where('kelas', 10)
             ->where('jurusan', "IPS")
             ->get();
@@ -427,6 +440,8 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
             ->where('kelas', 11)
             ->where('jurusan', "IPS")
             ->get();
@@ -445,6 +460,8 @@ class DashboasrdController extends Controller
         $room = DB::table('ruangan')->get();
         $guru = DB::table('guru')->get();
         $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
             ->where('kelas', 12)
             ->where('jurusan', "IPS")
             ->get();
@@ -564,10 +581,43 @@ class DashboasrdController extends Controller
 
     public function editprosg(Request $request, $id)
     {
-        $guru = Guru::find($id);
-        $guru->update($request->all());
+        $request->validate([
+            'nama' => 'required',
+            'npdn' => 'required',
+            'kode_guru' => 'required',
+            'alamat' => 'required',
+            'no_hp' => 'required',
+            'jenis_kelamin' => 'required',
+            'profil' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-        return redirect('/guru')->with(['success' => "Data Guru Berhasil Di Update"]);
+        $guru = Guru::find($id);
+
+        $namafile = $guru->profil;
+
+        $guru->nama = $request->nama;
+        $guru->npdn = $request->npdn;
+        $guru->kode_guru = $request->kode_guru;
+        $guru->alamat = $request->alamat;
+        $guru->no_hp = $request->no_hp;
+        $guru->jenis_kelamin = $request->jenis_kelamin;
+
+        if ($request->hasFile('profil')) {
+            $file = $request->file('profil');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/guru';
+            $file->move($tujuanFile, $namafile);
+        }
+
+        $guru->profil = $namafile;
+
+        $guru->save();
+
+        if ($guru) {
+            return redirect('/guru')->with(['success' => "Data Guru Berhasil Di Update!"]);
+        } else {
+            return redirect('/guru')->with(['error' => "Data Gagal Di Update"]);
+        }
     }
 
     public function deleteg($id)
@@ -601,10 +651,41 @@ class DashboasrdController extends Controller
 
     public function editpross(Request $request, $id)
     {
-        $siswa = Siswa::find($id);
-        $siswa->update($request->all());
+        $request->validate([
+            'nama' => 'required',
+            'profil' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nisn' => 'required',
+            'jenis_kelamin' => 'required',
+            'jurusan' => 'required',
+            'kelas' => 'required',
+        ]);
 
-        return redirect('/siswa')->with(['success' => "Data Siswa Berhasil Di Update!"]);
+        $siswa = Siswa::find($id);
+
+        $namafile = $siswa->profil;
+
+        $siswa->nama = $request->nama;
+        $siswa->nisn = $request->nisn;
+        $siswa->jenis_kelamin = $request->jenis_kelamin;
+        $siswa->jurusan = $request->jurusan;
+        $siswa->kelas = $request->kelas;
+
+        if ($request->hasFile('profil')) {
+            $file = $request->file('profil');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/profil';
+            $file->move($tujuanFile, $namafile);
+        }
+
+        $siswa->profil = $namafile;
+
+        $siswa->save();
+
+        if ($siswa) {
+            return redirect('/siswa')->with(['success' => "Data Siswa Berhasil Di Update!"]);
+        } else {
+            return redirect('/siswa')->with(['error' => "Data Gagal Di Update"]);
+        }
     }
 
     public function deletep($id)
@@ -634,6 +715,57 @@ class DashboasrdController extends Controller
 
         return redirect('/mata-pelajaran')->with(['success' => "Matapelajaran Berhasil Di Update"]);
     }
+
+    public function editj($id)
+    {
+        session(['previous_url' => url()->previous()]);
+        $siswa = Jadwal::find($id);
+        $room = DB::table('ruangan')->get();
+        $mapel = DB::table('matapelajran')
+            ->join('guru', 'matapelajran.kode_guru', '=', 'guru.kode_guru')
+            ->where('guru.status', 'aktif')
+            ->get();
+
+        $jadwal = DB::table('jadwal')
+            ->join('ruangan', 'jadwal.ruangan', '=', 'ruangan.id')
+            ->join('guru', 'jadwal.kode_guru', '=', 'guru.kode_guru')
+            ->select('jadwal.*', 'ruangan.nama_ruangan', 'guru.nama')
+            ->get();
+        // dd($siswa);
+        return view('admin.jadwal.edit', compact('siswa', 'mapel', 'jadwal', 'room'));
+    }
+
+    public function editprosj(Request $request, $id)
+    {
+        $request->validate([
+            'hari' => 'required',
+            'nama_pelajaran' => 'required',
+            'ruangan' => 'required',
+            'jam_masuk' => 'required',
+            'jam_selesai' => 'required',
+        ]);
+
+        $jadwal = Jadwal::find($id);
+
+        if (!$jadwal) {
+            return redirect()->back()->with(['error' => "Data tidak ditemukan"]);
+        }
+
+        $jadwal->hari = $request->hari;
+        $jadwal->nama_pelajaran = $request->nama_pelajaran;
+        $jadwal->ruangan = $request->ruangan;
+        $jadwal->jam_masuk = $request->jam_masuk;
+        $jadwal->jam_selesai = $request->jam_selesai;
+
+        $jadwal->save();
+
+        if ($jadwal) {
+            return redirect()->to(session('previous_url'))->with(['success' => "Data Jadwal Jurusan Berhasil Di Update!"]);
+        } else {
+            return redirect()->to(session('previous_url'))->with(['error' => "Data Gagal Di Update"]);
+        }
+    }
+
     public function deletej($id)
     {
         $delete = DB::table('jadwal')->where('id', $id)->delete();

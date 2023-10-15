@@ -27,7 +27,7 @@
         <div class="container-xl">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-sm">
+                    <div class="card card-sm mb-5">
                         <div class="card-body">
                             <div class="r0w">
                                 <div class="col-12">
@@ -63,6 +63,7 @@
 
 
                             <div class="row mt-4">
+                                <h3><strong>Data Guru Aktif</strong></h3>
                                 <table class="table table-bordered data-table display nowrap w-100" id="data">
                                     <div class="col-12">
                                         <thead>
@@ -78,7 +79,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($guru as $item)
+                                            @foreach ($guruAktif as $item)
                                                 <tr class="text-center text-black">
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->nama }}</td>
@@ -153,6 +154,132 @@
                                                                             viewBox="0 0 24 24" stroke-width="2"
                                                                             stroke="currentColor" fill="none"
                                                                             stroke-linecap="round" stroke-linejoin="round">
+                                                                            <path stroke="none" d="M0 0h24v24H0z"
+                                                                                fill="none">
+                                                                            </path>
+                                                                            <path d="M4 7l16 0"></path>
+                                                                            <path d="M10 11l0 6"></path>
+                                                                            <path d="M14 11l0 6"></path>
+                                                                            <path
+                                                                                d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                            </path>
+                                                                            <path
+                                                                                d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </a>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </td>
+
+
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            {{-- {{$departemen->links('vendor\pagination\bootstrap-5')}}</div> --}}
+                        </div>
+                    </div>
+                    <div class="card card-sm">
+                        <div class="card-body">
+                            <div class="r0w">
+                                <div class="col-12">
+                                    @if (Session::get('success'))
+                                        <div class="alert alert-success">
+
+                                            {{ Session::get('success') }}
+                                        </div>
+                                    @endif
+                                    @if (Session::get('error'))
+                                        <div class="alert alert-danger">
+
+                                            {{ Session::get('error') }}
+
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <h3><strong>Data Guru Tidak Aktif</strong></h3>
+                                <table class="table table-bordered data-table display nowrap w-100" id="data">
+                                    <div class="col-12">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Guru</th>
+                                                <th>Gambar</th>
+                                                <th>NIPDN</th>
+                                                <th>alamat</th>
+                                                <th>No Telepon</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($guruTidakAktif as $item)
+                                                <tr class="text-center text-black">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->nama }}</td>
+                                                    <td class="text-center"><a
+                                                            href="{{ url('/asset/guru/' . $item->profil) }}"><img
+                                                                src="{{ url('/asset/guru/' . $item->profil) }}"
+                                                                width="100px" alt=""></a></td>
+                                                    <td>{{ $item->npdn }}</td>
+                                                    <td>{{ $item->alamat }}</td>
+                                                    <td>{{ $item->no_hp }}</td>
+                                                    <td>
+                                                        @if ($item->status == 'aktif')
+                                                            <div class="btn btn-success" disable>
+                                                                {{ $item->status }}
+                                                            </div>
+                                                        @else
+                                                            <div class="btn btn-danger" disable>
+                                                                {{ $item->status }}
+                                                            </div>
+                                                        @endif
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <div class="row text-center">
+                                                            <div class="col">
+                                                                @if ($item->status == 'aktif')
+                                                                    <form action="/update-guru/{{ $item->id }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        <button class="btn btn-warning"
+                                                                            type="submit">Nonaktifkan</button>
+                                                                    </form>
+                                                                @else
+                                                                    <form action="/update-aktif-guru/{{ $item->id }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        <button class="btn btn-warning"
+                                                                            type="submit">Aktifkan Kembali</button>
+                                                                    </form>
+                                                                @endif
+                                                            </div>
+                                                            <div class="col">
+                                                                <form method="POST"
+                                                                    action="/guru/{{ $item->id }}/delete"
+                                                                    class="">
+                                                                    @csrf
+
+                                                                    <a class="btn btn-danger deletecom">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            class="icon icon-tabler icon-tabler-trash"
+                                                                            width="24" height="24"
+                                                                            viewBox="0 0 24 24" stroke-width="2"
+                                                                            stroke="currentColor" fill="none"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round">
                                                                             <path stroke="none" d="M0 0h24v24H0z"
                                                                                 fill="none">
                                                                             </path>
@@ -398,8 +525,7 @@
                                                 stroke="currentColor" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path
-                                                    d="M12 19h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v5.5">
+                                                <path d="M12 19h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v5.5">
                                                 </path>
                                                 <path d="M16 19h6"></path>
                                                 <path d="M19 16v6"></path>
@@ -550,8 +676,7 @@
                         $("#nama_dept").focus()
                     });;
                     return false;
-                } 
-                else if (unggah == "") {
+                } else if (unggah == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -562,7 +687,7 @@
                         $("#unggah").focus()
                     });;
                     return false;
-                } 
+                }
             });
         })
     </script>

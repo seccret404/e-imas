@@ -10,5 +10,10 @@ class Prestasi extends Model
     use HasFactory;
 
     protected $table = 'prestasi';
+    protected $fillable = [
+        'nama_prestasi',
+        'file',
+        'catatan'
+    ];
     
 }

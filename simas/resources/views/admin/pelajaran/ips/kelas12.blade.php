@@ -110,30 +110,48 @@
                                                     <td>{{ $item->jam_masuk }}</td>
                                                     <td>{{ $item->jam_selesai }}</td>
                                                     <td>
-
-                                                        <form method="POST" action="/jadwal/{{ $item->id }}/delete"
-                                                            class="mt-2">
-                                                            @csrf
-
-                                                            <a class="btn btn-danger deletecom">
+                                                        <div class="col text-center">
+                                                            <a href="/jadwal/edit/{{ $item->id }}"
+                                                                class=" btn btn-primary">
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    class="icon icon-tabler icon-tabler-trash"
+                                                                    class="icon icon-tabler icon-tabler-pencil-plus"
                                                                     width="24" height="24" viewBox="0 0 24 24"
                                                                     stroke-width="2" stroke="currentColor" fill="none"
                                                                     stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none">
                                                                     </path>
-                                                                    <path d="M4 7l16 0"></path>
-                                                                    <path d="M10 11l0 6"></path>
-                                                                    <path d="M14 11l0 6"></path>
                                                                     <path
-                                                                        d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                        d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
                                                                     </path>
-                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
-                                                                    </path>
+                                                                    <path d="M13.5 6.5l4 4"></path>
+                                                                    <path d="M16 18h4m-2 -2v4"></path>
                                                                 </svg>
                                                             </a>
-                                                        </form>
+                                                            <form method="POST" action="/jadwal/{{ $item->id }}/delete"
+                                                                class="mt-2">
+                                                                @csrf
+    
+                                                                <a class="btn btn-danger deletecom">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        class="icon icon-tabler icon-tabler-trash"
+                                                                        width="24" height="24" viewBox="0 0 24 24"
+                                                                        stroke-width="2" stroke="currentColor" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                        </path>
+                                                                        <path d="M4 7l16 0"></path>
+                                                                        <path d="M10 11l0 6"></path>
+                                                                        <path d="M14 11l0 6"></path>
+                                                                        <path
+                                                                            d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                        </path>
+                                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
+                                                                        </path>
+                                                                    </svg>
+                                                                </a>
+                                                            </form>
+                                                        </div>
+
                                                     </td>
 
 

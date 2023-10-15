@@ -91,6 +91,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //jadwal
                 Route::post('/jadwal-add', [DashboasrdController::class, 'addjadwal']);
                 Route::post('/jadwal/{id}/delete', [DashboasrdController::class, 'deletej']);
+                Route::get('/jadwal/edit/{id}', [DashboasrdController::class, 'editj']);
+                Route::post('/jadwal/edit/{id}', [DashboasrdController::class, 'editprosj']);
 
                 //tugas
                 Route::get('/tugas', [DashboasrdController::class, 'indext']);
@@ -168,6 +170,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //prestasi
                 Route::get('/prestasi', [SiswaController::class, 'prestasi']);
                 Route::post('/prestasi-add', [SiswaController::class, 'addpres']);
+                Route::get('/prestasi/edit/{id}', [SiswaController::class, 'editprestasi']);
+                Route::post('/prestasi/edit/{id}', [SiswaController::class, 'editprestasipros']);
                 Route::post('/prestasi/{id}/delete', [SiswaController::class, 'deletepres']);
                 Route::get('/prestasi/{userId}', [PrestasiController::class, 'getPrestasi']);
 
@@ -213,8 +217,10 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //tugas
                 Route::get('/tugasguru', [GuruController::class, 'indext']);
                 Route::post('/tugasguru-add', [GuruController::class, 'addtugas']);
+                Route::get('/tugasguru/edit/{id}', [GuruController::class, 'edittugas']);
+                Route::post('/tugasguru/edit/{id}', [GuruController::class, 'edittugaspros']);
                 Route::post('/tugasguru/{id}/delete', [GuruController::class, 'deletet']);
-                //tugas submitted
+                //tugas submitted       
                 Route::get('/tugasgurusubmitted', [GuruController::class, 'tugassubmitted']);
                 Route::get('/tugasguruall/{id}', [GuruController::class, 'tugasguruall'])->name('tugasguruall');
                 Route::get('/tugasgurunilai/edit/{id}', [GuruController::class, 'tugasgurunilaishow']);
