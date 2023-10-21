@@ -6,7 +6,6 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-
                 </div>
                 <h2 class="page-title text-white">
                     Kirim Email ke Guru
@@ -38,8 +37,6 @@
                                 @endif
                             </div>
                         </div>
-
-
                         <div class="col-12">
                             <form class="card" action="/admin/kirim-guru" method="POST">
                                 @csrf
@@ -59,7 +56,6 @@
                                 </div>
                                 <label class="form-label">Judul</label>
                                 <input class="form-control" type="text" name="judul">
-
                                 <label class="form-label">Body</label>
                                 <input class="form-control" type="text" name="body">
                                 <div class="mb-3">
@@ -77,7 +73,6 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-
                                         </div>
                                     </div>
                                   </div>
@@ -85,13 +80,11 @@
                                   <label class="form-label">Pesan</label>
                                   <textarea class="form-control text-muted" name="pesan" rows="5" placeholder="Ketikkan pesan..."></textarea>
                                 </div>
-
                               <div class="card-footer text-end">
                                 <button class="btn btn-primary" type="submit">Kirim Pesan</button>
                               </div>
                             </form>
                           </div>
-
                     </div>
                 </div>
             </div>

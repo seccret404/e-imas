@@ -6,10 +6,9 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">
-
                 </div>
                 <h2 class="page-title text-white">
-                  Kirim  Email Kesemua siswa
+                  Kirim  Email Kesemua
                 </h2>
             </div>
         </div>
@@ -25,21 +24,16 @@
                             <div class="col-12">
                                 @if (Session::get('success'))
                                 <div class="alert alert-success">
-
                                     {{Session::get('success')}}
                                 </div>
                                 @endif
                                 @if (Session::get('error'))
                                 <div class="alert alert-danger">
-
                                     {{ Session::get('error')}}
-
                                 </div>
                                 @endif
                             </div>
                         </div>
-
-
                         <div class="col-12">
                             <form class="card" action="/admin/kirim-pesan" method="POST">
                                 @csrf
@@ -59,7 +53,6 @@
                                 </div>
                                 <label class="form-label">Judul</label>
                                 <input class="form-control" type="text" name="judul">
-
                                 <label class="form-label">Body</label>
                                 <input class="form-control" type="text" name="body">
                                 <div class="mb-3">
@@ -77,7 +70,6 @@
                                   <label class="form-label">Pesan</label>
                                   <textarea class="form-control text-muted" name="pesan" rows="5" placeholder="Ketikkan pesan..."></textarea>
                                 </div>
-
                               <div class="card-footer text-end">
                                 <button class="btn btn-primary" type="submit">Kirim Pesan</button>
                               </div>

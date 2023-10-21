@@ -165,7 +165,9 @@ class DashboasrdController extends Controller
         $namafile = $file->getClientOriginalName();
         $tujuanFile = 'asset/guru';
         $file->move($tujuanFile, $namafile);
-
+        $j = "Null";
+        $k = "Null";
+        $role = "Guru";
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 
@@ -205,10 +207,6 @@ class DashboasrdController extends Controller
             return Redirect::back()->with(['error' => 'Data gagal tambah']);
         }
     }
-
-
-
-
 
     public function siswa()
     {
