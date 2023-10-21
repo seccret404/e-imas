@@ -176,6 +176,7 @@ class DashboasrdController extends Controller
         if ($exgmail && $exnpdn) {
             return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
         }
+        
         $tambahuser = User::create([
             'name' => $request->input('nama'),
             'jurusan' => $j,
@@ -249,9 +250,11 @@ class DashboasrdController extends Controller
 
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnisn = DB::table('siswa')->where('nisn', $nisn)->first();
+
         if ($exgmail && $exnisn) {
             return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
         }
+        
         $pengguna = User::create([
             'name' => $request->input('nama'),
             'id_user' => $nisn,
