@@ -21,7 +21,15 @@ class DashboasrdController extends Controller
 {
     public function index()
     {
-        $pengumuman = DB::table('pengumuman')->orderBy('created_at', 'desc')->get();
+        $currentDate = Carbon::now()->toDateString();
+        $twoDaysAgo = Carbon::now()->addDays(2)->toDateString();
+
+        $pengumuman = DB::table('pengumuman')
+            ->where('created_at', '>=', $currentDate)
+            ->where('created_at', '<=', $twoDaysAgo)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         $siswa = Siswa::count();
         $guruman = DB::table('guru')
             ->where('jenis_kelamin', "laki-laki")
@@ -71,7 +79,6 @@ class DashboasrdController extends Controller
         //     ->delete();
 
         // Get the current date
-        $currentDate = Carbon::now()->toDateString();
 
         $absenguruterlambat = DB::table('presensiguru')
             ->where('tgl_presensi', $currentDate)
@@ -126,7 +133,7 @@ class DashboasrdController extends Controller
             'tepat' => intval($absengurutepat),
             'belum' => intval($absensiswabelum)
         ];
-        // dd($absensiswa);
+        // dd($twoDaysAgo);
         return view('admin.index', compact('pengumuman', 'siswa', 'guru', 'man', 'woman', 'gender', 'genderguru', 'suratizinguru', 'suratizinsiswa', 'absenguru', 'absensiswa'));
     }
 
@@ -166,13 +173,21 @@ class DashboasrdController extends Controller
         $tujuanFile = 'asset/guru';
         $file->move($tujuanFile, $namafile);
 
+        $extensi = "@guru.com";
+        $j = "Null";
+        $k = "Null";
+        $buatUsername = $kode_guru . $extensi;
+        $role = "guru";
+
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 
-
-        if ($exgmail && $exnpdn) {
-            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
+        if ($exnpdn) {
+            return redirect()->back()->withInput($request->input())->with(['exemail' => 'NPDN sudah digunakan.']);
+        } elseif ($exgmail) {
+            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email sudah digunakan.']);
         }
+
         $tambahuser = User::create([
             'name' => $request->input('nama'),
             'jurusan' => $j,
@@ -246,9 +261,13 @@ class DashboasrdController extends Controller
 
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnisn = DB::table('siswa')->where('nisn', $nisn)->first();
-        if ($exgmail && $exnisn) {
-            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
+
+        if ($exnisn) {
+            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'NPDN sudah digunakan.']);
+        } elseif ($exgmail) {
+            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email sudah digunakan.']);
         }
+
         $pengguna = User::create([
             'name' => $request->input('nama'),
             'id_user' => $nisn,
@@ -531,6 +550,15 @@ class DashboasrdController extends Controller
 
         if (empty($keterangan)) {
             $keterangan = '-';
+        }
+
+        $ruanganExists = DB::table('ruangan')
+            ->where('nama_ruangan', $nama_ruangan)
+            ->orWhere('kode_ruangan', $kode_ruangan)
+            ->exists();
+
+        if ($ruanganExists) {
+            return Redirect::back()->with(['error' => 'Nama atau kode ruangan sudah ada']);
         }
 
         $data = [
@@ -908,7 +936,8 @@ class DashboasrdController extends Controller
         $data = [
             'judul' => $judul,
             'info' => $info,
-            'file' => $namafile
+            'file' => $namafile,
+            'created_at' => now()
         ];
 
         $simpan = DB::table('pengumuman')->insert($data);
