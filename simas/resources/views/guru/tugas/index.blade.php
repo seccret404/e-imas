@@ -100,7 +100,151 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($tugas as $item)
+                                            @foreach ($tugas_baru as $item)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->nama_pelajaran }}</td>
+                                                    <td>{{ $item->judul }}</td>
+                                                    <td>{{ $item->dedline }}</td>
+                                                    <td>{{ $item->jurusan }}</td>
+                                                    <td>{{ $item->kelas }}</td>
+                                                    <td><a href="{{ url('asset/tugas/' . $item->file) }}"
+                                                            alt="{{ $item->file }}">Lihat File</a></td>
+                                                    <td>
+                                                        <a href="/tugasguru/edit/{{ $item->id_tugas }}"
+                                                            class=" btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="icon icon-tabler icon-tabler-pencil-plus"
+                                                                width="24" height="24" viewBox="0 0 24 24"
+                                                                stroke-width="2" stroke="currentColor" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                </path>
+                                                                <path
+                                                                    d="M8 20l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4h4z">
+                                                                </path>
+                                                                <path d="M13.5 6.5l4 4"></path>
+                                                                <path d="M16 18h4m-2 -2v4"></path>
+                                                            </svg>
+                                                        </a>
+
+                                                        <form method="POST"
+                                                            action="/tugasguru/{{ $item->id_tugas }}/delete"
+                                                            class="mt-2">
+                                                            @csrf
+
+                                                            <a class="btn btn-danger deletecom">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-trash"
+                                                                    width="24" height="24" viewBox="0 0 24 24"
+                                                                    stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
+                                                                    </path>
+                                                                    <path d="M4 7l16 0"></path>
+                                                                    <path d="M10 11l0 6"></path>
+                                                                    <path d="M14 11l0 6"></path>
+                                                                    <path
+                                                                        d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
+                                                                    </path>
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
+                                                                    </path>
+                                                                </svg>
+                                                            </a>
+                                                        </form>
+                                                    </td>
+
+
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            {{-- {{$departemen->links('vendor\pagination\bootstrap-5')}}</div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-sm">
+                        <div class="card-body">
+                            <div class="r0w">
+                                <div class="col-12">
+                                    @if (Session::get('success'))
+                                        <div class="alert alert-success">
+
+                                            {{ Session::get('success') }}
+                                        </div>
+                                    @endif
+                                    @if (Session::get('error'))
+                                        <div class="alert alert-danger">
+
+                                            {{ Session::get('error') }}
+
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            {{-- <div class="row mt-2">
+                            <div class="col-12">
+                                <form action="/departemen" method="get">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <input type="text" name="nama_departemen" class="form-control"
+                                                    placeholder="Mata Pelajaran" value="{{Request('nama_departemen')}}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="icon icon-tabler icon-tabler-search" width="24"
+                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                                        <path d="M21 21l-6 -6"></path>
+                                                    </svg> Cari
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div> --}}
+
+
+                        <h3>Expired Deadlines</h3>
+                            <div class="row mt-4">
+                                <table class="table table-bordered">
+                                    <div class="col-12">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Matapelajaran</th>
+                                                <th>Judul</th>
+                                                <th>Dedline</th>
+                                                <th>Jurusan</th>
+                                                <th>Kelas</th>
+                                                <th>Lampiran File</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($tugas_lama as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->nama_pelajaran }}</td>

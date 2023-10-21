@@ -182,9 +182,21 @@ class GuruController extends Controller
             ->select('matapelajran.nama_pelajaran')
             ->distinct()
             ->get();
-        $tugas = DB::table('tugas')->where('id_guru', $id_guru)->get();
-        // dd($tugas);
-        return view('guru.tugas.index', compact('mapel', 'tugas'));
+
+        $today = date('Y-m-d');
+        $tugas_lama = DB::table('tugas')
+            ->where('id_guru', $id_guru)
+            ->where('dedline', '<', $today)
+            ->orderBy('dedline', 'desc')
+            ->get();
+
+        $tugas_baru = DB::table('tugas')
+            ->where('id_guru', $id_guru)
+            ->where('dedline', '>=', $today)
+            ->orderBy('dedline', 'desc')
+            ->get();
+
+        return view('guru.tugas.index', compact('mapel', 'tugas_lama', 'tugas_baru'));
     }
     public function addtugas(Request $request)
     {
@@ -367,7 +379,7 @@ class GuruController extends Controller
         }
     }
 
-    public function ujian()
+    public function  ujian()
     {
         $ujian = DB::table('ujian')->where('id_guru', Auth::user()->id)->get();
         $nama = Auth::user()->name;
@@ -380,9 +392,21 @@ class GuruController extends Controller
             ->select('matapelajran.*')
             ->distinct()
             ->get();
-        // $mapel = DB::table('matapelajran')->get();
-        // dd($id_guru);
-        return view('guru.ujian.index', compact('ujian', 'nama', 'tahun', 'mapel'));
+
+        $today = date('Y-m-d');
+        $ujian_lama = DB::table('ujian')
+            ->where('id_guru', $id_guru)
+            ->where('dedline', '<', $today)
+            ->orderBy('dedline', 'desc')
+            ->get();
+
+        $ujian_baru = DB::table('ujian')
+            ->where('id_guru', $id_guru)
+            ->where('dedline', '>=', $today)
+            ->orderBy('dedline', 'desc')
+            ->get();
+
+        return view('guru.ujian.index', compact('ujian_lama', 'ujian_baru', 'nama', 'tahun', 'mapel'));
     }
 
     public function addujian(Request $request)
