@@ -172,19 +172,13 @@ class DashboasrdController extends Controller
         $namafile = $file->getClientOriginalName();
         $tujuanFile = 'asset/guru';
         $file->move($tujuanFile, $namafile);
-<<<<<<< HEAD
+
         $j = "Null";
         $k = "Null";
         $role = "Guru";
-=======
 
-        $extensi = "@guru.com";
-        $j = "Null";
-        $k = "Null";
-        $buatUsername = $kode_guru . $extensi;
-        $role = "guru";
 
->>>>>>> 65ab9c5a5cf6785ea9ab5169adc85c015d562261
+
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 
