@@ -36,7 +36,7 @@ class RedirectIfAuthenticated
                     case 'admin':
                         return redirect('/dashboard');
                     case 'guru':
-                        return redirect('/dashboard/guru');
+                        return redirect('/dashboard/guru'); 
                     case 'siswa':
                         return redirect('/dashboard/siswa');
                 }

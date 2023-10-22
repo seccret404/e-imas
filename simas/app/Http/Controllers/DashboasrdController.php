@@ -176,9 +176,6 @@ class DashboasrdController extends Controller
         $j = "Null";
         $k = "Null";
         $role = "Guru";
-
-
-
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 

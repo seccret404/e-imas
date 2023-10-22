@@ -220,7 +220,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/tugasguru/edit/{id}', [GuruController::class, 'edittugas']);
                 Route::post('/tugasguru/edit/{id}', [GuruController::class, 'edittugaspros']);
                 Route::post('/tugasguru/{id}/delete', [GuruController::class, 'deletet']);
-                //tugas submitted       
+                //tugas submitted
                 Route::get('/tugasgurusubmitted', [GuruController::class, 'tugassubmitted']);
                 Route::get('/tugasguruall/{id}', [GuruController::class, 'tugasguruall'])->name('tugasguruall');
                 Route::get('/tugasgurunilai/edit/{id}', [GuruController::class, 'tugasgurunilaishow']);
