@@ -20,7 +20,12 @@ class Siswa extends Model
     ];
 
     public static function getEmailList()
-{
-    return self::pluck('email')->toArray();
-}
+    {
+        return self::pluck('email')->toArray();
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User');
+    }
 }

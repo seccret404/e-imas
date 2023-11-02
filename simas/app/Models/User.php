@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Surat', 'id_user', 'id');
     }
+    
+    public function siswa()
+    {
+        return $this->hasOne('App\Models\Siswa');
+    }
 }
