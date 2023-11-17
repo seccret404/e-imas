@@ -149,6 +149,7 @@ class DashboasrdController extends Controller
     public function updateStatus($id)
     {
         Guru::where('id', $id)->update(['status' => "non-aktif"]);
+        
         return redirect('/guru')->with(['success', "Guru Berhasil Di Nonaktifka!!"]);
     }
     public function updateAktifStatus($id)
@@ -173,9 +174,12 @@ class DashboasrdController extends Controller
         $tujuanFile = 'asset/guru';
         $file->move($tujuanFile, $namafile);
 
+        $extensi = "@guru.com";
         $j = "Null";
         $k = "Null";
-        $role = "Guru";
+        $buatUsername = $kode_guru . $extensi;
+        $role = "guru";
+
         $exgmail = DB::table('users')->where('email', $email)->first();
         $exnpdn = DB::table('guru')->where('npdn', $npdn)->first();
 
@@ -195,9 +199,9 @@ class DashboasrdController extends Controller
             'role' => $role
         ]);
 
-        if ($exgmail && $exnpdn) {
-            return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
-        }
+        // if ($exgmail && $exnpdn) {
+        //     return redirect()->back()->withInput($request->input())->with(['exemail' => 'Email atau NPDN sudah digunakan.']);
+        // }
         $data = [
             'nama' => $nama,
             'npdn' => $npdn,
@@ -270,9 +274,9 @@ class DashboasrdController extends Controller
             'password' => Hash::make($request->input('nisn')),
             'role' => $role,
         ]);
-        if ($exgmail && $exnisn) {
-            return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
-        }
+        // if ($exgmail && $exnisn) {
+        //     return redirect()->back()->withInput($request->input())->with(['exesiswa' => 'Email atau NISN sudah digunakan.']);
+        // }
         $data = [
             'nama' => $nama,
             'nisn' => $nisn,
@@ -631,7 +635,10 @@ class DashboasrdController extends Controller
             return redirect()->back()->withInput($request->input())->with(['existingnpdn' => 'NPDN sudah digunakan. Silakan coba dengan NPDN yang berbeda.']);
         }
 
-        $guru->update($request->all());
+        $user = User::where('id_user', $guru->npdn)->first();
+        if (!$user) {
+            return redirect('/guru')->with(['error' => "Data User tidak ditemukan"]);
+        }
 
         $namafile = $guru->profil;
 
@@ -653,6 +660,12 @@ class DashboasrdController extends Controller
 
         $guru->save();
 
+        if ($user) {
+            $user->name = $request->nama;
+            $user->id_user = $request->npdn;
+            $user->save();
+        }
+
         if ($guru) {
             return redirect('/guru')->with(['success' => "Data Guru Berhasil Di Update!"]);
         } else {
@@ -663,23 +676,47 @@ class DashboasrdController extends Controller
 
     public function deleteg($id)
     {
-        $delete = DB::table('guru')->where('id', $id)->delete();
+        $guru = Guru::find($id);
 
-        if ($delete) {
-            return redirect('/guru')->with(['success' => "Data Guru Berhasil Di Hapus!"]);
-        } else {
-            return redirect('/guru')->with(['error' => "Data Guru Gagal Di Hapus!"]);
+        if (!$guru) {
+            return redirect('/guru')->with(['error' => "Data Guru Tidak Ditemukan!"]);
+        }
+
+        $user = User::where('id_user', $guru->npdn)->first();
+
+        if (!$user) {
+            return redirect('/guru')->with(['error' => "Data User Tidak Ditemukan!"]);
+        }
+
+        try {
+            $guru->delete();
+            $user->delete();
+            return redirect('/guru')->with(['success' => "Data Guru  Berhasil Di Hapus!"]);
+        } catch (\Exception $e) {
+            return redirect('/guru')->with(['error' => "Terjadi kesalahan: " . $e->getMessage()]);
         }
     }
 
     public function deletes($id)
     {
-        $delete = DB::table('siswa')->where('id', $id)->delete();
+        $siswa = Siswa::find($id);
 
-        if ($delete) {
-            return redirect('/siswa')->with(['success' => "Data Siwa Berhasil Di Hapus"]);
-        } else {
-            return redirect('/siswa')->with(['success' => "Data Siwa Gagal Di Hapus"]);
+        if (!$siswa) {
+            return redirect('/siswa')->with(['error' => "Data Siswa Tidak Ditemukan!"]);
+        }
+
+        $user = DB::table('users')->where('id_user', $siswa->nisn)->first();
+        // dd($siswa);
+        if (!$user) {
+            return redirect('/siswa')->with(['error' => "Data User Tidak Ditemukan!"]);
+        }
+
+        try {
+            DB::table('siswa')->where('id', $id)->delete();
+            DB::table('users')->where('id_user', $siswa->nisn)->delete();
+            return redirect('/siswa')->with(['success' => "Data Siswa Berhasil Di Hapus!"]);
+        } catch (\Exception $e) {
+            return redirect('/siswa')->with(['error' => "Terjadi kesalahan: " . $e->getMessage()]);
         }
     }
 
@@ -709,7 +746,10 @@ class DashboasrdController extends Controller
             return redirect()->back()->withInput($request->input())->with(['existingnisn' => 'NISN sudah digunakan. Silakan coba dengan NISN yang berbeda.']);
         }
 
-        $siswa->update($request->all());
+        $user = User::where('id_user', $siswa->nisn)->first();
+        if (!$user) {
+            return redirect('/siswa')->with(['error' => "Data User tidak ditemukan"]);
+        }
 
         $namafile = $siswa->profil;
 
@@ -729,6 +769,14 @@ class DashboasrdController extends Controller
         $siswa->profil = $namafile;
 
         $siswa->save();
+
+        if ($user) {
+            $user->name = $request->nama;
+            $user->id_user = $request->nisn;
+            $user->jurusan = $request->jurusan;
+            $user->kelas = $request->kelas;
+            $user->save();
+        }
 
         if ($siswa) {
             return redirect('/siswa')->with(['success' => "Data Siswa Berhasil Di Update!"]);
