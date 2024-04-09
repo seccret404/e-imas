@@ -23,11 +23,13 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Ujian</h5>
-                            <a href="/ujianguru"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+                            <a href="/ujianguru"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button></a>
 
                         </div>
                         <div class="modal-body">
-                            <form action="{{ url('/ujianguru/edit/' . $ujian->id) }}" method="POST" id="form_departemen" enctype="multipart/form-data">
+                            <form action="{{ url('/ujianguru/edit/' . $ujian->id) }}" method="POST" id="form_departemen"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
@@ -71,8 +73,8 @@
                                                         <path d="M14 12h4"></path>
                                                     </svg>
                                                 </span>
-                                                <input type="text" value="{{ $ujian->judul }}" id="nama_dept" name="judul"
-                                                    class="form-control" placeholder="Judul Ujian">
+                                                <input type="text" value="{{ $ujian->judul }}" id="nama_dept"
+                                                    name="judul" class="form-control" placeholder="Judul Ujian">
                                             </div>
                                         </div>
                                     </div>
@@ -80,7 +82,7 @@
                                 <div class="mb-3">
                                     <div class="form-label">File Ujian</div>
                                     <p>File Before : <a href="{{ url('asset/ujian/' . $ujian->file) }}"
-                                        alt="{{ $ujian->file }}">{{ $ujian->file }}</a></p>
+                                            alt="{{ $ujian->file }}">{{ $ujian->file }}</a></p>
                                     <input type="file" name="file" class="form-control">
                                 </div>
                                 <div class="row">
@@ -88,7 +90,8 @@
                                         <div class="form-label">Dedline</div>
                                         <div class="input-icon mb-2">
                                             <input type="date" name="dedline" class="form-control "
-                                                placeholder="Select a date" id="datepicker-icon" value="{{ $ujian->dedline }}">
+                                                placeholder="Select a date" id="datepicker-icon"
+                                                value="{{ $ujian->dedline }}">
                                             <span class="input-icon-addon">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
                                             </span>
@@ -121,8 +124,8 @@
                                             <div class="form-label">Kelas</div>
                                             <div>
                                                 <label class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="kelas" value="10"
-                                                    {{ $ujian->kelas == '10' ? 'checked' : '' }}>
+                                                    <input class="form-check-input" type="radio" name="kelas"
+                                                        value="10" {{ $ujian->kelas == '10' ? 'checked' : '' }}>
                                                     <span class="form-check-label">10</span>
                                                 </label>
                                                 <label class="form-check form-check-inline">
@@ -150,11 +153,14 @@
                                         <div class="form-gorup">
                                             <div class="form-label">Tahun Akademik</div>
 
-                                            <select name="tahun_akademik" id="kode_dept" class="form-select tomselected ">
+                                            <select name="tahun_akademik" id="kode_dept"
+                                                class="form-select tomselected ">
                                                 <option class="text-muted" value="">Tahun Akademik</option>
                                                 @foreach ($tahun as $item)
-                                                    <option {{ Request('tahun_akademik') == $ujian->tahun ? 'selected' : '' }}
-                                                        value="{{ $item->tahun }}">{{ $item->tahun }}</option>
+                                                    <option
+                                                        {{ Request('tahun_akademik') == $ujian->tahun ? 'selected' : '' }}
+                                                        value="{{ $item->tahun }}">{{ $item->tahun }}
+                                                        {{ $item->nama }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

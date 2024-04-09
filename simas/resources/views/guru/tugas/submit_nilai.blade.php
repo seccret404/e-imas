@@ -23,12 +23,22 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Berikan Nilai</h5>
-                            <a href={{ url('tugasguruall/' . $nilai->id_tugas) }} ><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+                            <a href={{ url('tugasguruall/' . $nilai->id_tugas) }}><button type="button" class="btn-close"
+                                    data-bs-dismiss="modal" aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
                             <form action="{{ '/tugasgurunilai/edit/' . $nilai->id_hasil }}" enctype="multipart/form-data"
                                 method="POST" id="form_departemen">
                                 @csrf
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -37,9 +47,10 @@
                                                 <span class="input-icon-addon">
                                                     <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-user" width="24" height="24"
-                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        class="icon icon-tabler icon-tabler-user" width="24"
+                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                         <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
                                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
@@ -64,8 +75,9 @@
                                             <div class="form-label">Nilai Siswa</div>
                                             <div class="input-icon mb-3">
                                                 <span class="input-icon-addon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-123"
-                                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="icon icon-tabler icon-tabler-123" width="24"
+                                                        height="24" viewBox="0 0 24 24" stroke-width="2"
                                                         stroke="currentColor" fill="none" stroke-linecap="round"
                                                         stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -80,7 +92,8 @@
                                                 </span>
                                                 <input type="number" id="nama_dept" name="nilai" class="form-control"
                                                     placeholder="1-100">
-                                                <input type="number" id="nama_dept" name="id_tugas" class="form-control" value="{{ $nilai->id_tugas }}" hidden>
+                                                <input type="number" id="nama_dept" name="id_tugas" class="form-control"
+                                                    value="{{ $nilai->id_tugas }}" hidden>
                                             </div>
                                         </div>
                                     </div>

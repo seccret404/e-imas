@@ -27,7 +27,8 @@
                                     aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ url('/suratguru/edit/' . $surat->id) }}" method="POST" id="form_departemen" enctype="multipart/form-data">
+                            <form action="{{ url('/suratguru/edit/' . $surat->id) }}" method="POST" id="form_departemen"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
@@ -150,7 +151,7 @@
                                                     <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                 </svg>
                                             </span>
-                                            <input type="date" value="{{ $surat->waktu_mulai }}" id="nama_dept"
+                                            <input type="date" value="{{ $surat->waktu_mulai }}" id="tanggal_mulai"
                                                 name="mulai" class="form-control" placeholder=""
                                                 min="{{ date('Y-m-d') }}">
                                         </div>
@@ -178,8 +179,8 @@
                                                     <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                 </svg>
                                             </span>
-                                            <input type="date" value="{{ $surat->waktu_berakhir }}" id="nama_dept"
-                                                name="selesai" class="form-control" placeholder=""
+                                            <input type="date" value="{{ $surat->waktu_berakhir }}"
+                                                id="tanggal_selesai" name="selesai" class="form-control" placeholder=""
                                                 min="{{ date('Y-m-d') }}">
                                         </div>
                                     </div>
@@ -205,4 +206,24 @@
 @endsection
 
 @push('myscript')
+    <script>
+        // Mengambil elemen input tanggal
+        var tanggalMulaiInput = document.getElementById('tanggal_mulai');
+        var tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+
+        // Mendapatkan tanggal hari ini
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        // Set nilai minimum pada input tanggal mulai
+        tanggalMulaiInput.setAttribute('min', today);
+
+        // Menambahkan event listener untuk memperbarui nilai minimum pada input tanggal selesai jika tanggal mulai berubah
+        tanggalMulaiInput.addEventListener('change', function() {
+            tanggalSelesaiInput.setAttribute('min', this.value);
+        });
+    </script>
 @endpush

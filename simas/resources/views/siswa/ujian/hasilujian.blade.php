@@ -54,6 +54,7 @@
                                             <th><button class="table-sort" data-sort="sort-name">Mata Pelajaran</button>
                                             </th>
                                             <th><button class="table-sort" data-sort="sort-city">Nilai Tugas</button></th>
+                                            <th><button class="table-sort" data-sort="sort-city">Nilai Ulangan</button></th>
                                             <th><button class="table-sort" data-sort="sort-city">Nilai UTS</button></th>
                                             <th><button class="table-sort" data-sort="sort-city">Nilai UAS</button></th>
                                             <th><button class="table-sort" data-sort="sort-type">Hasil Akhir</button></th>
@@ -65,12 +66,26 @@
                                         @foreach ($hasil as $item)
                                             <tr>
                                                 <td class="sort-name">{{ $item->mata_pelajaran }}</td>
-                                                <td class="sort-city">{{ $item->nilai_tugas ?? '-' }}</td>
-                                                <td class="sort-city">{{ $item->nilai_uts ?? '-' }}</td>
-                                                <td class="sort-city">{{ $item->nilai_uas ?? '-' }}</td>
+                                                <td class="sort-city">
+                                                    {{ number_format(floatval($item->nilai_tugas ?? 0), 2) }}</td>
+                                                <td class="sort-city">
+                                                    {{ number_format(floatval($item->nilai_ulangan ?? 0), 2) }}</td>
+                                                <td class="sort-city">
+                                                    {{ number_format(floatval($item->nilai_uts ?? 0), 2) }}</td>
+                                                <td class="sort-city">
+                                                    {{ number_format(floatval($item->nilai_uas ?? 0), 2) }}</td>
+
                                                 <td class="sort-type">
                                                     @php
-                                                        $hasilAkhir = (($item->nilai_tugas ?? 0) + ($item->nilai_uts ?? 0) + ($item->nilai_uas ?? 0)) / 3;
+                                                        // $nilai_ulangan = $item->nilai_ulangan
+                                                        //     ? $item->nilai_ulangan
+                                                        //     : 0;
+                                                        $hasilAkhir =
+                                                            (($item->nilai_tugas ?? 0) +
+                                                                ($item->nilai_ulangan ?? 0) +
+                                                                ($item->nilai_uts ?? 0) +
+                                                                ($item->nilai_uas ?? 0)) /
+                                                            4;
                                                         $hasilAkhirFormatted = number_format($hasilAkhir, 2);
                                                     @endphp
                                                     {{ $hasilAkhirFormatted }}

@@ -23,10 +23,12 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Surat Izin</h5>
-                            <a href="/surat"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></a>
+                            <a href="/surat"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button></a>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ url('/surat/edit/' . $surat->id) }}" method="POST" id="form_departemen" enctype="multipart/form-data">
+                            <form action="{{ url('/surat/edit/' . $surat->id) }}" method="POST" id="form_departemen"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
@@ -45,7 +47,7 @@
                                                 </svg>
                                             </span>
                                             <input type="text" value="{{ $surat->nama_request }}" id="nama_dept"
-                                                name="nama" class="form-control">
+                                                name="nama" class="form-control" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +149,7 @@
                                                     <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                 </svg>
                                             </span>
-                                            <input type="date" value="{{ $surat->waktu_mulai }}" id="nama_dept"
+                                            <input type="date" value="{{ $surat->waktu_mulai }}" id="mulai"
                                                 name="mulai" class="form-control" placeholder="BATAM....">
                                         </div>
                                     </div>
@@ -173,7 +175,7 @@
                                                     <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                 </svg>
                                             </span>
-                                            <input type="date" value="{{ $surat->waktu_berakhir }}" id="nama_dept"
+                                            <input type="date" value="{{ $surat->waktu_berakhir }}" id="selesai"
                                                 name="selesai" class="form-control" placeholder="BATAM....">
                                         </div>
                                     </div>
@@ -199,4 +201,24 @@
 @endsection
 
 @push('myscript')
+    <script>
+        // Mengambil elemen input tanggal
+        var tanggalMulaiInput = document.getElementById('mulai');
+        var tanggalSelesaiInput = document.getElementById('selesai');
+
+        // Mendapatkan tanggal hari ini
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        // Set nilai minimum pada input tanggal mulai
+        tanggalMulaiInput.setAttribute('min', today);
+
+        // Menambahkan event listener untuk memperbarui nilai minimum pada input tanggal selesai jika tanggal mulai berubah
+        tanggalMulaiInput.addEventListener('change', function() {
+            tanggalSelesaiInput.setAttribute('min', this.value);
+        });
+    </script>
 @endpush
