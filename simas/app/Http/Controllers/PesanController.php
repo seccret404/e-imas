@@ -91,7 +91,8 @@ class PesanController extends Controller
             'pesan' => $pesan
         ];
 
-        Mail::to($email)->send(new Emails($mailData));
+        Mail::to($email)
+        ->send(new Emails($mailData));
         return redirect('/guru-email')->with(['success' => 'Email Berhasil Dikirim!']);
     }
 

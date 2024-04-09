@@ -33,7 +33,7 @@ class Siswa extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Siswa',
+            subject: 'ESIMAS',
         );
     }
 

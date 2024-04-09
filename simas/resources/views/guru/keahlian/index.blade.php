@@ -9,7 +9,7 @@
 
                     </div>
                     <h2 class="page-title text-white">
-                        Data Keahlian
+                        Data Kehlian
                     </h2>
                 </div>
             </div>
