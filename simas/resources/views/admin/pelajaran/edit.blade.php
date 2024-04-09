@@ -53,11 +53,11 @@
                                         <div class="form-label">Jurusan</div>
                                         <div>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="jurusan" value="IPA" checked="">
+                                                <input class="form-check-input" type="radio" name="jurusan" value="IPA" {{ $pelajaran->jurusan === 'IPA' ? 'checked' : '' }}>
                                                 <span class="form-check-label">IPA</span>
                                             </label>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="jurusan" value="IPS">
+                                                <input class="form-check-input" type="radio" name="jurusan" value="IPS" {{ $pelajaran->jurusan === 'IPS' ? 'checked' : '' }}>
                                                 <span class="form-check-label">IPS</span>
                                             </label>
 
@@ -72,15 +72,15 @@
                                         <div class="form-label">Kelas</div>
                                         <div>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="kelas" value="10" checked="">
+                                                <input class="form-check-input" type="radio" name="kelas" value="10" {{ $pelajaran->kelas === '10' ? 'checked' : '' }}>
                                                 <span class="form-check-label">10</span>
                                             </label>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="kelas" value="11">
+                                                <input class="form-check-input" type="radio" name="kelas" value="11" {{ $pelajaran->kelas === '11' ? 'checked' : '' }}>
                                                 <span class="form-check-label">11</span>
                                             </label>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="kelas" value="12">
+                                                <input class="form-check-input" type="radio" name="kelas" value="12" {{ $pelajaran->kelas === '12' ? 'checked' : '' }}>
                                                 <span class="form-check-label">12</span>
                                             </label>
 

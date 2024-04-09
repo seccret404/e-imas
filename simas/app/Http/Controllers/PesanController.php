@@ -81,8 +81,8 @@ class PesanController extends Controller
         // dd($email);
 
         // Periksa validitas alamat email sebelum mengirim email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return redirect('/guru-email')->with(['error' => 'Alamat email tidak valid']);
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return redirect('/guru-email')->with(['error' => 'Alamat email tidak valid atau kosong']);
         }
 
         $mailData = [

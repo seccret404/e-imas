@@ -63,6 +63,7 @@
                                                 <th>Mata Pelajaran</th>
                                                 <th>Jurusan</th>
                                                 <th>Kelas</th>
+                                                <th>Kode Guru</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -73,6 +74,7 @@
                                                     <td>{{ $item->nama_pelajaran }}</td>
                                                     <td>{{ $item->jurusan }}</td>
                                                     <td>{{ $item->kelas }}</td>
+                                                    <td>{{ $item->kode_guru }}</td>
                                                     <td>
                                                         <div class="row">
                                                             <div class="col">

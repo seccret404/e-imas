@@ -149,7 +149,7 @@ class DashboasrdController extends Controller
     public function updateStatus($id)
     {
         Guru::where('id', $id)->update(['status' => "non-aktif"]);
-        
+
         return redirect('/guru')->with(['success', "Guru Berhasil Di Nonaktifka!!"]);
     }
     public function updateAktifStatus($id)
@@ -348,7 +348,11 @@ class DashboasrdController extends Controller
 
         $guru = DB::table('guru')->where('status', 'aktif')->get();
 
-        $mapel = DB::table('matapelajran')->get();
+        $mapel = DB::table('matapelajran')
+            ->orderBy('kelas', 'asc')
+            ->orderBy('jurusan', 'asc')
+            ->orderBy('nama_pelajaran', 'asc')
+            ->get();
         return view('admin.pelajaran.matapelajaran', compact('akademik', 'guru', 'mapel'));
     }
 
@@ -360,6 +364,18 @@ class DashboasrdController extends Controller
         // $nama = $request->nama;
         $jurusan = $request->jurusan;
         $kelas = $request->kelas;
+
+        $existingData = DB::table('matapelajran')
+            ->where('nama_pelajaran', $nama_pelajaran)
+            ->where('kode_guru', $kode_guru)
+            ->where('jurusan', $jurusan)
+            ->where('kelas', $kelas)
+            ->exists();
+
+        if ($existingData) {
+            // Jika data sudah ada, tampilkan pesan
+            return Redirect::back()->with(['error' => 'Data sudah ada']);
+        }
 
         $data = [
             'nama_pelajaran' => $nama_pelajaran,

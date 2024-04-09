@@ -232,7 +232,7 @@ class SiswaController extends Controller
             ->where('tugas.jurusan', $jurusan)
             ->where('tugas.kelas', $kelas)
             // ->where('tugas.dedline', '>=', $tgl_presensi)
-            ->orderBy('tugas.dedline', 'asc')
+            ->orderBy('tugas.dedline', 'desc')
             ->select('tugas.*', 'hasiltugas.uploaded', 'hasiltugas.nilai')
             ->get();
 
@@ -313,8 +313,8 @@ class SiswaController extends Controller
             $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
-            $latitudekantor = 3.587645;
-            $longitudekantor = 98.675071;
+            $latitudekantor = 3.597889;
+            $longitudekantor = 98.747934;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;
@@ -459,7 +459,6 @@ class SiswaController extends Controller
 
     public function unggah(Request $request)
     {
-        //d($request->all());
         $id_user = Auth::user()->id;
         $nama = Auth::user()->name;
         $id_tugas = $request->id_tugas;
@@ -471,24 +470,49 @@ class SiswaController extends Controller
         $tujuanFile = 'asset/hasil';
         $file->move($tujuanFile, $namafile);
 
-        $data = [
-            'id_tugas' => $id_tugas,
-            'nama_pengumpul' => $nama,
-            'id_user' => $id_user,
-            'mata_pelajaran' => $mapel,
-            'file_hasil_tugas' => $namafile,
-            'dedline' => $dedline,
-            'uploaded' => 1,
-            'created_at' => Carbon::now(),
-        ];
+        // Cek apakah sudah ada entri untuk tugas ini dari pengguna yang sama
+        $existingSubmission = DB::table('hasiltugas')
+            ->where('id_tugas', $id_tugas)
+            ->where('id_user', $id_user)
+            ->first();
 
-        $simpan = DB::table('hasiltugas')->insert($data);
-        if ($simpan) {
-            return redirect('/tugas-siswa')->with(['success' => 'Tugas Telah Terkirim']);
+        if ($existingSubmission) {
+            // Jika ada, lakukan pembaruan data
+            DB::table('hasiltugas')
+                ->where('id_tugas', $id_tugas)
+                ->where('id_user', $id_user)
+                ->update([
+                    'nama_pengumpul' => $nama,
+                    'mata_pelajaran' => $mapel,
+                    'file_hasil_tugas' => $namafile,
+                    'dedline' => $dedline,
+                    'uploaded' => 1,
+                    'created_at' => Carbon::now(),
+                ]);
+
+            return redirect('/tugas-siswa')->with(['success' => 'Tugas Telah Diperbarui']);
         } else {
-            return redirect('/tugas-siswa')->with(['error' => 'Tugas Gagal Di Kirim']);
+            // Jika tidak ada, buat entri baru
+            $data = [
+                'id_tugas' => $id_tugas,
+                'nama_pengumpul' => $nama,
+                'id_user' => $id_user,
+                'mata_pelajaran' => $mapel,
+                'file_hasil_tugas' => $namafile,
+                'dedline' => $dedline,
+                'uploaded' => 1,
+                'created_at' => Carbon::now(),
+            ];
+
+            $simpan = DB::table('hasiltugas')->insert($data);
+            if ($simpan) {
+                return redirect('/tugas-siswa')->with(['success' => 'Tugas Telah Terkirim']);
+            } else {
+                return redirect('/tugas-siswa')->with(['error' => 'Tugas Gagal Di Kirim']);
+            }
         }
     }
+
 
     public function hasil($id_tugas)
     {
@@ -498,8 +522,10 @@ class SiswaController extends Controller
         $item = DB::table('hasiltugas')
             ->join('tugas', 'tugas.id_tugas', '=', 'hasiltugas.id_tugas')
             ->where('hasiltugas.id_user', $id_user)
-            ->select('tugas.dedline', 'hasiltugas.file_hasil_tugas', 'hasiltugas.created_at')
+            ->where('hasiltugas.id_tugas', $id_tugas)
+            ->select('tugas.dedline', 'hasiltugas.file_hasil_tugas', 'hasiltugas.created_at', 'tugas.id_tugas', 'hasiltugas.nilai')
             ->first();
+        // dd($item);
 
         return view('siswa.finish', compact('item'));
     }
@@ -573,7 +599,7 @@ class SiswaController extends Controller
             ->where('ujian.jurusan', $jurusan)
             ->where('ujian.kelas', $kelas)
             // ->where('ujian.dedline', '>=', $tgl_presensi)
-            ->orderBy('ujian.dedline', 'asc')
+            ->orderBy('ujian.dedline', 'desc')
             ->select('ujian.*', 'hasilujian.uploaded', 'hasilujian.nilai')
             ->get();
 
@@ -632,21 +658,29 @@ class SiswaController extends Controller
 
     public function unggahujian(Request $request)
     {
-        //d($request->all());
+        // Ambil data dari request
         $id_siswa = Auth::user()->id;
         $nama = Auth::user()->name;
         $id_ujian = $request->id_ujian;
         $jenis = $request->jenis;
         $dedline = $request->dedline;
 
-        $file = $request->file('file');
-        $namafile = $file->getClientOriginalName();
-        $tujuanFile = 'asset/hasil';
-        $file->move($tujuanFile, $namafile);
+        // Jika ada file yang diunggah, simpan ke direktori
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $namafile = $file->getClientOriginalName();
+            $tujuanFile = 'asset/hasil';
+            $file->move($tujuanFile, $namafile);
+        } else {
+            // Jika tidak ada file yang diunggah, gunakan file hasil ujian sebelumnya
+            $namafile = DB::table('hasilujian')
+                ->where('id_ujian', $id_ujian)
+                ->where('id_siswa', $id_siswa)
+                ->value('file_hasil_ujian');
+        }
 
+        // Data yang akan diubah atau ditambahkan
         $data = [
-            'id_ujian' => $id_ujian,
-            'id_siswa' => $id_siswa,
             'nama_pengumpul' => $nama,
             'jenis_ujian' => $jenis,
             'file_hasil_ujian' => $namafile,
@@ -655,13 +689,15 @@ class SiswaController extends Controller
             'created_at' => Carbon::now(),
         ];
 
-        $simpan = DB::table('hasilujian')->insert($data);
-        if ($simpan) {
-            return redirect('/ujian-siswa')->with(['success' => 'Ujian Terkirim']);
-        } else {
-            return redirect('/ujian-siswa')->with(['error' => 'Ujian Gagal Terkirim']);
-        }
+        // Cek apakah data sudah ada di database, jika sudah, maka lakukan update, jika belum, lakukan insert
+        DB::table('hasilujian')->updateOrInsert(
+            ['id_ujian' => $id_ujian, 'id_siswa' => $id_siswa],
+            $data
+        );
+
+        return redirect('/ujian-siswa')->with(['success' => 'Ujian Terkirim']);
     }
+
 
     public function hasilujian($id)
     {
@@ -674,7 +710,7 @@ class SiswaController extends Controller
                     ->where('hasilujian.id_siswa', $id_user);
             })
             ->where('ujian.id', $id)
-            ->select('ujian.dedline', 'hasilujian.file_hasil_ujian', 'hasilujian.created_at')
+            ->select('ujian.dedline', 'hasilujian.file_hasil_ujian', 'hasilujian.created_at', 'hasilujian.id_ujian', 'hasilujian.nilai')
             ->first();
 
         return view('siswa.finish_ujian', compact('item'));

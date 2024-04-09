@@ -184,7 +184,7 @@
                                         </svg>
                                     </span>
                                     <input type="text" value="{{ $nama }}" id="nama_guru" name="nama"
-                                        class="form-control">
+                                        class="form-control" readonly>
                                 </div>
                             </div>
                         </div>
@@ -358,7 +358,7 @@
                             'Your data has been deleted.',
                             'success',
                         )
-                        
+
                     }
                 })
             });
@@ -410,7 +410,7 @@
                         $("#kode_dept").focus()
                     });;
                     return false;
-                }else if (tanggal_mulai == "") {
+                } else if (tanggal_mulai == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -421,7 +421,7 @@
                         $("#tanggal_mulai").focus()
                     });;
                     return false;
-                }else if (tanggal_selesai == "") {
+                } else if (tanggal_selesai == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -433,8 +433,28 @@
                     });;
                     return false;
                 }
-                
+
             });
         })
+    </script>
+    <script>
+        // Mengambil elemen input tanggal
+        var tanggalMulaiInput = document.getElementById('tanggal_mulai');
+        var tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+    
+        // Mendapatkan tanggal hari ini
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+    
+        // Set nilai minimum pada input tanggal mulai
+        tanggalMulaiInput.setAttribute('min', today);
+    
+        // Menambahkan event listener untuk memperbarui nilai minimum pada input tanggal selesai jika tanggal mulai berubah
+        tanggalMulaiInput.addEventListener('change', function() {
+            tanggalSelesaiInput.setAttribute('min', this.value);
+        });
     </script>
 @endpush

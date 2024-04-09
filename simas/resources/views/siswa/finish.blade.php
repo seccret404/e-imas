@@ -82,6 +82,9 @@
                 </div>
 
                 <div class="card-footer text-center ">
+                    @if (!$item->dedline || !$item->nilai)
+                        <a href="{{ url('upload/' . $item->id_tugas) }}" class="btn btn-primary">Ubah Jawaban</a>
+                    @endif
                     <a href="{{ url('tugas-siswa') }}">
                         <button class="btn btn-primary">Kembali</button></a>
                     </a>

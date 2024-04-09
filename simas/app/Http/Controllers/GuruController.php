@@ -303,7 +303,7 @@ class GuruController extends Controller
     public function tugassubmitted()
     {
         $tugas = DB::table('tugas')
-            ->orderBy('tugas.dedline', 'asc')
+            ->orderBy('tugas.dedline', 'desc')
             ->get();
 
         $tugasIdArray = $tugas->pluck('id_tugas')->toArray();
@@ -357,10 +357,15 @@ class GuruController extends Controller
 
     public function tugasgurunilai(Request $request, $id)
     {
+        $request->validate([
+            'nilai' => 'required|numeric|min:1|max:100',
+        ], [
+            'nilai.min' => 'Nilai harus lebih besar dari atau sama dengan 1.',
+            'nilai.max' => 'Nilai harus kurang dari atau sama dengan 100.',
+        ]);
+
         $nilai = $request->nilai;
         $tugas_id = $request->id_tugas;
-
-        $nilai = max(0, min(100, $nilai));
 
         $data = [
             'nilai' => $nilai,
@@ -373,9 +378,9 @@ class GuruController extends Controller
             ->update($data);
 
         if ($simpan) {
-            return redirect()->route('tugasguruall', ['id' => $id_tugas])->with(['success' => 'Data berhasil tambah']);
+            return redirect()->route('tugasguruall', ['id' => $id_tugas])->with(['success' => 'Nilai berhasil ditambahkan']);
         } else {
-            return redirect()->route('tugasguruall', ['id' => $id_tugas])->with(['error' => 'Data gagal tambah']);
+            return redirect()->route('tugasguruall', ['id' => $id_tugas])->with(['error' => 'Nilai gagal ditambahkan']);
         }
     }
 
@@ -512,7 +517,7 @@ class GuruController extends Controller
     public function ujiansubmitted()
     {
         $ujian = DB::table('ujian')
-            ->orderBy('dedline', 'asc')
+            ->orderBy('dedline', 'desc')
             ->get();
 
 
@@ -613,8 +618,10 @@ class GuruController extends Controller
             $id_user = Auth::user()->id_user;
             $tgl_presensi = date("Y-m-d");
             $jam = date("H:i:s");
-            $latitudekantor = 2.383129;
-            $longitudekantor = 99.148454;
+            $latitudekantor = 3.597889;
+            $longitudekantor = 98.747934;
+            // $latitudekantor = 2.383129;
+            // $longitudekantor = 99.148454;
             $latitudeuser = $request->input('lokasiin');
             $longitudeuser = $request->input('lokasion');
             $lokasi = $latitudeuser . ',' . $longitudeuser;

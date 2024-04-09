@@ -71,11 +71,11 @@
                                         <div class="form-label">Status</div>
                                         <div>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="status" value="1" checked="">
+                                                <input class="form-check-input" type="radio" name="status" value="1" {{ $ruangan->status == 1 ? 'checked' : '' }}>
                                                 <span class="form-check-label">Terpakai</span>
                                             </label>
                                             <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="status" value="0">
+                                                <input class="form-check-input" type="radio" name="status" value="0" {{ $ruangan->status == 0 ? 'checked' : '' }}>
                                                 <span class="form-check-label">Kosong</span>
                                             </label>
 

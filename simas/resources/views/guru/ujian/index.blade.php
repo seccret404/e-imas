@@ -99,7 +99,7 @@
                                                                 </path>
                                                                 <path d="M13.5 6.5l4 4"></path>
                                                                 <path d="M16 18h4m-2 -2v4"></path>
-                                                            </svg> 
+                                                            </svg>
                                                         </a>
 
                                                         <form method="POST" action="/ujianguru/{{ $item->id }}/delete"
@@ -144,7 +144,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="page-body">
         <div class="container-xl">
             <div class="row">
@@ -168,21 +168,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <a href="#" class="btn btn-primary" id="tambah_departemen"><svg
-                                            xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus"
-                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 5l0 14"></path>
-                                            <path d="M5 12l14 0"></path>
-                                        </svg>Tambah Ujian </a>
-                                </div>
-                            </div>
-
-
+                            <h3>Expired Deadlines</h3>
                             <div class="row mt-4">
                                 <table class="table table-bordered">
                                     <div class="col-12">
@@ -229,7 +215,7 @@
                                                                 </path>
                                                                 <path d="M13.5 6.5l4 4"></path>
                                                                 <path d="M16 18h4m-2 -2v4"></path>
-                                                            </svg> 
+                                                            </svg>
                                                         </a>
 
                                                         <form method="POST" action="/ujianguru/{{ $item->id }}/delete"
@@ -295,8 +281,11 @@
                                     <select name="mapel" id="mata_pelajaran" class="form-select tomselected ">
                                         <option class="text-muted" value="">mata pelajaran ...</option>
                                         @foreach ($mapel as $item)
-                                            <option {{ Request('nama_pelajaran') == $item->nama_pelajaran ? 'selected' : '' }}
-                                                value="{{ $item->nama_pelajaran }}">{{ $item->nama_pelajaran }}/{{ $item->jurusan }}/{{ $item->kelas }}</option>
+                                            <option
+                                                {{ Request('nama_pelajaran') == $item->nama_pelajaran ? 'selected' : '' }}
+                                                value="{{ $item->nama_pelajaran }}">
+                                                {{ $item->nama_pelajaran }}/{{ $item->jurusan }}/{{ $item->kelas }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -367,7 +356,7 @@
                                 <div class="form-label">Dedline</div>
                                 <div class="input-icon mb-2">
                                     <input type="date" id="dedline" name="dedline" class="form-control "
-                                        placeholder="Select a date" id="datepicker-icon">
+                                        placeholder="Select a date" id="datepicker-icon" min="{{ date('Y-m-d') }}">
                                     <span class="input-icon-addon">
                                         <!-- Download SVG icon from http://tabler-icons.io/i/calendar -->
                                     </span>
@@ -424,7 +413,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Catatan</label>
-                            <textarea class="form-control" name="catatan" id="catatan" data-bs-toggle="autosize" placeholder="Tinggalkan catatan..."
+                            <textarea class="form-control" name="catatan" id="catatan" data-bs-toggle="autosize"
+                                placeholder="Tinggalkan catatan..."
                                 style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 55.3333px;"></textarea>
                         </div>
                         <div class="row mt-3">
@@ -436,7 +426,7 @@
                                         <option class="text-muted" value="">Tahun Akademik</option>
                                         @foreach ($tahun as $item)
                                             <option {{ Request('tahun_akademik') == $item->tahun ? 'selected' : '' }}
-                                                value="{{ $item->tahun }}">{{ $item->tahun }}</option>
+                                                value="{{ $item->tahun }}">{{ $item->tahun }} {{ $item->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -538,7 +528,7 @@
                         $("#judul_ujian").focus()
                     });;
                     return false;
-                }else if (file_ujian == "") {
+                } else if (file_ujian == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -549,7 +539,7 @@
                         $("#file_ujian").focus()
                     });;
                     return false;
-                }else if (dedline == "") {
+                } else if (dedline == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -560,7 +550,7 @@
                         $("#dedline").focus()
                     });;
                     return false;
-                }else if (catatan == "") {
+                } else if (catatan == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',
@@ -571,7 +561,7 @@
                         $("#kode_dept").focus()
                     });;
                     return false;
-                }else if (tahun_akademik == "") {
+                } else if (tahun_akademik == "") {
                     Swal.fire({
                         position: 'top-center',
                         icon: 'warning',

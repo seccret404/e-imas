@@ -89,7 +89,8 @@
                                                 @php
                                                     $tanggalHariIni = now()->toDateString();
                                                     $deadline = $item->dedline;
-                                                    $class = $deadline > $tanggalHariIni ? 'text-primary' : 'text-danger';
+                                                    $class =
+                                                        $deadline > $tanggalHariIni ? 'text-primary' : 'text-danger';
                                                 @endphp
                                                 <div class="text-muted ">
                                                     <p class="{{ $class }}">Dedline : {{ $item->dedline }}</p>
@@ -115,8 +116,8 @@
                                                             </svg>Kirim Tugas</a>
                                                     @endif
                                                 @endif
-                                                <a href="{{ route('hasil-tugas.view', ['id_tugas' => $item->id_tugas]) }}"
-                                                    class="btn btn-primary">View</a>
+                                                {{-- <a href="{{ route('hasil-tugas.view', ['id_tugas' => $item->id_tugas]) }}"
+                                                    class="btn btn-primary">View</a> --}}
                                             </div>
                                             <div class="col-auto align-self-center">
                                                 <div class="badge bg-primary"></div>

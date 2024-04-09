@@ -6,7 +6,7 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <div class="page-pretitle">
-                      
+
                     </div>
                     <h2 class="page-title">
                         {{ $hari }},{{ $tgl }}
@@ -89,7 +89,8 @@
                                                 @php
                                                     $tanggalHariIni = now()->toDateString();
                                                     $deadline = $item->dedline;
-                                                    $class = $deadline > $tanggalHariIni ? 'text-primary' : 'text-danger';
+                                                    $class =
+                                                        $deadline > $tanggalHariIni ? 'text-primary' : 'text-danger';
                                                 @endphp
                                                 <div class="text-muted ">
                                                     <p class="{{ $class }}">Dedline : {{ $item->dedline }}</p>
@@ -119,8 +120,8 @@
                                                             </svg>Kirim Ujian</a>
                                                     @endif
                                                 @endif
-                                                <a href="{{ route('hasil-ujian.view', ['id' => $item->id]) }}"
-                                                    class="btn btn-primary">View</a>
+                                                {{-- <a href="{{ route('hasil-ujian.view', ['id' => $item->id]) }}"
+                                                    class="btn btn-primary">View</a> --}}
                                             </div>
                                             <div class="col-auto align-self-center">
                                                 <div class="badge bg-primary"></div>

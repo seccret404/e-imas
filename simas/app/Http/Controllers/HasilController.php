@@ -21,9 +21,17 @@ class HasilController extends Controller
 
         $hasitugas = DB::table('hasiltugas')
             ->join('tugas', 'hasiltugas.id_tugas', '=', 'tugas.id_tugas')
-            ->selectRaw('tugas.nama_pelajaran as mata_pelajaran, SUM(hasiltugas.nilai) as total_nilai_tugas, COUNT(tugas.id_tugas) as jumlah_tugas')
+            ->selectRaw('tugas.nama_pelajaran as mata_pelajaran, AVG(hasiltugas.nilai) as nilai_tugas')
             ->where('id_user', $id)
             ->groupBy('tugas.nama_pelajaran')
+            ->get();
+
+        $hasilulangan = DB::table('hasilujian')
+            ->join('ujian', 'hasilujian.id_ujian', '=', 'ujian.id')
+            ->selectRaw('ujian.mapel as mata_pelajaran, AVG(hasilujian.nilai) as nilai_ulangan')
+            ->where('id_siswa', $id)
+            ->where('hasilujian.jenis_ujian', 'ulangan')
+            ->groupBy('ujian.mapel')
             ->get();
 
         $hasilujian = DB::table('hasilujian')
@@ -43,7 +51,8 @@ class HasilController extends Controller
                 'mata_pelajaran' => $item->mata_pelajaran,
                 'nilai_tugas' => null,
                 'nilai_uts' => $item->nilai_uts,
-                'nilai_uas' => $item->nilai_uas
+                'nilai_uas' => $item->nilai_uas,
+                'nilai_ulangan' => null
             ];
         }
 
@@ -51,13 +60,30 @@ class HasilController extends Controller
             $existingItem = collect($hasil)->firstWhere('mata_pelajaran', $item->mata_pelajaran);
 
             if ($existingItem) {
-                $existingItem->nilai_tugas = $item->total_nilai_tugas / $item->jumlah_tugas;
+                $existingItem->nilai_tugas = $item->nilai_tugas;
             } else {
                 $hasil[] = (object) [
                     'mata_pelajaran' => $item->mata_pelajaran,
-                    'nilai_tugas' => $item->total_nilai_tugas / $item->jumlah_tugas,
+                    'nilai_tugas' => $item->nilai_tugas,
                     'nilai_uts' => null,
-                    'nilai_uas' => null
+                    'nilai_uas' => null,
+                    'nilai_ulangan' => null
+                ];
+            }
+        }
+
+        foreach ($hasilulangan as $item) {
+            $existingItem = collect($hasil)->firstWhere('mata_pelajaran', $item->mata_pelajaran);
+
+            if ($existingItem) {
+                $existingItem->nilai_ulangan = $item->nilai_ulangan;
+            } else {
+                $hasil[] = (object) [
+                    'mata_pelajaran' => $item->mata_pelajaran,
+                    'nilai_tugas' => null,
+                    'nilai_uts' => null,
+                    'nilai_uas' => null,
+                    'nilai_ulangan' => $item->nilai_ulangan
                 ];
             }
         }

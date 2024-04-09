@@ -83,7 +83,11 @@
                 </div>
 
                 <div class="card-footer text-center ">
-                    <button class="btn btn-primary" style="color: white;"><a href="{{ url('/ujian-siswa') }}" style="color: white; text-decoration: none;">Kembali</a></button>
+                    @if (!$item->dedline || !$item->nilai)
+                        <a href="{{ url('uploadujian/' . $item->id_ujian) }}" class="btn btn-primary">Ubah Jawaban</a>
+                    @endif
+                    <button class="btn btn-primary" style="color: white;"><a href="{{ url('/ujian-siswa') }}"
+                            style="color: white; text-decoration: none;">Kembali</a></button>
                 </div>
             </div>
 
